@@ -5,8 +5,22 @@
         <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand" href="/home">
-            <img class="img-responsive" src="{{ asset('images/logo.png') }}" /> 
-            {{ config('app.name') }}
+        <?php 
+            $companyNames =getUserCompanyName();
+            if(isset($companyNames)){
+
+            
+            
+            foreach($companyNames as $companyName ){ ?>
+              <img class="img-responsive" src="{{config('app.url')}}/{{ $companyName->logo }}" /> 
+              
+             {{  $companyName->name }}
+
+           <?php }
+        }else{
+
+           echo  config('app.name');
+        }           ?>
         </a>
         <button type="button" class="navbar-toggler dropdown-toggle" data-bs-toggle="collapse" data-bs-target=".navbar-responsive-collapse">
         </button>
@@ -78,8 +92,22 @@
 <div id="topbar" class="navbar navbar-expand-md fixed-top navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="/home">
-            <img class="img-responsive" src="{{ asset('images/logo.png') }}" /> 
-            {{ config('app.name') }}
+        <?php 
+            $companyNames =getUserCompanyName();
+            if(isset($companyNames)){
+
+            
+            
+            foreach($companyNames as $companyName ){ ?>
+              <img class="img-responsive" src="{{ $companyName->logo }}" /> 
+              
+             {{  $companyName->name }}
+
+           <?php }
+        }else{
+
+           echo  config('app.name');
+        }           ?>
         </a>
     </div>
 </div>

@@ -1,5 +1,6 @@
 <?php
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
 /**
  * print out url
  * @method string  print_link
@@ -657,4 +658,66 @@ function make_readable($string = '')
 		$string = preg_replace('/\s+/', ' ', $string);
 	}
 	return $string;
+}
+
+////////starting my helpers;
+
+
+
+function comp_id()
+{
+	// $user = @DB::table('users')->get();
+	// $companyName = Companies::get();
+	return $comp_id = auth()->user()->company_id; 
+}
+
+function getUserCompanyName()
+{
+	if(isset(auth()->user()->company_id)){
+	$userid = auth()->user()->company_id;
+	if(!isset($userid)){
+		return $companyName ="Lawal ";
+	}else{
+	$companyName = @DB::table('companies')
+    			 ->where('id', '=', $userid)
+   				 ->get();
+	return $companyName ;
+}
+	}
+}
+
+function alloption($array = null)
+{
+
+	$comp_id = auth()->user()->company_id; 
+    if (!isset($array[0])) {
+        $alloptions = DB::table('options')->get();
+        if ($alloptions) {
+            $output = [];
+            foreach ($alloptions as $option) {
+                $output[$option->option_name] = $option->option_value;
+            }
+            return $output;
+        }
+        return false;
+    } elseif (is_array($array)) {
+        $alloptions = DB::table('options')->get();
+        if ($alloptions) {
+            $output = [];
+            foreach ($alloptions as $option) {
+                $output[$option->option_name] = $option->option_value;
+            }
+            return $output;
+        }
+        return false;
+    } else {
+        $alloptions = DB::table('options')->where(['option_name' => $array])->where('company_id', $comp_id)->first();
+        if ($alloptions) {
+            $output = $alloptions->option_value;
+            return $output;
+        }
+        return false;
+    }
+	
+	
 }
