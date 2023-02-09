@@ -159,8 +159,8 @@ class Sub_Account_Group extends Model implements Auditable
 		return [ 
 			"sub_account_group.id AS id",
 			"sub_account_group.name AS name",
-			"sub_account_group.account_group_id AS account_group_id",
-			"account_groups.name AS account_groups_name",
+			
+			
 			"sub_account_group.description AS description",
 			"sub_account_group.date_created AS date_created" 
 		];

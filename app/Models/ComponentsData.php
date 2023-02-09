@@ -369,8 +369,9 @@ $query_params['comp'] = auth()->user()->company_id;
      * @return array
      */
 	function transactions_id_option_list_2(){
-		$sqltext = "SELECT  DISTINCT id AS value,name AS label FROM document_types ORDER BY name ASC";
+		$sqltext = "SELECT  DISTINCT id AS value,name AS label FROM document_types where company_id=:comp ORDER BY name ASC";
 		$query_params = [];
+		$query_params['comp'] = auth()->user()->company_id;
 		$arr = DB::select(DB::raw($sqltext), $query_params);
 		return $arr;
 	}

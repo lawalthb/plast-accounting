@@ -177,18 +177,18 @@ class Sub_Account_GroupController extends Controller
 			$search = trim($request->search);
 			Sub_Account_Group::search($query, $search); // search table records
 		}
-		$query->join("account_groups", "sub_account_group.account_group_id", "=", "account_groups.id");
+		//$query->join("account_groups", "sub_account_group.account_group_id", "=", "account_groups.id");
 		$orderby = $request->orderby ?? "sub_account_group.id";
 		$ordertype = $request->ordertype ?? "desc";
 		$query->orderBy($orderby, $ordertype);
-		$query->where("company_id", "=" , auth()->user()->company_id);
+		//$query->where("company_id", "=" , auth()->user()->company_id);
 		if($fieldname){
 			$query->where($fieldname , $fieldvalue); //filter by a table field
 		}
-		if($request->sub_account_group_company_id){
-			$val = $request->sub_account_group_company_id;
-			$query->where(DB::raw("sub_account_group.company_id"), "=", $val);
-		}
+		// if($request->sub_account_group_company_id){
+		// 	$val = $request->sub_account_group_company_id;
+		// 	$query->where(DB::raw("sub_account_group.company_id"), "=", $val);
+		// }
 		// if request format is for export example:- product/index?export=pdf
 		if($this->getExportFormat()){
 			return $this->ExportAdminlist($query); // export current query
