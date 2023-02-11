@@ -1,9 +1,11 @@
 ---
-title: Extending PhpStorm
-weight: 7
+title: PhpStorm Interaction
+weight: 8
 ---
 
-# Extending PhpStorm to support Blade Directives of this package
+# Extending PhpStorm 
+
+You may wish to extend PhpStorm to support Blade Directives of this package.
 
 1. In PhpStorm, open Preferences, and navigate to **Languages and Frameworks -> PHP -> Blade**
 (File | Settings | Languages & Frameworks | PHP | Blade)

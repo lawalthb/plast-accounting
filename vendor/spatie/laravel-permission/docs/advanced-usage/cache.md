@@ -10,9 +10,6 @@ Role and Permission data are cached to speed up performance.
 When you **use the built-in functions** for manipulating roles and permissions, the cache is automatically reset for you, and relations are automatically reloaded for the current model record:
 
 ```php
-$user->assignRole('writer');
-$user->removeRole('writer');
-$user->syncRoles(params);
 $role->givePermissionTo('edit articles');
 $role->revokePermissionTo('edit articles');
 $role->syncPermissions(params);
@@ -25,6 +22,14 @@ HOWEVER, if you manipulate permission/role data directly in the database instead
 
 Additionally, because the Role and Permission models are Eloquent models which implement the `RefreshesPermissionCache` trait, creating and deleting Roles and Permissions will automatically clear the cache. If you have created your own models which do not extend the default models then you will need to implement the trait yourself.
 
+**NOTE: User-specific role/permission assignments are kept in-memory since v4.4.0, so the cache-reset is no longer called since v5.1.0 when updating User-related assignments.**
+Examples:
+```php
+// These do not call a cache-reset, because the User-related assignments are in-memory.
+$user->assignRole('writer');
+$user->removeRole('writer');
+$user->syncRoles(params);
+```
 
 ### Manual cache reset
 To manually reset the cache for this package, you can run the following in your app code:
@@ -71,3 +76,12 @@ In `config/permission.php` set `cache.store` to the name of any one of the `conf
 Setting `'cache.store' => 'array'` in `config/permission.php` will effectively disable caching by this package between requests (it will only cache in-memory until the current request is completed processing, never persisting it).
 
 Alternatively, in development mode you can bypass ALL of Laravel's caching between visits by setting `CACHE_DRIVER=array` in `.env`. You can see an example of this in the default `phpunit.xml` file that comes with a new Laravel install. Of course, don't do this in production though!
+
+
+## File cache driver
+
+This situation is not specific to this package, but is mentioned here due to the common question being asked.
+
+If you are using the `File` cache driver and run into problems clearing the cache, it is most likely because your filesystem's permissions are preventing the PHP CLI from altering the cache files because the PHP-FPM process is running as a different user. 
+
+Work with your server administrator to fix filesystem ownership on your cache files.
