@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use \PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OptionsListExport;
-use App\Exports\OptionsAdminlistExport;
 use Illuminate\Support\Facades\Validator;
 use Exception;
 class OptionsController extends Controller
@@ -145,37 +144,6 @@ class OptionsController extends Controller
 	
 
 	/**
-     * List table records
-	 * @param  \Illuminate\Http\Request
-     * @param string $fieldname //filter records by a table field
-     * @param string $fieldvalue //filter value
-     * @return \Illuminate\View\View
-     */
-	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
-		$view = "pages.options.adminlist";
-		$query = Options::query();
-		$limit = $request->limit ?? 20;
-		if($request->search){
-			$search = trim($request->search);
-			Options::search($query, $search); // search table records
-		}
-		$orderby = $request->orderby ?? "options.id";
-		$ordertype = $request->ordertype ?? "desc";
-		$query->orderBy($orderby, $ordertype);
-		$query->where("company_id", "=" , auth()->user()->company_id);
-		if($fieldname){
-			$query->where($fieldname , $fieldvalue); //filter by a table field
-		}
-		// if request format is for export example:- product/index?export=pdf
-		if($this->getExportFormat()){
-			return $this->ExportAdminlist($query); // export current query
-		}
-		$records = $query->paginate($limit, Options::adminlistFields());
-		return $this->renderView($view, compact("records"));
-	}
-	
-
-	/**
      * Export table records to different format
 	 * supported format:- PDF, CSV, EXCEL, HTML
 	 * @param \Illuminate\Database\Eloquent\Model $query
@@ -199,34 +167,6 @@ class OptionsController extends Controller
 		}
 		elseif($format == "excel"){
 			return Excel::download(new OptionsListExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
-		}
-	}
-	
-
-	/**
-     * Export table records to different format
-	 * supported format:- PDF, CSV, EXCEL, HTML
-	 * @param \Illuminate\Database\Eloquent\Model $query
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-	private function ExportAdminlist($query){
-		ob_end_clean(); // clean any output to allow file download
-		$filename = "AdminlistOptionsReport-" . date_now();
-		$format = $this->getExportFormat();
-		if($format == "print"){
-			$records = $query->get(Options::exportAdminlistFields());
-			return view("reports.options-adminlist", ["records" => $records]);
-		}
-		elseif($format == "pdf"){
-			$records = $query->get(Options::exportAdminlistFields());
-			$pdf = PDF::loadView("reports.options-adminlist", ["records" => $records]);
-			return $pdf->download("$filename.pdf");
-		}
-		elseif($format == "csv"){
-			return Excel::download(new OptionsAdminlistExport($query), "$filename.csv", \Maatwebsite\Excel\Excel::CSV);
-		}
-		elseif($format == "excel"){
-			return Excel::download(new OptionsAdminlistExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
 		}
 	}
 }

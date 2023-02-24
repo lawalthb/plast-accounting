@@ -159,39 +159,4 @@ class ProductsController extends Controller
 		$records = $query->paginate($limit, Products::superdashboardlistFields());
 		return $this->renderView($view, compact("records"));
 	}
-	
-
-	/**
-     * List table records
-	 * @param  \Illuminate\Http\Request
-     * @param string $fieldname //filter records by a table field
-     * @param string $fieldvalue //filter value
-     * @return \Illuminate\View\View
-     */
-	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
-		$view = "pages.products.adminlist";
-		$query = Products::query();
-		$limit = $request->limit ?? 20;
-		if($request->search){
-			$search = trim($request->search);
-			Products::search($query, $search); // search table records
-		}
-		$query->join("companies", "products.company_id", "=", "companies.id");
-		$query->join("product_categories", "products.category", "=", "product_categories.id");
-		$query->join("users", "products.user_id", "=", "users.id");
-		$query->join("units", "products.unit", "=", "units.id");
-		$orderby = $request->orderby ?? "products.id";
-		$ordertype = $request->ordertype ?? "desc";
-		$query->orderBy($orderby, $ordertype);
-		$query->where("company_id", "=" , auth()->user()->company_id);
-		if($fieldname){
-			$query->where($fieldname , $fieldvalue); //filter by a table field
-		}
-		if($request->products_category){
-			$val = $request->products_category;
-			$query->where(DB::raw("products.category"), "=", $val);
-		}
-		$records = $query->paginate($limit, Products::adminlistFields());
-		return $this->renderView($view, compact("records"));
-	}
 }

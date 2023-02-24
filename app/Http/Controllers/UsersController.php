@@ -127,6 +127,7 @@ class UsersController extends Controller
 			$fileInfo = $this->moveUploadedFiles($modeldata['photo'], "photo");
 			$modeldata['photo'] = $fileInfo['filepath'];
 		}
+		$modeldata['password'] = bcrypt($modeldata['password']);
 		
 		//save Users record
 		$record = Users::create($modeldata);

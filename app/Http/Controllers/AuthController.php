@@ -91,7 +91,6 @@ class AuthController extends Controller{
      * @return \Illuminate\Http\Response
      */
 	function accountblocked(Request $request){
-		//commit blank;
 		return view("pages.index.accountblocked");
 	}
 	
@@ -112,7 +111,6 @@ class AuthController extends Controller{
 	public function verifyEmail(Request $request) {
 		$user_id = $request->get("id");
 		if (!$request->hasValidSignature()) {
-			//lawal;
 			return view('pages.verifyemail.message')->withErrors("Invalid/Expired url provided");
 		}
 		$user = Users::findOrFail($user_id);

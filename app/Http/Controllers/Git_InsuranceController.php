@@ -140,36 +140,6 @@ class Git_InsuranceController extends Controller
 		$redirectUrl = $request->redirect ?? url()->previous();
 		return $this->redirect($redirectUrl, __('recordDeletedSuccessfully'));
 	}
-	
-
-	/**
-     * List table records
-	 * @param  \Illuminate\Http\Request
-     * @param string $fieldname //filter records by a table field
-     * @param string $fieldvalue //filter value
-     * @return \Illuminate\View\View
-     */
-	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
-		$view = "pages.git_insurance.adminlist";
-		$query = Git_Insurance::query();
-		$limit = $request->limit ?? 20;
-		if($request->search){
-			$search = trim($request->search);
-			Git_Insurance::search($query, $search); // search table records
-		}
-		$orderby = $request->orderby ?? "git_insurance.id";
-		$ordertype = $request->ordertype ?? "desc";
-		$query->orderBy($orderby, $ordertype);
-		if($fieldname){
-			$query->where($fieldname , $fieldvalue); //filter by a table field
-		}
-		if($request->git_insurance_is_active){
-			$val = $request->git_insurance_is_active;
-			$query->where(DB::raw("git_insurance.is_active"), "=", $val);
-		}
-		$records = $query->paginate($limit, Git_Insurance::adminlistFields());
-		return $this->renderView($view, compact("records"));
-	}
 	private function getNextRecordId($rec_id){
 		$query = Git_Insurance::query();
 		$query->where('id', '>', $rec_id);
@@ -190,14 +160,6 @@ class Git_InsuranceController extends Controller
 		}
 		return null;
 	}
-    /**
-     * Endpoint action
-     * @return \Illuminate\Http\Response
-     */
-     public static function git_next_no(){
-        $last_git_no = DB::table('git_insurance')->where('company_id', auth()->user()->company_id)->latest('id')->first();
-        return $last_git_no->git_no+1;
-    }
 	
 
 	/**

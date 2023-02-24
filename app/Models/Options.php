@@ -145,42 +145,6 @@ class Options extends Model implements Auditable
 	
 
 	/**
-     * return adminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function adminlistFields(){
-		return [ 
-			"id",
-			"option_name",
-			"option_value",
-			"company_id",
-			"date_created",
-			"date_updated",
-			"updated_by" 
-		];
-	}
-	
-
-	/**
-     * return exportAdminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function exportAdminlistFields(){
-		return [ 
-			"id",
-			"option_name",
-			"option_value",
-			"company_id",
-			"date_created",
-			"date_updated",
-			"updated_by" 
-		];
-	}
-	
-
-	/**
      * Audit log events
      * 
      * @var array

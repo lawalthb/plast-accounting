@@ -179,50 +179,6 @@ class Git_Insurance extends Model implements Auditable
 	
 
 	/**
-     * return adminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function adminlistFields(){
-		return [ 
-			"id",
-			"git_no",
-			"vehicle_no",
-			"item_type",
-			"reg_date",
-			"driver_name",
-			"load_from",
-			"going_to",
-			"total_amount",
-			"mail_sent",
-			"charges" 
-		];
-	}
-	
-
-	/**
-     * return exportAdminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function exportAdminlistFields(){
-		return [ 
-			"id",
-			"git_no",
-			"vehicle_no",
-			"item_type",
-			"reg_date",
-			"driver_name",
-			"load_from",
-			"going_to",
-			"total_amount",
-			"mail_sent",
-			"charges" 
-		];
-	}
-	
-
-	/**
      * Audit log events
      * 
      * @var array

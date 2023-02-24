@@ -214,6 +214,18 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class=" col-12 col-md-4">
+                                            <div class="bg-light mb-3 card-1 p-2 border rounded">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <small class="text-muted">{{ __('createdBy') }}</small>
+                                                        <div class="fw-bold">
+                                                            <?php echo  $data['created_by'] ; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!--PageComponentEnd-->
                                     <div class="d-flex gap-1 justify-content-start">

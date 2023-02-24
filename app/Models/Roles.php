@@ -14,7 +14,7 @@ class Roles extends Model implements Auditable
      * @var string
      */
 	protected $table = 'roles';
-	 
+	
 
 	/**
      * The table primary key field
@@ -125,34 +125,6 @@ class Roles extends Model implements Auditable
 			"role_name",
 			"company_id",
 			"role_id" 
-		];
-	}
-	
-
-	/**
-     * return adminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function adminlistFields(){
-		return [ 
-			"role_id",
-			"role_name",
-			"date_created" 
-		];
-	}
-	
-
-	/**
-     * return exportAdminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function exportAdminlistFields(){
-		return [ 
-			"role_id",
-			"role_name",
-			"date_created" 
 		];
 	}
 	

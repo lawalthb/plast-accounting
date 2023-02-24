@@ -105,9 +105,8 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                         <span class="navbar-toggler-icon"></span>
                         </button>
                         </nav>
-                        <div class="collapse collapse-lg " id="<?php echo $menu_id ?>" > 
+                        <div class="collapse collapse-lg " id="<?php echo $menu_id ?>" >
                         <ul class="nav nav-pills flex-column nav-justified nav-fill">
-                            
                             <?php 
                                 $options = $transactions_id_option_list_2 ?? [];
                                 foreach($options as $option){

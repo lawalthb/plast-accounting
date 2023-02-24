@@ -25,15 +25,15 @@ class CompaniesAddRequest extends FormRequest
 		
         return [
             
-				"name" => "required|string|min:4|unique:companies,name",
+				"name" => "required|string",
 				"slogan" => "nullable|string",
 				"address" => "nullable",
-				"logo" => "nullable",
-				"favicon" => "nullable",
-				"com_email" => "nullable|email",
+				"logo" => "nullable|string",
 				"website" => "nullable|string",
+				"favicon" => "nullable|string",
+				"com_email" => "nullable|email",
 				"com_phone" => "nullable|string",
-				"signature" => "nullable",
+				"signature" => "nullable|string",
             
         ];
     }

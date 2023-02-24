@@ -146,42 +146,6 @@ class Product_Categories extends Model implements Auditable
 	
 
 	/**
-     * return adminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function adminlistFields(){
-		return [ 
-			"id",
-			"name",
-			"is_active",
-			"company_id",
-			"user_id",
-			"date_created",
-			"date_updated" 
-		];
-	}
-	
-
-	/**
-     * return exportAdminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function exportAdminlistFields(){
-		return [ 
-			"id",
-			"name",
-			"is_active",
-			"company_id",
-			"user_id",
-			"date_created",
-			"date_updated" 
-		];
-	}
-	
-
-	/**
      * Audit log events
      * 
      * @var array

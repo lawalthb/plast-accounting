@@ -3,7 +3,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Document_TypesAddRequest extends FormRequest
+class ReportsAddRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,15 +26,11 @@ class Document_TypesAddRequest extends FormRequest
         return [
             
 				"name" => "required|string",
-				"method_numbering" => "required",
-				"prefix" => "required",
-				"prefix_char" => "nullable|string",
-				"starting_num" => "nullable|numeric|min:1",
-				"common_description" => "required",
-				"print_onsave" => "required",
-				"desc_each_line" => "required",
-				"document_code" => "required",
-				"created_by" => "required|numeric",
+				"link" => "required|string",
+				"company_id" => "required",
+				"is_active" => "required|string",
+				"no_views" => "required|numeric",
+				"last_view_time" => "nullable|date",
             
         ];
     }

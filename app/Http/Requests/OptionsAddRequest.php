@@ -28,7 +28,7 @@ class OptionsAddRequest extends FormRequest
 				"option_name" => "required|string",
 				"option_value" => "nullable",
 				"company_id" => "required",
-				"updated_by" => "required|numeric",
+				"updated_by" => "required",
             
         ];
     }

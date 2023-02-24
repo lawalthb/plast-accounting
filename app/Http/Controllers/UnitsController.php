@@ -124,35 +124,4 @@ class UnitsController extends Controller
 		$redirectUrl = $request->redirect ?? url()->previous();
 		return $this->redirect($redirectUrl, __('recordDeletedSuccessfully'));
 	}
-	
-
-	/**
-     * List table records
-	 * @param  \Illuminate\Http\Request
-     * @param string $fieldname //filter records by a table field
-     * @param string $fieldvalue //filter value
-     * @return \Illuminate\View\View
-     */
-	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
-		$view = "pages.units.adminlist";
-		$query = Units::query();
-		$limit = $request->limit ?? 20;
-		if($request->search){
-			$search = trim($request->search);
-			Units::search($query, $search); // search table records
-		}
-		$orderby = $request->orderby ?? "units.id";
-		$ordertype = $request->ordertype ?? "desc";
-		$query->orderBy($orderby, $ordertype);
-		$query->where("company_id", "=" , auth()->user()->company_id);
-		if($fieldname){
-			$query->where($fieldname , $fieldvalue); //filter by a table field
-		}
-		if($request->units_status){
-			$val = $request->units_status;
-			$query->where(DB::raw("units.status"), "=", $val);
-		}
-		$records = $query->paginate($limit, Units::adminlistFields());
-		return $this->renderView($view, compact("records"));
-	}
 }

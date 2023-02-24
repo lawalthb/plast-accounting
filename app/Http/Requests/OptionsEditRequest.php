@@ -28,7 +28,7 @@ class OptionsEditRequest extends FormRequest
 				"option_name" => "filled|string",
 				"option_value" => "nullable",
 				"company_id" => "filled",
-				"updated_by" => "filled|numeric",
+				"updated_by" => "filled",
             
         ];
     }

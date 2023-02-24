@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use \PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MarketersListExport;
-use App\Exports\MarketersAdminlistExport;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -164,42 +163,6 @@ class MarketersController extends Controller
 	
 
 	/**
-     * List table records
-	 * @param  \Illuminate\Http\Request
-     * @param string $fieldname //filter records by a table field
-     * @param string $fieldvalue //filter value
-     * @return \Illuminate\View\View
-     */
-	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
-		$view = "pages.marketers.adminlist";
-		$query = Marketers::query();
-		$limit = $request->limit ?? 20;
-		if($request->search){
-			$search = trim($request->search);
-			Marketers::search($query, $search); // search table records
-		}
-		$query->join("companies", "marketers.company_id", "=", "companies.id");
-		$orderby = $request->orderby ?? "marketers.id";
-		$ordertype = $request->ordertype ?? "desc";
-		$query->orderBy($orderby, $ordertype);
-		$query->where("company_id", "=" , auth()->user()->company_id);
-		if($fieldname){
-			$query->where($fieldname , $fieldvalue); //filter by a table field
-		}
-		if($request->marketers_is_active){
-			$val = $request->marketers_is_active;
-			$query->where(DB::raw("marketers.is_active"), "=", $val);
-		}
-		// if request format is for export example:- product/index?export=pdf
-		if($this->getExportFormat()){
-			return $this->ExportAdminlist($query); // export current query
-		}
-		$records = $query->paginate($limit, Marketers::adminlistFields());
-		return $this->renderView($view, compact("records"));
-	}
-	
-
-	/**
      * Export table records to different format
 	 * supported format:- PDF, CSV, EXCEL, HTML
 	 * @param \Illuminate\Database\Eloquent\Model $query
@@ -223,34 +186,6 @@ class MarketersController extends Controller
 		}
 		elseif($format == "excel"){
 			return Excel::download(new MarketersListExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
-		}
-	}
-	
-
-	/**
-     * Export table records to different format
-	 * supported format:- PDF, CSV, EXCEL, HTML
-	 * @param \Illuminate\Database\Eloquent\Model $query
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-	private function ExportAdminlist($query){
-		ob_end_clean(); // clean any output to allow file download
-		$filename = "AdminlistMarketersReport-" . date_now();
-		$format = $this->getExportFormat();
-		if($format == "print"){
-			$records = $query->get(Marketers::exportAdminlistFields());
-			return view("reports.marketers-adminlist", ["records" => $records]);
-		}
-		elseif($format == "pdf"){
-			$records = $query->get(Marketers::exportAdminlistFields());
-			$pdf = PDF::loadView("reports.marketers-adminlist", ["records" => $records]);
-			return $pdf->download("$filename.pdf");
-		}
-		elseif($format == "csv"){
-			return Excel::download(new MarketersAdminlistExport($query), "$filename.csv", \Maatwebsite\Excel\Excel::CSV);
-		}
-		elseif($format == "excel"){
-			return Excel::download(new MarketersAdminlistExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
 		}
 	}
 }

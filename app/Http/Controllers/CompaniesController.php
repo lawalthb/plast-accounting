@@ -5,7 +5,6 @@ use App\Http\Requests\CompaniesAddRequest;
 use App\Http\Requests\CompaniesEditRequest;
 use App\Models\Companies;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Exception;
 class CompaniesController extends Controller
 {
@@ -75,91 +74,11 @@ class CompaniesController extends Controller
 	function store(CompaniesAddRequest $request){
 		$modeldata = $this->normalizeFormData($request->validated());
 		
-		if( array_key_exists("logo", $modeldata) ){
-			//move uploaded file from temp directory to destination directory
-			$fileInfo = $this->moveUploadedFiles($modeldata['logo'], "logo");
-			$modeldata['logo'] = $fileInfo['filepath'];
-		}
-		
-		if( array_key_exists("favicon", $modeldata) ){
-			//move uploaded file from temp directory to destination directory
-			$fileInfo = $this->moveUploadedFiles($modeldata['favicon'], "favicon");
-			$modeldata['favicon'] = $fileInfo['filepath'];
-		}
-		
-		if( array_key_exists("signature", $modeldata) ){
-			//move uploaded file from temp directory to destination directory
-			$fileInfo = $this->moveUploadedFiles($modeldata['signature'], "signature");
-			$modeldata['signature'] = $fileInfo['filepath'];
-		}
-		
-		//Validate Users form data
-		$usersPostData = $request->users;
-		$usersValidator = validator()->make($usersPostData, ["firstname" => "nullable|string",
-				"lastname" => "required|string",
-				"email" => "required|email|unique:users,email",
-				"username" => "required|string|unique:users,username",
-				"phone" => "nullable|string",
-				"photo" => "nullable",
-				"user_role_id" => "required"]);
-		if ($usersValidator->fails()) {
-			return $usersValidator->errors();
-		}
-		$usersModeldata = $this->normalizeFormData($usersValidator->valid());
-
-		if( array_key_exists("photo", $usersModeldata) ){
-			//move uploaded file from temp directory to destination directory
-			$fileInfo = $this->moveUploadedFiles($usersModeldata['photo'], "photo");
-			 $usersModeldata['photo'] = $fileInfo['filepath'];
-		}
-		
 		//save Companies record
 		$record = Companies::create($modeldata);
 		$rec_id = $record->id;
-		
-        // set users.company_id to companies.id
-		$usersModeldata['company_id'] = $rec_id;
-		//save Users record
-		$usersRecord = \App\Models\Users::create($usersModeldata);
-	$this->sendMailOnRecordAdd($record);
-		$this->afterAdd($record);
 		return $this->redirect("companies", __('recordAddedSuccessfully'));
 	}
-    /**
-     * After new record created
-     * @param array $record // newly created record
-     */
-    private function afterAdd($record){
-        //enter statement here
-         $comp_id = $record['id'];
-        $user    = DB::table('users')->where('company_id', $comp_id)->first();
-        $user_id = $user->id ;
-        $modeldata = ['company_id' => $comp_id , 'account_group_id' => 1, 'name' => 'Bank Accounts', 'code' => '2001', 'description' => 'Bank Accounts', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 2, 'name' => 'Bank OD Ac', 'code' => '2001', 'description' => 'Bank Overdraft Account', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 1, 'name' => 'Cash-in-hand', 'code' => '2001', 'description' => 'Cash at hand', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 1, 'name' => 'Deposits (Asset)', 'code' => '2001', 'description' => 'Money received', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 2, 'name' => 'Duties & Taxes', 'code' => '2001', 'description' => 'Govt Tax', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 1, 'name' => 'Loans & Advances (Asset)', 'code' => '2001', 'description' => 'Workers loan or IOU', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 2, 'name' => 'Provisions', 'code' => '2001', 'description' => 'Provisions - items bought for company', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 6, 'name' => 'Reserves & Surplus', 'code' => '2001', 'description' => 'Owner money - capital', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 2, 'name' => 'Secured Loans', 'code' => '2001', 'description' => 'Loan collected from Bank', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 1, 'name' => 'Stock-in-hand', 'code' => '2001', 'description' => 'Inventory total stock amount', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 2, 'name' => 'Sundry Creditors', 'code' => '2001', 'description' => 'Vendors or suppliers', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 1, 'name' => 'Sundry Debtors', 'code' => '2001', 'description' => 'Customers, buyers', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 2, 'name' => 'Unsecured Loans', 'code' => '2001', 'description' => 'Loans that are not from bank', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 3, 'name' => 'Purchase Accounts', 'code' => '2001', 'description' => 'Purchase Accounts', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 4, 'name' => 'Sales Accounts', 'code' => '2001', 'description' => 'Sales Accounts', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 7, 'name' => 'Suspense Ac', 'code' => '2001', 'description' => 'Unknow account', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 2, 'name' => 'Capital Account', 'code' => '2001', 'description' => 'Capital Account', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 2, 'name' => 'Branch/Divisions', 'code' => '2001', 'description' => 'Branch, another location', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 3, 'name' => 'Direct Expenses', 'code' => '2001', 'description' => 'Expenses that contributed to product', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 4, 'name' => 'Direct Incomes', 'code' => '2001', 'description' => 'Other revenue from services or contract', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 3, 'name' => 'Indirect Expenses', 'code' => '2001', 'description' => 'Expenses that did not contribute to product eg. salary', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'account_group_id' => 4, 'name' => 'Indirect Incomes', 'code' => '2001', 'description' => 'Other revenue, like rent or intrest', 'total_amount' => '0.00', 'user_id' => $user_id ]; DB::table('sub_account_group')->insert($modeldata);
-    $modeldata = ['company_id' => $comp_id , 'name' => 'None', 'user_id' => $user_id ]; DB::table('marketers')->insert($modeldata);
-     $modeldata = ['company_id' => $comp_id , 'name' => 'Main Location', 'created_by' => $user_id ]; DB::table('locations')->insert($modeldata);
-     $modeldata=['company_id'=>$comp_id,'name'=>'SalesInvoice','method_numbering'=>'Automatic','document_code'=>'5001','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'PurchaseInvoice','method_numbering'=>'Manual','document_code'=>'5002','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'Quotation','method_numbering'=>'Automatic','document_code'=>'5003','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'LocalPurchase','method_numbering'=>'Manual','document_code'=>'5004','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'Contra','method_numbering'=>'Automatic','document_code'=>'5005','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'CreditNote','method_numbering'=>'Automatic','document_code'=>'5006','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'DebitNote','method_numbering'=>'Automatic','document_code'=>'5007','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'DeliveryNote','method_numbering'=>'Automatic','document_code'=>'5008','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'Journal','method_numbering'=>'Automatic','document_code'=>'5009','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'Memorandum','method_numbering'=>'Automatic','document_code'=>'5010','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'Payment','method_numbering'=>'Automatic','document_code'=>'5011','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'PhysicalStock','method_numbering'=>'Automatic','document_code'=>'5012','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'Attendance','method_numbering'=>'Automatic','document_code'=>'5013','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'Receipt','method_numbering'=>'Automatic','document_code'=>'5014','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'GoodsReceivedNote','method_numbering'=>'Automatic','document_code'=>'5015','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'RejectionIn','method_numbering'=>'Automatic','document_code'=>'5016','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'RejectionOut','method_numbering'=>'Automatic','document_code'=>'5017','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);$modeldata=['company_id'=>$comp_id,'name'=>'StockJournal','method_numbering'=>'Automatic','document_code'=>'5018','created_by'=>$user_id];DB::table('document_types')->insert($modeldata);
- }
 	
 
 	/**
@@ -172,24 +91,6 @@ class CompaniesController extends Controller
 		$record = $query->findOrFail($rec_id, Companies::editFields());
 		if ($request->isMethod('post')) {
 			$modeldata = $this->normalizeFormData($request->validated());
-		
-		if( array_key_exists("logo", $modeldata) ){
-			//move uploaded file from temp directory to destination directory
-			$fileInfo = $this->moveUploadedFiles($modeldata['logo'], "logo");
-			$modeldata['logo'] = $fileInfo['filepath'];
-		}
-		
-		if( array_key_exists("favicon", $modeldata) ){
-			//move uploaded file from temp directory to destination directory
-			$fileInfo = $this->moveUploadedFiles($modeldata['favicon'], "favicon");
-			$modeldata['favicon'] = $fileInfo['filepath'];
-		}
-		
-		if( array_key_exists("signature", $modeldata) ){
-			//move uploaded file from temp directory to destination directory
-			$fileInfo = $this->moveUploadedFiles($modeldata['signature'], "signature");
-			$modeldata['signature'] = $fileInfo['filepath'];
-		}
 			$record->update($modeldata);
 			return $this->redirect("companies", __('recordUpdatedSuccessfully'));
 		}
@@ -240,45 +141,5 @@ class CompaniesController extends Controller
 		}
 		$records = $query->paginate($limit, Companies::dashboardlistFields());
 		return $this->renderView($view, compact("records"));
-	}
-	
-
-	/**
-     * List table records
-	 * @param  \Illuminate\Http\Request
-     * @param string $fieldname //filter records by a table field
-     * @param string $fieldvalue //filter value
-     * @return \Illuminate\View\View
-     */
-	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
-		$view = "pages.companies.adminlist";
-		$query = Companies::query();
-		$limit = $request->limit ?? 20;
-		if($request->search){
-			$search = trim($request->search);
-			Companies::search($query, $search); // search table records
-		}
-		$orderby = $request->orderby ?? "companies.id";
-		$ordertype = $request->ordertype ?? "desc";
-		$query->orderBy($orderby, $ordertype);
-		$query->where("id", "=" , auth()->user()->company_id);
-		if($fieldname){
-			$query->where($fieldname , $fieldvalue); //filter by a table field
-		}
-		$records = $query->paginate($limit, Companies::adminlistFields());
-		return $this->renderView($view, compact("records"));
-	}
-	private function sendMailOnRecordAdd($record = null){
-		try{
-			$subject = "New Companies Record Added";
-			$message = "New Companies record has been added.";	
-			$receiver = "admin@plast_accounting.com";
-			$recid = $record->id;
-			$recordLink = url("companies/view/$recid");
-			$this->sendRecordActionMail($receiver, $subject, $message, $recordLink);
-		}
-		catch(Exception $ex){
-			throw $ex;
-		}
 	}
 }

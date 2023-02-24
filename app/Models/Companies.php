@@ -32,7 +32,7 @@ class Companies extends Model implements Auditable
      * @var array
      */
 	protected $fillable = [
-		'name','slogan','address','logo','favicon','com_email','website','com_phone','signature'
+		'name','slogan','address','logo','website','favicon','com_email','com_phone','signature'
 	];
 	public $timestamps = true;
 	const CREATED_AT = 'date_created'; 
@@ -157,9 +157,9 @@ class Companies extends Model implements Auditable
 			"slogan",
 			"address",
 			"logo",
+			"website",
 			"favicon",
 			"com_email",
-			"website",
 			"com_phone",
 			"signature",
 			"id" 
@@ -195,40 +195,6 @@ class Companies extends Model implements Auditable
 			"com_email",
 			"date_created",
 			"slogan" 
-		];
-	}
-	
-
-	/**
-     * return adminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function adminlistFields(){
-		return [ 
-			"id",
-			"name",
-			"address",
-			"com_email",
-			"logo",
-			"date_created" 
-		];
-	}
-	
-
-	/**
-     * return exportAdminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function exportAdminlistFields(){
-		return [ 
-			"id",
-			"name",
-			"address",
-			"com_email",
-			"logo",
-			"date_created" 
 		];
 	}
 	

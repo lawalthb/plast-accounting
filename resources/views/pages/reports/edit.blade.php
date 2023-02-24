@@ -4,7 +4,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
 -->
 @inject('comp_model', 'App\Models\ComponentsData')
 <?php
-    $pageTitle = __('editOptions'); //set dynamic page title
+    $pageTitle = __('editReports'); //set dynamic page title
 ?>
 @extends($layout)
 @section('title', $pageTitle)
@@ -24,7 +24,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                 </div>
                 <div class="col col-md-auto  " >
                     <div class=" h5 font-weight-bold text-primary" >
-                        {{ __('editOptions') }}
+                        {{ __('editReports') }}
                     </div>
                 </div>
             </div>
@@ -40,21 +40,20 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                     <?php Html::display_page_errors($errors); ?>
                     <div  class="card-1 border rounded page-content" >
                         <!--[form-start]-->
-                        <form novalidate  id="" role="form" enctype="multipart/form-data"  class="form page-form form-vertical needs-validation" action="<?php print_link("options/edit/$rec_id"); ?>" method="post">
+                        <form novalidate  id="" role="form" enctype="multipart/form-data"  class="form page-form form-vertical needs-validation" action="<?php print_link("reports/edit/$rec_id"); ?>" method="post">
                         <!--[form-content-start]-->
                         @csrf
                         <div>
                             <div class="form-group ">
-                                <label class="control-label" for="option_name">{{ __('optionName') }} <span class="text-danger">*</span></label>
-                                <div id="ctrl-option_name-holder" class=" "> 
-                                    <input id="ctrl-option_name" data-field="option_name"  value="<?php  echo $data['option_name']; ?>" type="text" placeholder="{{ __('enterOptionName') }}"  required="" name="option_name"  class="form-control " />
+                                <label class="control-label" for="name">{{ __('name') }} <span class="text-danger">*</span></label>
+                                <div id="ctrl-name-holder" class=" "> 
+                                    <input id="ctrl-name" data-field="name"  value="<?php  echo $data['name']; ?>" type="text" placeholder="{{ __('enterName') }}"  required="" name="name"  class="form-control " />
                                 </div>
                             </div>
                             <div class="form-group ">
-                                <label class="control-label" for="option_value">{{ __('optionValue') }} </label>
-                                <div id="ctrl-option_value-holder" class=" "> 
-                                    <textarea placeholder="{{ __('enterOptionValue') }}" id="ctrl-option_value" data-field="option_value"  rows="5" name="option_value" class=" form-control"><?php  echo $data['option_value']; ?></textarea>
-                                    <!--<div class="invalid-feedback animated bounceIn text-center">{{ __('pleaseEnterText') }}</div>-->
+                                <label class="control-label" for="link">{{ __('link') }} <span class="text-danger">*</span></label>
+                                <div id="ctrl-link-holder" class=" "> 
+                                    <input id="ctrl-link" data-field="link"  value="<?php  echo $data['link']; ?>" type="text" placeholder="{{ __('enterLink') }}"  required="" name="link"  class="form-control " />
                                 </div>
                             </div>
                             <div class="form-group ">
@@ -79,24 +78,22 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                 </div>
                             </div>
                             <div class="form-group ">
-                                <label class="control-label" for="updated_by">{{ __('updatedBy') }} <span class="text-danger">*</span></label>
-                                <div id="ctrl-updated_by-holder" class=" "> 
-                                    <select required=""  id="ctrl-updated_by" data-field="updated_by" name="updated_by"  placeholder="{{ __('selectAValue') }}"    class="form-select" >
-                                    <option value="">{{ __('selectAValue') }}</option>
-                                    <?php
-                                        $options = $comp_model->updated_by_option_list() ?? [];
-                                        foreach($options as $option){
-                                        $value = $option->value;
-                                        $label = $option->label ?? $value;
-                                        $selected = ( $value == $data['updated_by'] ? 'selected' : null );
-                                    ?>
-                                    <option <?php echo $selected; ?> value="<?php echo $value; ?>">
-                                    <?php echo $label; ?>
-                                    </option>
-                                    <?php
-                                        }
-                                    ?>
-                                    </select>
+                                <label class="control-label" for="is_active">{{ __('isActive') }} <span class="text-danger">*</span></label>
+                                <div id="ctrl-is_active-holder" class=" "> 
+                                    <input id="ctrl-is_active" data-field="is_active"  value="<?php  echo $data['is_active']; ?>" type="text" placeholder="{{ __('enterIsActive') }}"  required="" name="is_active"  class="form-control " />
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label" for="no_views">{{ __('noViews') }} <span class="text-danger">*</span></label>
+                                <div id="ctrl-no_views-holder" class=" "> 
+                                    <input id="ctrl-no_views" data-field="no_views"  value="<?php  echo $data['no_views']; ?>" type="number" placeholder="{{ __('enterNoViews') }}" step="any"  required="" name="no_views"  class="form-control " />
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label" for="last_view_time">{{ __('lastViewTime') }} </label>
+                                <div id="ctrl-last_view_time-holder" class="input-group "> 
+                                    <input id="ctrl-last_view_time" data-field="last_view_time" class="form-control datepicker  datepicker" value="<?php  echo $data['last_view_time']; ?>" type="datetime"  name="last_view_time" placeholder="{{ __('enterLastViewTime') }}" data-enable-time="true" data-min-date="" data-max-date="" data-date-format="Y-m-d H:i:S" data-alt-format="F j, Y - H:i" data-inline="false" data-no-calendar="false" data-mode="single" /> 
+                                    <span class="input-group-text"><i class="material-icons">date_range</i></span>
                                 </div>
                             </div>
                         </div>

@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use \PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\SubAccountGroupListExport;
-use App\Exports\SubAccountGroupAdminlistExport;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -163,42 +162,6 @@ class Sub_Account_GroupController extends Controller
 	
 
 	/**
-     * List table records
-	 * @param  \Illuminate\Http\Request
-     * @param string $fieldname //filter records by a table field
-     * @param string $fieldvalue //filter value
-     * @return \Illuminate\View\View
-     */
-	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
-		$view = "pages.sub_account_group.adminlist";
-		$query = Sub_Account_Group::query();
-		$limit = $request->limit ?? 20;
-		if($request->search){
-			$search = trim($request->search);
-			Sub_Account_Group::search($query, $search); // search table records
-		}
-		//$query->join("account_groups", "sub_account_group.account_group_id", "=", "account_groups.id");
-		$orderby = $request->orderby ?? "sub_account_group.id";
-		$ordertype = $request->ordertype ?? "desc";
-		$query->orderBy($orderby, $ordertype);
-		//$query->where("company_id", "=" , auth()->user()->company_id);
-		if($fieldname){
-			$query->where($fieldname , $fieldvalue); //filter by a table field
-		}
-		// if($request->sub_account_group_company_id){
-		// 	$val = $request->sub_account_group_company_id;
-		// 	$query->where(DB::raw("sub_account_group.company_id"), "=", $val);
-		// }
-		// if request format is for export example:- product/index?export=pdf
-		if($this->getExportFormat()){
-			return $this->ExportAdminlist($query); // export current query
-		}
-		$records = $query->paginate($limit, Sub_Account_Group::adminlistFields());
-		return $this->renderView($view, compact("records"));
-	}
-	
-
-	/**
      * Export table records to different format
 	 * supported format:- PDF, CSV, EXCEL, HTML
 	 * @param \Illuminate\Database\Eloquent\Model $query
@@ -222,34 +185,6 @@ class Sub_Account_GroupController extends Controller
 		}
 		elseif($format == "excel"){
 			return Excel::download(new SubAccountGroupListExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
-		}
-	}
-	
-
-	/**
-     * Export table records to different format
-	 * supported format:- PDF, CSV, EXCEL, HTML
-	 * @param \Illuminate\Database\Eloquent\Model $query
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-	private function ExportAdminlist($query){
-		ob_end_clean(); // clean any output to allow file download
-		$filename = "AdminlistSub_Account_GroupReport-" . date_now();
-		$format = $this->getExportFormat();
-		if($format == "print"){
-			$records = $query->get(Sub_Account_Group::exportAdminlistFields());
-			return view("reports.sub_account_group-adminlist", ["records" => $records]);
-		}
-		elseif($format == "pdf"){
-			$records = $query->get(Sub_Account_Group::exportAdminlistFields());
-			$pdf = PDF::loadView("reports.sub_account_group-adminlist", ["records" => $records]);
-			return $pdf->download("$filename.pdf");
-		}
-		elseif($format == "csv"){
-			return Excel::download(new SubAccountGroupAdminlistExport($query), "$filename.csv", \Maatwebsite\Excel\Excel::CSV);
-		}
-		elseif($format == "excel"){
-			return Excel::download(new SubAccountGroupAdminlistExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
 		}
 	}
 }

@@ -16,7 +16,12 @@
                 {{ __('usersLocations') }}
             </a>
         </li>
-    </ul>
+        <li class="nav-item">
+            <a data-bs-toggle="tab" href="#options_<?php echo $page_id ?>" class="nav-link ">
+            {{ __('usersOptions') }}
+        </a>
+    </li>
+</ul>
 </div>
 <div class="tab-content">
     <div class="tab-pane fade show active" id="ledgers_<?php echo $page_id ?>" role="tabpanel">
@@ -44,6 +49,24 @@
         $query = array_merge(request()->query(), $params);
         $queryParams = http_build_query($query);
         $url = url("locations/index/created_by/$rec_id?$queryParams");
+    ?>
+    <div class="ajax-inline-page" data-url="{{ $url }}" >
+        <div class="ajax-page-load-indicator">
+            <div class="text-center d-flex justify-content-center load-indicator">
+                <span class="loader mr-3"></span>
+                <span class="fw-bold">{{ __('loading') }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="tab-pane fade show " id="options_<?php echo $page_id ?>" role="tabpanel">
+<div class=" ">
+    <?php
+        $params = ['updated_by' => $rec_id,'show_header' => false]; //new query param
+        $query = array_merge(request()->query(), $params);
+        $queryParams = http_build_query($query);
+        $url = url("options/index/updated_by/$rec_id?$queryParams");
     ?>
     <div class="ajax-inline-page" data-url="{{ $url }}" >
         <div class="ajax-page-load-indicator">

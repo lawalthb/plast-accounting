@@ -48,7 +48,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                 <div class="form-group col-md-6">
                                     <label class="control-label" for="git_no">{{ __('gitNo') }} <span class="text-danger">*</span></label>
                                     <div id="ctrl-git_no-holder" class=" "> 
-                                        <input id="ctrl-git_no" data-field="git_no"  value="<?php  echo $data['git_no']; ?>" type="text" placeholder="{{ __('enterGitNo') }}"  readonly required="" name="git_no"  class="form-control " />
+                                        <input id="ctrl-git_no" data-field="git_no"  value="<?php  echo $data['git_no']; ?>" type="text" placeholder="{{ __('enterGitNo') }}"  required="" name="git_no"  class="form-control " />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">

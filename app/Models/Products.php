@@ -235,62 +235,6 @@ class Products extends Model implements Auditable
 	
 
 	/**
-     * return adminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function adminlistFields(){
-		return [ 
-			"products.id AS id",
-			"products.company_id AS company_id",
-			"companies.name AS companies_name",
-			"products.name AS name",
-			"products.category AS category",
-			"product_categories.name AS product_categories_name",
-			"products.qty AS qty",
-			"products.selling_price AS selling_price",
-			"products.purchase_price AS purchase_price",
-			"products.dead_stock AS dead_stock",
-			"products.is_active AS is_active",
-			"products.user_id AS user_id",
-			"users.username AS users_username",
-			"products.unit AS unit",
-			"units.name AS units_name",
-			"products.date_created AS date_created",
-			"products.date_updated AS date_updated" 
-		];
-	}
-	
-
-	/**
-     * return exportAdminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function exportAdminlistFields(){
-		return [ 
-			"products.id AS id",
-			"products.company_id AS company_id",
-			"companies.name AS companies_name",
-			"products.name AS name",
-			"products.category AS category",
-			"product_categories.name AS product_categories_name",
-			"products.qty AS qty",
-			"products.selling_price AS selling_price",
-			"products.purchase_price AS purchase_price",
-			"products.dead_stock AS dead_stock",
-			"products.is_active AS is_active",
-			"products.user_id AS user_id",
-			"users.username AS users_username",
-			"products.unit AS unit",
-			"units.name AS units_name",
-			"products.date_created AS date_created",
-			"products.date_updated AS date_updated" 
-		];
-	}
-	
-
-	/**
      * Audit log events
      * 
      * @var array

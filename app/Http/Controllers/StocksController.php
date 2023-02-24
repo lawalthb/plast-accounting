@@ -32,7 +32,6 @@ class StocksController extends Controller
 		$orderby = $request->orderby ?? "stocks.id";
 		$ordertype = $request->ordertype ?? "desc";
 		$query->orderBy($orderby, $ordertype);
-		
 		if($fieldname){
 			$query->where($fieldname , $fieldvalue); //filter by a table field
 		}

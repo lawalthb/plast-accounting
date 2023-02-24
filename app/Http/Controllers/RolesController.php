@@ -142,37 +142,6 @@ class RolesController extends Controller
 		$redirectUrl = $request->redirect ?? url()->previous();
 		return $this->redirect($redirectUrl, __('recordDeletedSuccessfully'));
 	}
-	
-
-	/**
-     * List table records
-	 * @param  \Illuminate\Http\Request
-     * @param string $fieldname //filter records by a table field
-     * @param string $fieldvalue //filter value
-     * @return \Illuminate\View\View
-     */
-	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
-		$view = "pages.roles.adminlist";
-		$query = Roles::query();
-		$limit = $request->limit ?? 20;
-		if($request->search){
-			$search = trim($request->search);
-			Roles::search($query, $search); // search table records
-		}
-		$orderby = $request->orderby ?? "roles.role_id";
-		$ordertype = $request->ordertype ?? "desc";
-		$query->orderBy($orderby, $ordertype);
-		$query->where("company_id", "=" , auth()->user()->company_id);
-		if($fieldname){
-			$query->where($fieldname , $fieldvalue); //filter by a table field
-		}
-		if($request->roles_company_id){
-			$val = $request->roles_company_id;
-			$query->where(DB::raw("roles.company_id"), "=", $val);
-		}
-		$records = $query->paginate($limit, Roles::adminlistFields());
-		return $this->renderView($view, compact("records"));
-	}
 	private function getNextRecordId($rec_id){
 		$query = Roles::query();
 		$query->where('role_id', '>', $rec_id);

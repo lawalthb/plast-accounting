@@ -30,7 +30,7 @@ class Document_Types extends Model implements Auditable
      * @var array
      */
 	protected $fillable = [
-		'name','method_numbering','prefix','prefix_char','starting_num','common_description','print_onsave','desc_each_line','document_code','company_id'
+		'name','method_numbering','prefix','prefix_char','starting_num','common_description','print_onsave','desc_each_line','document_code','company_id','created_by'
 	];
 	public $timestamps = true;
 	const CREATED_AT = 'date_created'; 
@@ -73,7 +73,8 @@ class Document_Types extends Model implements Auditable
 			"desc_each_line",
 			"document_code",
 			"date_created",
-			"prefix_char" 
+			"prefix_char",
+			"created_by" 
 		];
 	}
 	
@@ -95,7 +96,8 @@ class Document_Types extends Model implements Auditable
 			"desc_each_line",
 			"document_code",
 			"date_created",
-			"prefix_char" 
+			"prefix_char",
+			"created_by" 
 		];
 	}
 	
@@ -119,7 +121,8 @@ class Document_Types extends Model implements Auditable
 			"company_id",
 			"date_created",
 			"date_updated",
-			"prefix_char" 
+			"prefix_char",
+			"created_by" 
 		];
 	}
 	
@@ -143,7 +146,8 @@ class Document_Types extends Model implements Auditable
 			"company_id",
 			"date_created",
 			"date_updated",
-			"prefix_char" 
+			"prefix_char",
+			"created_by" 
 		];
 	}
 	
@@ -165,51 +169,8 @@ class Document_Types extends Model implements Auditable
 			"desc_each_line",
 			"document_code",
 			"company_id",
-			"id" 
-		];
-	}
-	
-
-	/**
-     * return adminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function adminlistFields(){
-		return [ 
 			"id",
-			"name",
-			"method_numbering",
-			"prefix",
-			"starting_num",
-			"common_description",
-			"print_onsave",
-			"desc_each_line",
-			"document_code",
-			"date_created",
-			"prefix_char" 
-		];
-	}
-	
-
-	/**
-     * return exportAdminlist page fields of the model.
-     * 
-     * @return array
-     */
-	public static function exportAdminlistFields(){
-		return [ 
-			"id",
-			"name",
-			"method_numbering",
-			"prefix",
-			"starting_num",
-			"common_description",
-			"print_onsave",
-			"desc_each_line",
-			"document_code",
-			"date_created",
-			"prefix_char" 
+			"created_by" 
 		];
 	}
 	

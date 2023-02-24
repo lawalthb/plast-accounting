@@ -234,13 +234,13 @@ class Users extends Authenticatable implements MustVerifyEmail , Auditable
 		return [ 
 			"firstname",
 			"lastname",
-			"username",
 			"role_id",
 			"phone",
 			"photo",
 			"user_type",
 			"is_active",
 			"company_id",
+			"username",
 			"user_role_id",
 			"id" 
 		];

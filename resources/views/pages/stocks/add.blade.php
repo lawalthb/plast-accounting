@@ -92,7 +92,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         <select required=""  id="ctrl-user_id" data-field="user_id" name="user_id"  placeholder="{{ __('selectAValue') }}"    class="form-select" >
                                         <option value="">{{ __('selectAValue') }}</option>
                                         <?php 
-                                            $options = $comp_model->user_id_option_list() ?? [];
+                                            $options = $comp_model->updated_by_option_list() ?? [];
                                             foreach($options as $option){
                                             $value = $option->value;
                                             $label = $option->label ?? $value;

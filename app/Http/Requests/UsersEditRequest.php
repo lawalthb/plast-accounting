@@ -29,12 +29,13 @@ class UsersEditRequest extends FormRequest
             
 				"firstname" => "nullable|string",
 				"lastname" => "filled|string",
-				"username" => "filled|string|unique:users,username,$rec_id,id",
 				"role_id" => "nullable|numeric",
 				"phone" => "nullable|string",
 				"photo" => "nullable",
 				"user_type" => "nullable|string",
 				"is_active" => "nullable|string",
+				"company_id" => "nullable",
+				"username" => "filled|string|unique:users,username,$rec_id,id",
 				"user_role_id" => "filled",
             
         ];

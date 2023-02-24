@@ -159,7 +159,6 @@ class LedgersController extends Controller
 		$query->get()->each(function ($record, $key) {
 			$record->delete();
 		});
-	$this->sendMailOnRecordDelete();
 		$redirectUrl = $request->redirect ?? url()->previous();
 		return $this->redirect($redirectUrl, __('recordDeletedSuccessfully'));
 	}
@@ -186,7 +185,7 @@ class LedgersController extends Controller
 		//save Ledgers record
 		$record = Ledgers::create($modeldata);
 		$rec_id = $record->id;
-		return $this->redirect("ledgers/adminlist", __('recordAddedSuccessfully'));
+		return $this->redirect("ledgers", __('recordAddedSuccessfully'));
 	}
 	
 
@@ -211,8 +210,7 @@ class LedgersController extends Controller
 		//save Ledgers record
 		$record = Ledgers::create($modeldata);
 		$rec_id = $record->id;
-	$this->sendMailOnRecordAddsupplier($record);
-		return $this->redirect("ledgers/adminlist", __('recordAddedSuccessfully'));
+		return $this->redirect("ledgers", __('recordAddedSuccessfully'));
 	}
 	
 
@@ -237,8 +235,7 @@ class LedgersController extends Controller
 		//save Ledgers record
 		$record = Ledgers::create($modeldata);
 		$rec_id = $record->id;
-	$this->sendMailOnRecordAddotherledger($record);
-		return $this->redirect("ledgers/adminlist", __('recordAddedSuccessfully'));
+		return $this->redirect("ledgers", __('recordAddedSuccessfully'));
 	}
 	
 
@@ -329,43 +326,6 @@ class LedgersController extends Controller
 		}
 		elseif($format == "excel"){
 			return Excel::download(new LedgersAdminlistExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
-		}
-	}
-	private function sendMailOnRecordDelete(){
-		try{
-			$subject = "Ledgers Record Deleted";
-			$message = "Ledgers record has been deleted .";	
-			$receiver = "admin@plast_accounting.com";
-			$this->sendRecordActionMail($receiver, $subject, $message);
-		}
-		catch(Exception $ex){
-			throw $ex;
-		}
-	}
-	private function sendMailOnRecordAddsupplier($record = null){
-		try{
-			$subject = "New Ledgers Record Added";
-			$message = "New Ledgers record has been added.";	
-			$receiver = "admin@plast_accounting.com";
-			$recid = $record->id;
-			$recordLink = url("ledgers/view/$recid");
-			$this->sendRecordActionMail($receiver, $subject, $message, $recordLink);
-		}
-		catch(Exception $ex){
-			throw $ex;
-		}
-	}
-	private function sendMailOnRecordAddotherledger($record = null){
-		try{
-			$subject = "New Ledgers Record Added";
-			$message = "New Ledgers record has been added.";	
-			$receiver = "admin@plast_accounting.com";
-			$recid = $record->id;
-			$recordLink = url("ledgers/view/$recid");
-			$this->sendRecordActionMail($receiver, $subject, $message, $recordLink);
-		}
-		catch(Exception $ex){
-			throw $ex;
 		}
 	}
 }

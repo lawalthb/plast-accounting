@@ -1,17 +1,17 @@
 <?php 
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Product_CategoriesAddRequest;
-use App\Http\Requests\Product_CategoriesEditRequest;
-use App\Models\Product_Categories;
+use App\Http\Requests\ReportsAddRequest;
+use App\Http\Requests\ReportsEditRequest;
+use App\Models\Reports;
 use Illuminate\Http\Request;
 use \PDF;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\ProductCategoriesListExport;
+use App\Exports\ReportsListExport;
+use App\Exports\ReportsViewExport;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 use Exception;
-class Product_CategoriesController extends Controller
+class ReportsController extends Controller
 {
 	
 
@@ -23,29 +23,24 @@ class Product_CategoriesController extends Controller
      * @return \Illuminate\View\View
      */
 	function index(Request $request, $fieldname = null , $fieldvalue = null){
-		$view = "pages.product_categories.list";
-		$query = Product_Categories::query();
+		$view = "pages.reports.list";
+		$query = Reports::query();
 		$limit = $request->limit ?? 20;
 		if($request->search){
 			$search = trim($request->search);
-			Product_Categories::search($query, $search); // search table records
+			Reports::search($query, $search); // search table records
 		}
-		$query->join("users", "product_categories.user_id", "=", "users.id");
-		$orderby = $request->orderby ?? "product_categories.id";
+		$orderby = $request->orderby ?? "reports.id";
 		$ordertype = $request->ordertype ?? "desc";
 		$query->orderBy($orderby, $ordertype);
 		if($fieldname){
 			$query->where($fieldname , $fieldvalue); //filter by a table field
 		}
-		if($request->product_categories_id){
-			$val = $request->product_categories_id;
-			$query->where(DB::raw("product_categories.id"), "=", $val);
-		}
 		// if request format is for export example:- product/index?export=pdf
 		if($this->getExportFormat()){
 			return $this->ExportList($query); // export current query
 		}
-		$records = $query->paginate($limit, Product_Categories::listFields());
+		$records = $query->paginate($limit, Reports::listFields());
 		return $this->renderView($view, compact("records"));
 	}
 	
@@ -72,7 +67,7 @@ class Product_CategoriesController extends Controller
 		);
 		$filePath = $request->file('file')->getRealPath();
 		$modeldata = parse_csv_file($filePath, $csvOptions);
-		Product_Categories::insert($modeldata);
+		Reports::insert($modeldata);
 		return $this->redirect(url()->previous(), __('dataImportedSuccessfully'));
 	}
 	
@@ -83,19 +78,13 @@ class Product_CategoriesController extends Controller
      * @return \Illuminate\View\View
      */
 	function view($rec_id = null){
-		$query = Product_Categories::query();
-		$record = $query->findOrFail($rec_id, Product_Categories::viewFields());
-		return $this->renderView("pages.product_categories.view", ["data" => $record]);
-	}
-	
-
-	/**
-     * Display Master Detail Pages
-	 * @param string $rec_id //master record id
-     * @return \Illuminate\View\View
-     */
-	function masterDetail($rec_id = null){
-		return View("pages.product_categories.detail-pages", ["masterRecordId" => $rec_id]);
+		$query = Reports::query();
+		// if request format is for export example:- product/view/344?export=pdf
+		if($this->getExportFormat()){
+			return $this->ExportView($query, $rec_id);
+		}
+		$record = $query->findOrFail($rec_id, Reports::viewFields());
+		return $this->renderView("pages.reports.view", ["data" => $record]);
 	}
 	
 
@@ -104,7 +93,7 @@ class Product_CategoriesController extends Controller
      * @return \Illuminate\View\View
      */
 	function add(){
-		return $this->renderView("pages.product_categories.add");
+		return $this->renderView("pages.reports.add");
 	}
 	
 
@@ -112,15 +101,13 @@ class Product_CategoriesController extends Controller
      * Save form record to the table
      * @return \Illuminate\Http\Response
      */
-	function store(Product_CategoriesAddRequest $request){
+	function store(ReportsAddRequest $request){
 		$modeldata = $this->normalizeFormData($request->validated());
-		$modeldata['company_id'] = auth()->user()->company_id;
-		$modeldata['user_id'] = auth()->user()->id;
 		
-		//save Product_Categories record
-		$record = Product_Categories::create($modeldata);
+		//save Reports record
+		$record = Reports::create($modeldata);
 		$rec_id = $record->id;
-		return $this->redirect("product_categories", __('recordAddedSuccessfully'));
+		return $this->redirect("reports", __('recordAddedSuccessfully'));
 	}
 	
 
@@ -129,15 +116,15 @@ class Product_CategoriesController extends Controller
 	 * @param string $rec_id //select record by table primary key
      * @return \Illuminate\View\View;
      */
-	function edit(Product_CategoriesEditRequest $request, $rec_id = null){
-		$query = Product_Categories::query();
-		$record = $query->findOrFail($rec_id, Product_Categories::editFields());
+	function edit(ReportsEditRequest $request, $rec_id = null){
+		$query = Reports::query();
+		$record = $query->findOrFail($rec_id, Reports::editFields());
 		if ($request->isMethod('post')) {
 			$modeldata = $this->normalizeFormData($request->validated());
 			$record->update($modeldata);
-			return $this->redirect("product_categories", __('recordUpdatedSuccessfully'));
+			return $this->redirect("reports", __('recordUpdatedSuccessfully'));
 		}
-		return $this->renderView("pages.product_categories.edit", ["data" => $record, "rec_id" => $rec_id]);
+		return $this->renderView("pages.reports.edit", ["data" => $record, "rec_id" => $rec_id]);
 	}
 	
 
@@ -150,7 +137,7 @@ class Product_CategoriesController extends Controller
      */
 	function delete(Request $request, $rec_id = null){
 		$arr_id = explode(",", $rec_id);
-		$query = Product_Categories::query();
+		$query = Reports::query();
 		$query->whereIn("id", $arr_id);
 		//to raise audit trail delete event, use Eloquent 'get' before delete
 		$query->get()->each(function ($record, $key) {
@@ -158,6 +145,26 @@ class Product_CategoriesController extends Controller
 		});
 		$redirectUrl = $request->redirect ?? url()->previous();
 		return $this->redirect($redirectUrl, __('recordDeletedSuccessfully'));
+	}
+	private function getNextRecordId($rec_id){
+		$query = Reports::query();
+		$query->where('id', '>', $rec_id);
+		$query->orderBy('id', 'asc');
+		$record = $query->first(['id']);
+		if($record){
+			return $record['id'];
+		}
+		return null;
+	}
+	private function getPreviousRecordId($rec_id){
+		$query = Reports::query();
+		$query->where('id', '<', $rec_id);
+		$query->orderBy('id', 'desc');
+		$record = $query->first(['id']);
+		if($record){
+			return $record['id'];
+		}
+		return null;
 	}
 	
 
@@ -169,22 +176,51 @@ class Product_CategoriesController extends Controller
      */
 	private function ExportList($query){
 		ob_end_clean(); // clean any output to allow file download
-		$filename = "ListProduct_CategoriesReport-" . date_now();
+		$filename = "ListReportsReport-" . date_now();
 		$format = $this->getExportFormat();
 		if($format == "print"){
-			$records = $query->get(Product_Categories::exportListFields());
-			return view("reports.product_categories-list", ["records" => $records]);
+			$records = $query->get(Reports::exportListFields());
+			return view("reports.reports-list", ["records" => $records]);
 		}
 		elseif($format == "pdf"){
-			$records = $query->get(Product_Categories::exportListFields());
-			$pdf = PDF::loadView("reports.product_categories-list", ["records" => $records]);
+			$records = $query->get(Reports::exportListFields());
+			$pdf = PDF::loadView("reports.reports-list", ["records" => $records]);
 			return $pdf->download("$filename.pdf");
 		}
 		elseif($format == "csv"){
-			return Excel::download(new ProductCategoriesListExport($query), "$filename.csv", \Maatwebsite\Excel\Excel::CSV);
+			return Excel::download(new ReportsListExport($query), "$filename.csv", \Maatwebsite\Excel\Excel::CSV);
 		}
 		elseif($format == "excel"){
-			return Excel::download(new ProductCategoriesListExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
+			return Excel::download(new ReportsListExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
+		}
+	}
+	
+
+	/**
+     * Export single record to different format
+	 * supported format:- PDF, CSV, EXCEL, HTML
+	 * @param \Illuminate\Database\Eloquent\Model $record
+	 * @param string $rec_id
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+	private function ExportView($query, $rec_id){
+		ob_end_clean();// clean any output to allow file download
+		$filename ="ViewReportsReport-" . date_now();
+		$format = $this->getExportFormat();
+		if($format == "print"){
+			$record = $query->findOrFail($rec_id, Reports::exportViewFields());
+			return view("reports.reports-view", ["record" => $record]);
+		}
+		elseif($format == "pdf"){
+			$record = $query->findOrFail($rec_id, Reports::exportViewFields());
+			$pdf = PDF::loadView("reports.reports-view", ["record" => $record]);
+			return $pdf->download("$filename.pdf");
+		}
+		elseif($format == "csv"){
+			return Excel::download(new ReportsViewExport($query, $rec_id), "$filename.csv", \Maatwebsite\Excel\Excel::CSV);
+		}
+		elseif($format == "excel"){
+			return Excel::download(new ReportsViewExport($query, $rec_id), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
 		}
 	}
 }

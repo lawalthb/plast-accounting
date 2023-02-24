@@ -2,10 +2,8 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use OwenIt\Auditing\Contracts\Auditable;
-class Locations extends Model implements Auditable
+class Reports extends Model 
 {
-	use \OwenIt\Auditing\Auditable;
 	
 
 	/**
@@ -13,7 +11,7 @@ class Locations extends Model implements Auditable
      *
      * @var string
      */
-	protected $table = 'locations';
+	protected $table = 'reports';
 	
 
 	/**
@@ -30,11 +28,9 @@ class Locations extends Model implements Auditable
      * @var array
      */
 	protected $fillable = [
-		'name','company_id','created_by','is_active'
+		'name','link','company_id','is_active','no_views','last_view_time'
 	];
-	public $timestamps = true;
-	const CREATED_AT = 'date_created'; 
-	const UPDATED_AT = 'date_updated'; 
+	public $timestamps = false;
 	
 
 	/**
@@ -45,10 +41,11 @@ class Locations extends Model implements Auditable
 	public static function search($query, $text){
 		//search table record 
 		$search_condition = '(
-				locations.name LIKE ? 
+				name LIKE ?  OR 
+				link LIKE ? 
 		)';
 		$search_params = [
-			"%$text%"
+			"%$text%","%$text%"
 		];
 		//setting search conditions
 		$query->whereRaw($search_condition, $search_params);
@@ -62,15 +59,13 @@ class Locations extends Model implements Auditable
      */
 	public static function listFields(){
 		return [ 
-			"locations.id AS id",
-			"locations.name AS name",
-			"locations.company_id AS company_id",
-			"companies.name AS companies_name",
-			"locations.created_by AS created_by",
-			"users.username AS users_username",
-			"locations.is_active AS is_active",
-			"locations.date_created AS date_created",
-			"locations.date_updated AS date_updated" 
+			"id",
+			"name",
+			"link",
+			"company_id",
+			"is_active",
+			"no_views",
+			"last_view_time" 
 		];
 	}
 	
@@ -82,15 +77,13 @@ class Locations extends Model implements Auditable
      */
 	public static function exportListFields(){
 		return [ 
-			"locations.id AS id",
-			"locations.name AS name",
-			"locations.company_id AS company_id",
-			"companies.name AS companies_name",
-			"locations.created_by AS created_by",
-			"users.username AS users_username",
-			"locations.is_active AS is_active",
-			"locations.date_created AS date_created",
-			"locations.date_updated AS date_updated" 
+			"id",
+			"name",
+			"link",
+			"company_id",
+			"is_active",
+			"no_views",
+			"last_view_time" 
 		];
 	}
 	
@@ -104,11 +97,11 @@ class Locations extends Model implements Auditable
 		return [ 
 			"id",
 			"name",
+			"link",
 			"company_id",
-			"created_by",
 			"is_active",
-			"date_created",
-			"date_updated" 
+			"no_views",
+			"last_view_time" 
 		];
 	}
 	
@@ -122,11 +115,11 @@ class Locations extends Model implements Auditable
 		return [ 
 			"id",
 			"name",
+			"link",
 			"company_id",
-			"created_by",
 			"is_active",
-			"date_created",
-			"date_updated" 
+			"no_views",
+			"last_view_time" 
 		];
 	}
 	
@@ -138,21 +131,13 @@ class Locations extends Model implements Auditable
      */
 	public static function editFields(){
 		return [ 
+			"id",
 			"name",
+			"link",
 			"company_id",
-			"created_by",
 			"is_active",
-			"id" 
+			"no_views",
+			"last_view_time" 
 		];
 	}
-	
-
-	/**
-     * Audit log events
-     * 
-     * @var array
-     */
-	protected $auditEvents = [
-		'created', 'updated', 'deleted'
-	];
 }

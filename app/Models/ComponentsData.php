@@ -13,21 +13,6 @@ class ComponentsData{
 	
 
 	/**
-     * Check if value already exist in Companies table
-	 * @param string $value
-     * @return bool
-     */
-	function companies_name_value_exist(Request $request){
-		$value = trim($request->value);
-		$exist = DB::table('companies')->where('name', $value)->value('name');   
-		if($exist){
-			return true;
-		}
-		return false;
-	}
-	
-
-	/**
      * document_code_option_list Model Action
      * @return array
      */
@@ -152,6 +137,18 @@ $query_params['comp'] = auth()->user()->company_id;
 	
 
 	/**
+     * updated_by_option_list Model Action
+     * @return array
+     */
+	function updated_by_option_list(){
+		$sqltext = "SELECT id as value, firstname as label FROM users";
+		$query_params = [];
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
      * role_id_option_list Model Action
      * @return array
      */
@@ -205,18 +202,6 @@ $query_params['comp'] = auth()->user()->company_id;
      */
 	function document_type_option_list(){
 		$sqltext = "SELECT id as value, id as label FROM main_documents";
-		$query_params = [];
-		$arr = DB::select(DB::raw($sqltext), $query_params);
-		return $arr;
-	}
-	
-
-	/**
-     * user_id_option_list Model Action
-     * @return array
-     */
-	function user_id_option_list(){
-		$sqltext = "SELECT id as value, firstname as label FROM users";
 		$query_params = [];
 		$arr = DB::select(DB::raw($sqltext), $query_params);
 		return $arr;
@@ -369,9 +354,8 @@ $query_params['comp'] = auth()->user()->company_id;
      * @return array
      */
 	function transactions_id_option_list_2(){
-		$sqltext = "SELECT  DISTINCT id AS value,name AS label FROM document_types where company_id=:comp ORDER BY name ASC";
+		$sqltext = "SELECT  DISTINCT id AS value,name AS label FROM document_types ORDER BY name ASC";
 		$query_params = [];
-		$query_params['comp'] = auth()->user()->company_id;
 		$arr = DB::select(DB::raw($sqltext), $query_params);
 		return $arr;
 	}

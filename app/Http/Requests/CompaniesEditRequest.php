@@ -23,19 +23,17 @@ class CompaniesEditRequest extends FormRequest
     public function rules()
     {
 		
-		$rec_id = request()->route('rec_id');
-
         return [
             
-				"name" => "filled|string|min:4|unique:companies,name,$rec_id,id",
+				"name" => "filled|string",
 				"slogan" => "nullable|string",
 				"address" => "nullable",
-				"logo" => "nullable",
-				"favicon" => "nullable",
-				"com_email" => "nullable|email",
+				"logo" => "nullable|string",
 				"website" => "nullable|string",
+				"favicon" => "nullable|string",
+				"com_email" => "nullable|email",
 				"com_phone" => "nullable|string",
-				"signature" => "nullable",
+				"signature" => "nullable|string",
             
         ];
     }

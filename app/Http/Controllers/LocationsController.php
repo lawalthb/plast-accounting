@@ -115,35 +115,4 @@ class LocationsController extends Controller
 		$redirectUrl = $request->redirect ?? url()->previous();
 		return $this->redirect($redirectUrl, __('recordDeletedSuccessfully'));
 	}
-	
-
-	/**
-     * List table records
-	 * @param  \Illuminate\Http\Request
-     * @param string $fieldname //filter records by a table field
-     * @param string $fieldvalue //filter value
-     * @return \Illuminate\View\View
-     */
-	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
-		$view = "pages.locations.adminlist";
-		$query = Locations::query();
-		$limit = $request->limit ?? 20;
-		if($request->search){
-			$search = trim($request->search);
-			Locations::search($query, $search); // search table records
-		}
-		$orderby = $request->orderby ?? "locations.id";
-		$ordertype = $request->ordertype ?? "desc";
-		$query->orderBy($orderby, $ordertype);
-		$query->where("company_id", "=" , auth()->user()->company_id);
-		if($fieldname){
-			$query->where($fieldname , $fieldvalue); //filter by a table field
-		}
-		if($request->locations_is_active){
-			$val = $request->locations_is_active;
-			$query->where(DB::raw("locations.is_active"), "=", $val);
-		}
-		$records = $query->paginate($limit, Locations::adminlistFields());
-		return $this->renderView($view, compact("records"));
-	}
 }

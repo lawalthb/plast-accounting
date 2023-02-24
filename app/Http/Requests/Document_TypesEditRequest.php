@@ -34,6 +34,7 @@ class Document_TypesEditRequest extends FormRequest
 				"print_onsave" => "filled",
 				"desc_each_line" => "filled",
 				"document_code" => "filled",
+				"created_by" => "filled|numeric",
             
         ];
     }

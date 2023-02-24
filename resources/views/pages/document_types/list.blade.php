@@ -146,6 +146,9 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         <th class="td-prefix_char <?php echo (get_value('orderby') == 'prefix_char' ? 'sortedby' : null); ?>" >
                                         <?php Html :: get_field_order_link('prefix_char', __('prefixChar'), ''); ?>
                                         </th>
+                                        <th class="td-created_by <?php echo (get_value('orderby') == 'created_by' ? 'sortedby' : null); ?>" >
+                                        <?php Html :: get_field_order_link('created_by', __('createdBy'), ''); ?>
+                                        </th>
                                         <th class="td-btn"></th>
                                     </tr>
                                 </thead>
@@ -206,6 +209,9 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                     </td>
                                     <td class="td-prefix_char">
                                         <?php echo  $data['prefix_char'] ; ?>
+                                    </td>
+                                    <td class="td-created_by">
+                                        <?php echo  $data['created_by'] ; ?>
                                     </td>
                                     <!--PageComponentEnd-->
                                     <td class="td-btn">

@@ -44,25 +44,16 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                         <!--[form-content-start]-->
                         @csrf
                         <div>
-                            <div class="row">
-                                <div class="form-group col-sm-6">
-                                    <label class="control-label" for="firstname">{{ __('firstname') }} </label>
-                                    <div id="ctrl-firstname-holder" class=" "> 
-                                        <input id="ctrl-firstname" data-field="firstname"  value="<?php  echo $data['firstname']; ?>" type="text" placeholder="{{ __('enterFirstname') }}"  name="firstname"  class="form-control " />
-                                    </div>
+                            <div class="form-group ">
+                                <label class="control-label" for="firstname">{{ __('firstname') }} </label>
+                                <div id="ctrl-firstname-holder" class=" "> 
+                                    <input id="ctrl-firstname" data-field="firstname"  value="<?php  echo $data['firstname']; ?>" type="text" placeholder="{{ __('enterFirstname') }}"  name="firstname"  class="form-control " />
                                 </div>
-                                <div class="form-group col-sm-6">
-                                    <label class="control-label" for="lastname">{{ __('lastname') }} <span class="text-danger">*</span></label>
-                                    <div id="ctrl-lastname-holder" class=" "> 
-                                        <input id="ctrl-lastname" data-field="lastname"  value="<?php  echo $data['lastname']; ?>" type="text" placeholder="{{ __('enterLastname') }}"  required="" name="lastname"  class="form-control " />
-                                    </div>
-                                </div>
-                                <div class="form-group col-sm-6">
-                                    <label class="control-label" for="username">{{ __('username') }} <span class="text-danger">*</span></label>
-                                    <div id="ctrl-username-holder" class=" "> 
-                                        <input id="ctrl-username" data-field="username"  value="<?php  echo $data['username']; ?>" type="text" placeholder="{{ __('enterUsername') }}"  required="" name="username"  data-url="componentsdata/users_username_value_exist/" data-loading-msg="{{ __('checkingAvailability') }}" data-available-msg="{{ __('available') }}" data-unavailable-msg="{{ __('notAvailable') }}" class="form-control  ctrl-check-duplicate" />
-                                        <div class="check-status"></div> 
-                                    </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label" for="lastname">{{ __('lastname') }} <span class="text-danger">*</span></label>
+                                <div id="ctrl-lastname-holder" class=" "> 
+                                    <input id="ctrl-lastname" data-field="lastname"  value="<?php  echo $data['lastname']; ?>" type="text" placeholder="{{ __('enterLastname') }}"  required="" name="lastname"  class="form-control " />
                                 </div>
                             </div>
                             <div class="form-group ">
@@ -71,24 +62,22 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                     <input id="ctrl-role_id" data-field="role_id"  value="<?php  echo $data['role_id']; ?>" type="number" placeholder="{{ __('enterRoleId') }}" step="any"  name="role_id"  class="form-control " />
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-sm-6">
-                                    <label class="control-label" for="phone">{{ __('phone') }} </label>
-                                    <div id="ctrl-phone-holder" class=" "> 
-                                        <input id="ctrl-phone" data-field="phone"  value="<?php  echo $data['phone']; ?>" type="text" placeholder="{{ __('enterPhone') }}"  name="phone"  class="form-control " />
+                            <div class="form-group ">
+                                <label class="control-label" for="phone">{{ __('phone') }} </label>
+                                <div id="ctrl-phone-holder" class=" "> 
+                                    <input id="ctrl-phone" data-field="phone"  value="<?php  echo $data['phone']; ?>" type="text" placeholder="{{ __('enterPhone') }}"  name="phone"  class="form-control " />
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label" for="photo">{{ __('photo') }} </label>
+                                <div id="ctrl-photo-holder" class=" "> 
+                                    <div class="dropzone " input="#ctrl-photo" fieldname="photo" uploadurl="{{ url('fileuploader/upload/photo') }}"    data-multiple="false" dropmsg="{{ __('chooseFilesOrDropFilesHere') }}"    btntext="{{ __('browse') }}" extensions=".jpg,.png,.gif,.jpeg" filesize="3" maximum="1">
+                                        <input name="photo" id="ctrl-photo" data-field="photo" class="dropzone-input form-control" value="<?php  echo $data['photo']; ?>" type="text"  />
+                                        <!--<div class="invalid-feedback animated bounceIn text-center">{{ __('pleaseAChooseFile') }}</div>-->
+                                        <div class="dz-file-limit animated bounceIn text-center text-danger"></div>
                                     </div>
                                 </div>
-                                <div class="form-group col-sm-6">
-                                    <label class="control-label" for="photo">{{ __('photo') }} </label>
-                                    <div id="ctrl-photo-holder" class=" "> 
-                                        <div class="dropzone " input="#ctrl-photo" fieldname="photo" uploadurl="{{ url('fileuploader/upload/photo') }}"    data-multiple="false" dropmsg="{{ __('chooseFilesOrDropFilesHere') }}"    btntext="{{ __('browse') }}" extensions=".jpg,.png,.gif,.jpeg" filesize="1" maximum="1">
-                                            <input name="photo" id="ctrl-photo" data-field="photo" class="dropzone-input form-control" value="<?php  echo $data['photo']; ?>" type="text"  />
-                                            <!--<div class="invalid-feedback animated bounceIn text-center">{{ __('pleaseAChooseFile') }}</div>-->
-                                            <div class="dz-file-limit animated bounceIn text-center text-danger"></div>
-                                        </div>
-                                    </div>
-                                    <?php Html :: uploaded_files_list($data['photo'], '#ctrl-photo'); ?>
-                                </div>
+                                <?php Html :: uploaded_files_list($data['photo'], '#ctrl-photo'); ?>
                             </div>
                             <div class="form-group ">
                                 <label class="control-label" for="user_type">{{ __('userType') }} </label>
@@ -102,19 +91,55 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                     <input id="ctrl-is_active" data-field="is_active"  value="<?php  echo $data['is_active']; ?>" type="text" placeholder="{{ __('enterIsActive') }}"  name="is_active"  class="form-control " />
                                 </div>
                             </div>
-                            <input id="ctrl-user_role_id" data-field="user_role_id"  value="<?php  echo $data['user_role_id']; ?>" type="hidden" placeholder="{{ __('enterUserRole') }}" list="user_role_id_list"  required="" name="user_role_id"  class="form-control " />
-                            <datalist id="user_role_id_list">
-                            <?php
-                                $options = $comp_model->role_id_option_list() ?? [];
-                                foreach($options as $option){
-                                $value = $option->value;
-                                $label = $option->label ?? $value;
-                            ?>
-                            <option value="<?php echo $value; ?>"><?php echo $label; ?></option>
-                            <?php
-                                }
-                            ?>
-                            </datalist>
+                            <div class="form-group ">
+                                <label class="control-label" for="company_id">{{ __('companyId') }} </label>
+                                <div id="ctrl-company_id-holder" class=" "> 
+                                    <select  id="ctrl-company_id" data-field="company_id" name="company_id"  placeholder="{{ __('selectAValue') }}"    class="form-select" >
+                                    <option value="">{{ __('selectAValue') }}</option>
+                                    <?php
+                                        $options = $comp_model->company_id_option_list() ?? [];
+                                        foreach($options as $option){
+                                        $value = $option->value;
+                                        $label = $option->label ?? $value;
+                                        $selected = ( $value == $data['company_id'] ? 'selected' : null );
+                                    ?>
+                                    <option <?php echo $selected; ?> value="<?php echo $value; ?>">
+                                    <?php echo $label; ?>
+                                    </option>
+                                    <?php
+                                        }
+                                    ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label" for="username">{{ __('username') }} <span class="text-danger">*</span></label>
+                                <div id="ctrl-username-holder" class=" "> 
+                                    <input id="ctrl-username" data-field="username"  value="<?php  echo $data['username']; ?>" type="text" placeholder="{{ __('enterUsername') }}"  required="" name="username"  data-url="componentsdata/users_username_value_exist/" data-loading-msg="{{ __('checkingAvailability') }}" data-available-msg="{{ __('available') }}" data-unavailable-msg="{{ __('notAvailable') }}" class="form-control  ctrl-check-duplicate" />
+                                    <div class="check-status"></div> 
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label" for="user_role_id">{{ __('userRole') }} <span class="text-danger">*</span></label>
+                                <div id="ctrl-user_role_id-holder" class=" "> 
+                                    <select required=""  id="ctrl-user_role_id" data-field="user_role_id" name="user_role_id"  placeholder="{{ __('selectAValue') }}"    class="form-select" >
+                                    <option value="">{{ __('selectAValue') }}</option>
+                                    <?php
+                                        $options = $comp_model->role_id_option_list() ?? [];
+                                        foreach($options as $option){
+                                        $value = $option->value;
+                                        $label = $option->label ?? $value;
+                                        $selected = ( $value == $data['user_role_id'] ? 'selected' : null );
+                                    ?>
+                                    <option <?php echo $selected; ?> value="<?php echo $value; ?>">
+                                    <?php echo $label; ?>
+                                    </option>
+                                    <?php
+                                        }
+                                    ?>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-ajax-status"></div>
                         <!--[form-content-end]-->

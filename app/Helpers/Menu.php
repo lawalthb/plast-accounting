@@ -19,17 +19,11 @@
 		[
 			'path' => 'transactions/adminlist',
 			'label' => __('transactions'), 
-			'icon' => '<i class="material-icons ">description</i>'
+			'icon' => '<i class="material-icons">extension</i>'
 		],
 		
 		[
 			'path' => 'ledgers',
-			'label' => __('ledgers'), 
-			'icon' => '<i class="material-icons ">local_library</i>'
-		],
-		
-		[
-			'path' => 'ledgers/adminlist',
 			'label' => __('ledgers'), 
 			'icon' => '<i class="material-icons ">local_library</i>'
 		],
@@ -41,19 +35,7 @@
 		],
 		
 		[
-			'path' => 'products/adminlist',
-			'label' => __('products'), 
-			'icon' => '<i class="material-icons ">settings_input_composite</i>'
-		],
-		
-		[
 			'path' => 'product_categories',
-			'label' => __('productCategories'), 
-			'icon' => '<i class="material-icons ">settings_input_hdmi</i>'
-		],
-		
-		[
-			'path' => 'product_categories/adminlist',
 			'label' => __('productCategories'), 
 			'icon' => '<i class="material-icons ">settings_input_hdmi</i>'
 		],
@@ -65,19 +47,7 @@
 		],
 		
 		[
-			'path' => 'units/adminlist',
-			'label' => __('units'), 
-			'icon' => '<i class="material-icons ">art_track</i>'
-		],
-		
-		[
 			'path' => 'locations',
-			'label' => __('locations'), 
-			'icon' => '<i class="material-icons ">home</i>'
-		],
-		
-		[
-			'path' => 'locations/adminlist',
 			'label' => __('locations'), 
 			'icon' => '<i class="material-icons ">home</i>'
 		],
@@ -89,31 +59,7 @@
 		],
 		
 		[
-			'path' => 'marketers/adminlist',
-			'label' => __('marketers'), 
-			'icon' => '<i class="material-icons ">group_add</i>'
-		],
-		
-		[
-			'path' => 'document_types/adminlist',
-			'label' => __('documentTypes'), 
-			'icon' => '<i class="material-icons ">library_books</i>'
-		],
-		
-		[
-			'path' => 'document_types',
-			'label' => __('documentTypes'), 
-			'icon' => '<i class="material-icons ">library_books</i>'
-		],
-		
-		[
 			'path' => 'git_insurance',
-			'label' => __('gitInsurance'), 
-			'icon' => '<i class="material-icons ">drive_eta</i>'
-		],
-		
-		[
-			'path' => 'git_insurance/adminlist',
 			'label' => __('gitInsurance'), 
 			'icon' => '<i class="material-icons ">drive_eta</i>'
 		],
@@ -125,6 +71,12 @@
 		],
 		
 		[
+			'path' => 'document_types',
+			'label' => __('documentTypes'), 
+			'icon' => '<i class="material-icons ">library_books</i>'
+		],
+		
+		[
 			'path' => 'stocks',
 			'label' => __('stocks'), 
 			'icon' => '<i class="material-icons ">add_shopping_cart</i>'
@@ -132,12 +84,6 @@
 		
 		[
 			'path' => 'roles',
-			'label' => __('roles'), 
-			'icon' => '<i class="material-icons ">person_pin</i>'
-		],
-		
-		[
-			'path' => 'roles/adminlist',
 			'label' => __('roles'), 
 			'icon' => '<i class="material-icons ">person_pin</i>'
 		],
@@ -155,27 +101,9 @@
 		],
 		
 		[
-			'path' => 'companies/adminlist',
-			'label' => __('myCompany'), 
-			'icon' => '<i class="material-icons ">contacts</i>'
-		],
-		
-		[
 			'path' => 'options',
 			'label' => __('options'), 
 			'icon' => '<i class="material-icons ">tune</i>'
-		],
-		
-		[
-			'path' => 'options/adminlist',
-			'label' => __('options'), 
-			'icon' => '<i class="material-icons ">tune</i>'
-		],
-		
-		[
-			'path' => 'sub_account_group/adminlist',
-			'label' => __('accountGroup'), 
-			'icon' => '<i class="material-icons ">view_comfy</i>'
 		],
 		
 		[
@@ -185,15 +113,27 @@
 		],
 		
 		[
-			'path' => 'audits',
-			'label' => __('audits'), 
-			'icon' => '<i class="material-icons ">av_timer</i>'
-		],
-		
-		[
 			'path' => 'auth/logout',
 			'label' => __('logOut'), 
 			'icon' => '<i class="material-icons ">subdirectory_arrow_left</i>'
+		],
+		
+		[
+			'path' => 'ledgers/adminlist',
+			'label' => __('adminlist'), 
+			'icon' => '<i class="material-icons">extension</i>'
+		],
+		
+		[
+			'path' => 'audits',
+			'label' => __('audits'), 
+			'icon' => '<i class="material-icons">extension</i>'
+		],
+		
+		[
+			'path' => 'reports',
+			'label' => __('reports'), 
+			'icon' => '<i class="material-icons">extension</i>'
 		]
 	] ;
 	}
@@ -207,9 +147,9 @@
 		],
 		
 		[
-			'path' => 'sub_account_group/adminlist',
+			'path' => 'transactions/adminlist',
 			'label' => __('transactions'), 
-			'icon' => '<i class="material-icons ">description</i>'
+			'icon' => '<i class="material-icons">extension</i>'
 		]
 	] ;
 	}
