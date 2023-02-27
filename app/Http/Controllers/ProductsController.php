@@ -36,9 +36,21 @@ class ProductsController extends Controller
 		if($fieldname){
 			$query->where($fieldname , $fieldvalue); //filter by a table field
 		}
+		if($request->products_company_id){
+			$val = $request->products_company_id;
+			$query->where(DB::raw("products.company_id"), "=", $val);
+		}
 		if($request->products_category){
 			$val = $request->products_category;
 			$query->where(DB::raw("products.category"), "=", $val);
+		}
+		if($request->products_dead_stock){
+			$val = $request->products_dead_stock;
+			$query->where(DB::raw("products.dead_stock"), "=", $val);
+		}
+		if($request->products_is_active){
+			$val = $request->products_is_active;
+			$query->where(DB::raw("products.is_active"), "=", $val);
 		}
 		$records = $query->paginate($limit, Products::listFields());
 		return $this->renderView($view, compact("records"));
@@ -52,6 +64,10 @@ class ProductsController extends Controller
      */
 	function view($rec_id = null){
 		$query = Products::query();
+		$query->join("companies", "products.company_id", "=", "companies.id");
+		$query->join("product_categories", "products.category", "=", "product_categories.id");
+		$query->join("users", "products.user_id", "=", "users.id");
+		$query->join("units", "products.unit", "=", "units.id");
 		$record = $query->findOrFail($rec_id, Products::viewFields());
 		return $this->renderView("pages.products.view", ["data" => $record]);
 	}
@@ -84,7 +100,7 @@ class ProductsController extends Controller
 		//save Products record
 		$record = Products::create($modeldata);
 		$rec_id = $record->id;
-		return $this->redirect("products", __('recordAddedSuccessfully'));
+		return $this->redirect("products/adminlist", __('recordAddedSuccessfully'));
 	}
 	
 
@@ -105,7 +121,7 @@ class ProductsController extends Controller
 			$modeldata['image'] = $fileInfo['filepath'];
 		}
 			$record->update($modeldata);
-			return $this->redirect("products", __('recordUpdatedSuccessfully'));
+			return $this->redirect("products/adminlist", __('recordUpdatedSuccessfully'));
 		}
 		return $this->renderView("pages.products.edit", ["data" => $record, "rec_id" => $rec_id]);
 	}
@@ -158,5 +174,60 @@ class ProductsController extends Controller
 		}
 		$records = $query->paginate($limit, Products::superdashboardlistFields());
 		return $this->renderView($view, compact("records"));
+	}
+	
+
+	/**
+     * List table records
+	 * @param  \Illuminate\Http\Request
+     * @param string $fieldname //filter records by a table field
+     * @param string $fieldvalue //filter value
+     * @return \Illuminate\View\View
+     */
+	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
+		$view = "pages.products.adminlist";
+		$query = Products::query();
+		$limit = $request->limit ?? 20;
+		if($request->search){
+			$search = trim($request->search);
+			Products::search($query, $search); // search table records
+		}
+		$orderby = $request->orderby ?? "products.id";
+		$ordertype = $request->ordertype ?? "desc";
+		$query->orderBy($orderby, $ordertype);
+		$query->where("company_id", "=" , auth()->user()->company_id);
+		if($fieldname){
+			$query->where($fieldname , $fieldvalue); //filter by a table field
+		}
+		if($request->products_category){
+			$val = $request->products_category;
+			$query->where(DB::raw("products.category"), "=", $val);
+		}
+		if($request->products_dead_stock){
+			$val = $request->products_dead_stock;
+			$query->where(DB::raw("products.dead_stock"), "=", $val);
+		}
+		if($request->products_is_active){
+			$val = $request->products_is_active;
+			$query->where(DB::raw("products.is_active"), "=", $val);
+		}
+		$records = $query->paginate($limit, Products::adminlistFields());
+		return $this->renderView($view, compact("records"));
+	}
+	
+
+	/**
+     * Select table record by ID
+	 * @param string $rec_id
+     * @return \Illuminate\View\View
+     */
+	function adminview($rec_id = null){
+		$query = Products::query();
+		$query->join("companies", "products.company_id", "=", "companies.id");
+		$query->join("product_categories", "products.category", "=", "product_categories.id");
+		$query->join("users", "products.user_id", "=", "users.id");
+		$query->join("units", "products.unit", "=", "units.id");
+		$record = $query->findOrFail($rec_id, Products::adminviewFields());
+		return $this->renderView("pages.products.adminview", ["data" => $record]);
 	}
 }

@@ -27,16 +27,16 @@ class UsersEditRequest extends FormRequest
 
         return [
             
-				"firstname" => "nullable|string",
+				"firstname" => "filled|string",
 				"lastname" => "filled|string",
-				"role_id" => "nullable|numeric",
+				"email" => "filled|email|unique:users,email,$rec_id,id",
+				"username" => "filled|string|unique:users,username,$rec_id,id",
 				"phone" => "nullable|string",
 				"photo" => "nullable",
-				"user_type" => "nullable|string",
-				"is_active" => "nullable|string",
 				"company_id" => "nullable",
-				"username" => "filled|string|unique:users,username,$rec_id,id",
 				"user_role_id" => "filled",
+				"is_active" => "nullable",
+				"user_type" => "nullable|string",
             
         ];
     }

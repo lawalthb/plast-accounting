@@ -198,12 +198,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group ">
-                                    <label class="control-label" for="created_by">{{ __('createdBy') }} <span class="text-danger">*</span></label>
-                                    <div id="ctrl-created_by-holder" class=" "> 
-                                        <input id="ctrl-created_by" data-field="created_by"  value="<?php echo get_value('created_by') ?>" type="number" placeholder="{{ __('enterCreatedBy') }}" step="any"  required="" name="created_by"  class="form-control " />
-                                    </div>
-                                </div>
+                                <input id="ctrl-created_by" data-field="created_by"  value="<?php echo get_value('created_by', auth()->user()->id) ?>" type="hidden" placeholder="{{ __('enterCreatedBy') }}"  required="" name="created_by"  class="form-control " />
                             </div>
                             <div class="form-ajax-status"></div>
                             <!--[form-button-start]-->

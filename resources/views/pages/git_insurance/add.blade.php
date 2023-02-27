@@ -53,7 +53,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                     <div class="form-group col-md-6">
                                         <label class="control-label" for="reg_date">{{ __('regDate') }} <span class="text-danger">*</span></label>
                                         <div id="ctrl-reg_date-holder" class="input-group "> 
-                                            <input id="ctrl-reg_date" data-field="reg_date" class="form-control datepicker  datepicker"  required="" value="<?php echo get_value('reg_date') ?>" type="datetime" name="reg_date" placeholder="{{ __('enterRegDate') }}" data-enable-time="false" data-min-date="" data-max-date="" data-date-format="Y-m-d" data-alt-format="F j, Y" data-inline="false" data-no-calendar="false" data-mode="single" />
+                                            <input id="ctrl-reg_date" data-field="reg_date" class="form-control datepicker  datepicker"  required="" value="<?php echo get_value('reg_date', date('Y-m-d')) ?>" type="datetime" name="reg_date" placeholder="{{ __('enterRegDate') }}" data-enable-time="false" data-min-date="" data-max-date="" data-date-format="Y-m-d" data-alt-format="F j, Y" data-inline="false" data-no-calendar="false" data-mode="single" />
                                             <span class="input-group-text"><i class="material-icons">date_range</i></span>
                                         </div>
                                     </div>

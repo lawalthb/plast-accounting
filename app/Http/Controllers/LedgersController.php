@@ -138,7 +138,7 @@ class LedgersController extends Controller
 		if ($request->isMethod('post')) {
 			$modeldata = $this->normalizeFormData($request->validated());
 			$record->update($modeldata);
-			return $this->redirect("ledgers", __('recordUpdatedSuccessfully'));
+			return $this->redirect("ledgers/adminlist", __('recordUpdatedSuccessfully'));
 		}
 		return $this->renderView("pages.ledgers.edit", ["data" => $record, "rec_id" => $rec_id]);
 	}
@@ -185,7 +185,7 @@ class LedgersController extends Controller
 		//save Ledgers record
 		$record = Ledgers::create($modeldata);
 		$rec_id = $record->id;
-		return $this->redirect("ledgers", __('recordAddedSuccessfully'));
+		return $this->redirect("ledgers/adminlist", __('recordAddedSuccessfully'));
 	}
 	
 
@@ -210,7 +210,7 @@ class LedgersController extends Controller
 		//save Ledgers record
 		$record = Ledgers::create($modeldata);
 		$rec_id = $record->id;
-		return $this->redirect("ledgers", __('recordAddedSuccessfully'));
+		return $this->redirect("ledgers/adminlist", __('recordAddedSuccessfully'));
 	}
 	
 
@@ -235,7 +235,7 @@ class LedgersController extends Controller
 		//save Ledgers record
 		$record = Ledgers::create($modeldata);
 		$rec_id = $record->id;
-		return $this->redirect("ledgers", __('recordAddedSuccessfully'));
+		return $this->redirect("ledgers/adminlist", __('recordAddedSuccessfully'));
 	}
 	
 

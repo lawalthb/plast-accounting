@@ -130,6 +130,34 @@ class Roles extends Model implements Auditable
 	
 
 	/**
+     * return adminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function adminlistFields(){
+		return [ 
+			"role_id",
+			"role_name",
+			"date_created" 
+		];
+	}
+	
+
+	/**
+     * return exportAdminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function exportAdminlistFields(){
+		return [ 
+			"role_id",
+			"role_name",
+			"date_created" 
+		];
+	}
+	
+
+	/**
      * Audit log events
      * 
      * @var array

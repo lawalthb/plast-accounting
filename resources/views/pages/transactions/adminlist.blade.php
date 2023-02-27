@@ -15,6 +15,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
     $limit = $records->perPage();
     $record_count = count($records);
     $transactions_id_option_list_2 = $comp_model->transactions_id_option_list_2();
+    $transactions_document_type_id_option_list = $comp_model->transactions_document_type_id_option_list();
     $pageTitle = __('transactions'); //set dynamic page title
 ?>
 @extends($layout)
@@ -108,7 +109,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                         <div class="collapse collapse-lg " id="<?php echo $menu_id ?>" >
                         <ul class="nav nav-pills flex-column nav-justified nav-fill">
                             <?php 
-                                $options = $transactions_id_option_list_2 ?? [];
+                                $options = $transactions_document_type_id_option_list ?? [];
                                 foreach($options as $option){
                                 $value = $option->value;
                                 $label = $option->label ?? $value;
@@ -146,7 +147,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
             Html::filter_tag('transactions_id', 'Id', $transactions_id_option_list_2);
         ?>
         <?php
-            Html::filter_tag('transactions_document_type_id', 'Document Type', $transactions_id_option_list_2);
+            Html::filter_tag('transactions_document_type_id', 'Document Type', $transactions_document_type_id_option_list);
         ?>
         <?php
             Html::filter_tag_date('transactions_trans_date', 'Trans Date', 'jS F, Y');

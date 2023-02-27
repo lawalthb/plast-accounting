@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use \PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProductCategoriesListExport;
+use App\Exports\ProductCategoriesAdminlistExport;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -114,13 +115,11 @@ class Product_CategoriesController extends Controller
      */
 	function store(Product_CategoriesAddRequest $request){
 		$modeldata = $this->normalizeFormData($request->validated());
-		$modeldata['company_id'] = auth()->user()->company_id;
-		$modeldata['user_id'] = auth()->user()->id;
 		
 		//save Product_Categories record
 		$record = Product_Categories::create($modeldata);
 		$rec_id = $record->id;
-		return $this->redirect("product_categories", __('recordAddedSuccessfully'));
+		return $this->redirect("product_categories/adminlist", __('recordAddedSuccessfully'));
 	}
 	
 
@@ -162,6 +161,37 @@ class Product_CategoriesController extends Controller
 	
 
 	/**
+     * List table records
+	 * @param  \Illuminate\Http\Request
+     * @param string $fieldname //filter records by a table field
+     * @param string $fieldvalue //filter value
+     * @return \Illuminate\View\View
+     */
+	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
+		$view = "pages.product_categories.adminlist";
+		$query = Product_Categories::query();
+		$limit = $request->limit ?? 20;
+		if($request->search){
+			$search = trim($request->search);
+			Product_Categories::search($query, $search); // search table records
+		}
+		$orderby = $request->orderby ?? "product_categories.id";
+		$ordertype = $request->ordertype ?? "desc";
+		$query->orderBy($orderby, $ordertype);
+		$query->where("company_id", "=" , auth()->user()->company_id);
+		if($fieldname){
+			$query->where($fieldname , $fieldvalue); //filter by a table field
+		}
+		// if request format is for export example:- product/index?export=pdf
+		if($this->getExportFormat()){
+			return $this->ExportAdminlist($query); // export current query
+		}
+		$records = $query->paginate($limit, Product_Categories::adminlistFields());
+		return $this->renderView($view, compact("records"));
+	}
+	
+
+	/**
      * Export table records to different format
 	 * supported format:- PDF, CSV, EXCEL, HTML
 	 * @param \Illuminate\Database\Eloquent\Model $query
@@ -185,6 +215,34 @@ class Product_CategoriesController extends Controller
 		}
 		elseif($format == "excel"){
 			return Excel::download(new ProductCategoriesListExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
+		}
+	}
+	
+
+	/**
+     * Export table records to different format
+	 * supported format:- PDF, CSV, EXCEL, HTML
+	 * @param \Illuminate\Database\Eloquent\Model $query
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+	private function ExportAdminlist($query){
+		ob_end_clean(); // clean any output to allow file download
+		$filename = "AdminlistProduct_CategoriesReport-" . date_now();
+		$format = $this->getExportFormat();
+		if($format == "print"){
+			$records = $query->get(Product_Categories::exportAdminlistFields());
+			return view("reports.product_categories-adminlist", ["records" => $records]);
+		}
+		elseif($format == "pdf"){
+			$records = $query->get(Product_Categories::exportAdminlistFields());
+			$pdf = PDF::loadView("reports.product_categories-adminlist", ["records" => $records]);
+			return $pdf->download("$filename.pdf");
+		}
+		elseif($format == "csv"){
+			return Excel::download(new ProductCategoriesAdminlistExport($query), "$filename.csv", \Maatwebsite\Excel\Excel::CSV);
+		}
+		elseif($format == "excel"){
+			return Excel::download(new ProductCategoriesAdminlistExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
 		}
 	}
 }

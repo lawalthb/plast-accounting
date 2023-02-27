@@ -27,6 +27,9 @@ class HomeController extends Controller{
 		elseif($user->hasRole('user')){
 			return view("pages.home.user");
 		}
+		elseif($user->hasRole('report')){
+			return view("pages.home.report");
+		}
 		else{
 			return view("pages.home.index");
 		}

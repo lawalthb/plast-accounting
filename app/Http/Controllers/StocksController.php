@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use \PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\StocksListExport;
-use Illuminate\Support\Facades\Validator;
 use Exception;
 class StocksController extends Controller
 {
@@ -41,33 +40,6 @@ class StocksController extends Controller
 		}
 		$records = $query->paginate($limit, Stocks::listFields());
 		return $this->renderView($view, compact("records"));
-	}
-	
-
-	/**
-     * Import csv file data into a table 
-     * @return data
-     */
-	function importdata(Request $request){
-		$importSettings = config("upload.import");
-		$maxFileSize = intval($importSettings["max_file_size"]) * 1000; //in kilobyte
-		$validator = Validator::make($request->all(), 
-			[
-				"file" => "file|required|max:$maxFileSize|mimes:csv,txt",
-			]
-		);
-		if ($validator->fails()) {
-			return back()->withErrors($validator->errors());
-		}
-		$csvOptions = array(
-			'fields' => '', //leave empty to use the first row as the columns
-			'delimiter' => ',', 
-			'quote' => '"'
-		);
-		$filePath = $request->file('file')->getRealPath();
-		$modeldata = parse_csv_file($filePath, $csvOptions);
-		Stocks::insert($modeldata);
-		return $this->redirect(url()->previous(), __('dataImportedSuccessfully'));
 	}
 	
 

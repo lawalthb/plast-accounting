@@ -26,7 +26,7 @@ class MarketersEditRequest extends FormRequest
         return [
             
 				"name" => "filled|string|min:3",
-				"is_active" => "filled",
+				"is_active" => "nullable",
             
         ];
     }

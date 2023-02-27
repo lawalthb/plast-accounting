@@ -76,9 +76,7 @@ class Products extends Model implements Auditable
 			"products.user_id AS user_id",
 			"users.username AS users_username",
 			"products.unit AS unit",
-			"units.name AS units_name",
-			"products.date_created AS date_created",
-			"products.date_updated AS date_updated" 
+			"units.name AS units_name" 
 		];
 	}
 	
@@ -104,9 +102,7 @@ class Products extends Model implements Auditable
 			"products.user_id AS user_id",
 			"users.username AS users_username",
 			"products.unit AS unit",
-			"units.name AS units_name",
-			"products.date_created AS date_created",
-			"products.date_updated AS date_updated" 
+			"units.name AS units_name" 
 		];
 	}
 	
@@ -118,22 +114,26 @@ class Products extends Model implements Auditable
      */
 	public static function viewFields(){
 		return [ 
-			"id",
-			"company_id",
-			"name",
-			"category",
-			"image",
-			"mfg_date",
-			"exp_date",
-			"qty",
-			"selling_price",
-			"purchase_price",
-			"dead_stock",
-			"is_active",
-			"user_id",
-			"unit",
-			"date_created",
-			"date_updated" 
+			"products.id AS id",
+			"products.company_id AS company_id",
+			"companies.name AS companies_name",
+			"products.name AS name",
+			"products.category AS category",
+			"product_categories.name AS product_categories_name",
+			"products.image AS image",
+			"products.mfg_date AS mfg_date",
+			"products.exp_date AS exp_date",
+			"products.qty AS qty",
+			"products.selling_price AS selling_price",
+			"products.purchase_price AS purchase_price",
+			"products.dead_stock AS dead_stock",
+			"products.is_active AS is_active",
+			"products.user_id AS user_id",
+			"users.username AS users_username",
+			"products.unit AS unit",
+			"units.name AS units_name",
+			"products.date_created AS date_created",
+			"products.date_updated AS date_updated" 
 		];
 	}
 	
@@ -145,22 +145,26 @@ class Products extends Model implements Auditable
      */
 	public static function exportViewFields(){
 		return [ 
-			"id",
-			"company_id",
-			"name",
-			"category",
-			"image",
-			"mfg_date",
-			"exp_date",
-			"qty",
-			"selling_price",
-			"purchase_price",
-			"dead_stock",
-			"is_active",
-			"user_id",
-			"unit",
-			"date_created",
-			"date_updated" 
+			"products.id AS id",
+			"products.company_id AS company_id",
+			"companies.name AS companies_name",
+			"products.name AS name",
+			"products.category AS category",
+			"product_categories.name AS product_categories_name",
+			"products.image AS image",
+			"products.mfg_date AS mfg_date",
+			"products.exp_date AS exp_date",
+			"products.qty AS qty",
+			"products.selling_price AS selling_price",
+			"products.purchase_price AS purchase_price",
+			"products.dead_stock AS dead_stock",
+			"products.is_active AS is_active",
+			"products.user_id AS user_id",
+			"users.username AS users_username",
+			"products.unit AS unit",
+			"units.name AS units_name",
+			"products.date_created AS date_created",
+			"products.date_updated AS date_updated" 
 		];
 	}
 	
@@ -230,6 +234,106 @@ class Products extends Model implements Auditable
 			"products.company_id AS company_id",
 			"companies.name AS companies_name",
 			"units.name AS units_name" 
+		];
+	}
+	
+
+	/**
+     * return adminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function adminlistFields(){
+		return [ 
+			"id",
+			"name",
+			"category",
+			"qty",
+			"selling_price",
+			"purchase_price",
+			"user_id",
+			"unit" 
+		];
+	}
+	
+
+	/**
+     * return exportAdminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function exportAdminlistFields(){
+		return [ 
+			"id",
+			"name",
+			"category",
+			"qty",
+			"selling_price",
+			"purchase_price",
+			"user_id",
+			"unit" 
+		];
+	}
+	
+
+	/**
+     * return adminview page fields of the model.
+     * 
+     * @return array
+     */
+	public static function adminviewFields(){
+		return [ 
+			"products.id AS id",
+			"products.company_id AS company_id",
+			"companies.name AS companies_name",
+			"products.name AS name",
+			"products.category AS category",
+			"product_categories.name AS product_categories_name",
+			"products.image AS image",
+			"products.mfg_date AS mfg_date",
+			"products.exp_date AS exp_date",
+			"products.qty AS qty",
+			"products.selling_price AS selling_price",
+			"products.purchase_price AS purchase_price",
+			"products.dead_stock AS dead_stock",
+			"products.is_active AS is_active",
+			"products.user_id AS user_id",
+			"users.username AS users_username",
+			"products.unit AS unit",
+			"units.name AS units_name",
+			"products.date_created AS date_created",
+			"products.date_updated AS date_updated" 
+		];
+	}
+	
+
+	/**
+     * return exportAdminview page fields of the model.
+     * 
+     * @return array
+     */
+	public static function exportAdminviewFields(){
+		return [ 
+			"products.id AS id",
+			"products.company_id AS company_id",
+			"companies.name AS companies_name",
+			"products.name AS name",
+			"products.category AS category",
+			"product_categories.name AS product_categories_name",
+			"products.image AS image",
+			"products.mfg_date AS mfg_date",
+			"products.exp_date AS exp_date",
+			"products.qty AS qty",
+			"products.selling_price AS selling_price",
+			"products.purchase_price AS purchase_price",
+			"products.dead_stock AS dead_stock",
+			"products.is_active AS is_active",
+			"products.user_id AS user_id",
+			"users.username AS users_username",
+			"products.unit AS unit",
+			"units.name AS units_name",
+			"products.date_created AS date_created",
+			"products.date_updated AS date_updated" 
 		];
 	}
 	

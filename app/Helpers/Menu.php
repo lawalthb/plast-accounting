@@ -11,19 +11,31 @@
 		],
 		
 		[
+			'path' => 'document_types/adminlist',
+			'label' => __('entry'), 
+			'icon' => '<i class="material-icons ">library_books</i>'
+		],
+		
+		[
 			'path' => 'transactions',
 			'label' => __('transactions'), 
-			'icon' => '<i class="material-icons ">description</i>'
+			'icon' => '<i class="material-icons ">assignment</i>'
 		],
 		
 		[
 			'path' => 'transactions/adminlist',
 			'label' => __('transactions'), 
-			'icon' => '<i class="material-icons">extension</i>'
+			'icon' => '<i class="material-icons ">assignment</i>'
 		],
 		
 		[
 			'path' => 'ledgers',
+			'label' => __('ledgers'), 
+			'icon' => '<i class="material-icons ">local_library</i>'
+		],
+		
+		[
+			'path' => 'ledgers/adminlist',
 			'label' => __('ledgers'), 
 			'icon' => '<i class="material-icons ">local_library</i>'
 		],
@@ -35,7 +47,19 @@
 		],
 		
 		[
+			'path' => 'products/adminlist',
+			'label' => __('products'), 
+			'icon' => '<i class="material-icons ">settings_input_composite</i>'
+		],
+		
+		[
 			'path' => 'product_categories',
+			'label' => __('productCategories'), 
+			'icon' => '<i class="material-icons ">settings_input_hdmi</i>'
+		],
+		
+		[
+			'path' => 'product_categories/adminlist',
 			'label' => __('productCategories'), 
 			'icon' => '<i class="material-icons ">settings_input_hdmi</i>'
 		],
@@ -47,7 +71,19 @@
 		],
 		
 		[
+			'path' => 'units/adminlist',
+			'label' => __('units'), 
+			'icon' => '<i class="material-icons ">art_track</i>'
+		],
+		
+		[
 			'path' => 'locations',
+			'label' => __('locations'), 
+			'icon' => '<i class="material-icons ">home</i>'
+		],
+		
+		[
+			'path' => 'locations/adminlist',
 			'label' => __('locations'), 
 			'icon' => '<i class="material-icons ">home</i>'
 		],
@@ -59,15 +95,33 @@
 		],
 		
 		[
+			'path' => 'marketers/adminlist',
+			'label' => __('marketers'), 
+			'icon' => '<i class="material-icons ">group_add</i>'
+		],
+		
+		[
 			'path' => 'git_insurance',
 			'label' => __('gitInsurance'), 
 			'icon' => '<i class="material-icons ">drive_eta</i>'
 		],
 		
 		[
-			'path' => 'users',
+			'path' => 'git_insurance/adminlist',
+			'label' => __('gitInsurance'), 
+			'icon' => '<i class="material-icons ">drive_eta</i>'
+		],
+		
+		[
+			'path' => 'users/adminlist',
 			'label' => __('users'), 
 			'icon' => '<i class="material-icons ">group</i>'
+		],
+		
+		[
+			'path' => 'menu31',
+			'label' => __('users'), 
+			'icon' => '<i class="material-icons">extension</i>'
 		],
 		
 		[
@@ -89,7 +143,19 @@
 		],
 		
 		[
+			'path' => 'roles/adminlist',
+			'label' => __('roles'), 
+			'icon' => '<i class="material-icons ">person_pin</i>'
+		],
+		
+		[
 			'path' => 'permissions',
+			'label' => __('permissions'), 
+			'icon' => '<i class="material-icons ">assignment_ind</i>'
+		],
+		
+		[
+			'path' => 'permissions/adminlist',
 			'label' => __('permissions'), 
 			'icon' => '<i class="material-icons ">assignment_ind</i>'
 		],
@@ -113,15 +179,15 @@
 		],
 		
 		[
-			'path' => 'auth/logout',
-			'label' => __('logOut'), 
-			'icon' => '<i class="material-icons ">subdirectory_arrow_left</i>'
+			'path' => 'reports/adminlist',
+			'label' => __('reports'), 
+			'icon' => '<i class="material-icons ">find_in_page</i>'
 		],
 		
 		[
-			'path' => 'ledgers/adminlist',
-			'label' => __('adminlist'), 
-			'icon' => '<i class="material-icons">extension</i>'
+			'path' => 'reports',
+			'label' => __('reports'), 
+			'icon' => '<i class="material-icons ">find_in_page</i>'
 		],
 		
 		[
@@ -131,9 +197,15 @@
 		],
 		
 		[
-			'path' => 'reports',
-			'label' => __('reports'), 
+			'path' => 'report',
+			'label' => __('reportPage'), 
 			'icon' => '<i class="material-icons">extension</i>'
+		],
+		
+		[
+			'path' => 'auth/logout',
+			'label' => __('logOut'), 
+			'icon' => '<i class="material-icons ">subdirectory_arrow_left</i>'
 		]
 	] ;
 	}
@@ -149,7 +221,7 @@
 		[
 			'path' => 'transactions/adminlist',
 			'label' => __('transactions'), 
-			'icon' => '<i class="material-icons">extension</i>'
+			'icon' => '<i class="material-icons ">assignment</i>'
 		]
 	] ;
 	}

@@ -44,59 +44,76 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                         <!--[form-content-start]-->
                         @csrf
                         <div>
-                            <div class="form-group ">
-                                <label class="control-label" for="name">{{ __('name') }} <span class="text-danger">*</span></label>
-                                <div id="ctrl-name-holder" class=" "> 
-                                    <input id="ctrl-name" data-field="name"  value="<?php  echo $data['name']; ?>" type="text" placeholder="{{ __('enterName') }}"  required="" name="name"  class="form-control " />
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="name">{{ __('name') }} <span class="text-danger">*</span></label>
+                                    <div id="ctrl-name-holder" class=" "> 
+                                        <input id="ctrl-name" data-field="name"  value="<?php  echo $data['name']; ?>" type="text" placeholder="{{ __('enterName') }}"  required="" name="name"  class="form-control " />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="slogan">{{ __('slogan') }} </label>
-                                <div id="ctrl-slogan-holder" class=" "> 
-                                    <input id="ctrl-slogan" data-field="slogan"  value="<?php  echo $data['slogan']; ?>" type="text" placeholder="{{ __('enterSlogan') }}"  name="slogan"  class="form-control " />
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="slogan">{{ __('slogan') }} </label>
+                                    <div id="ctrl-slogan-holder" class=" "> 
+                                        <input id="ctrl-slogan" data-field="slogan"  value="<?php  echo $data['slogan']; ?>" type="text" placeholder="{{ __('enterSlogan') }}"  name="slogan"  class="form-control " />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="address">{{ __('address') }} </label>
-                                <div id="ctrl-address-holder" class=" "> 
-                                    <textarea placeholder="{{ __('enterAddress') }}" id="ctrl-address" data-field="address"  rows="5" name="address" class=" form-control"><?php  echo $data['address']; ?></textarea>
-                                    <!--<div class="invalid-feedback animated bounceIn text-center">{{ __('pleaseEnterText') }}</div>-->
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="address">{{ __('address') }} </label>
+                                    <div id="ctrl-address-holder" class=" "> 
+                                        <textarea placeholder="{{ __('enterAddress') }}" id="ctrl-address" data-field="address"  rows="2" name="address" class=" form-control"><?php  echo $data['address']; ?></textarea>
+                                        <!--<div class="invalid-feedback animated bounceIn text-center">{{ __('pleaseEnterText') }}</div>-->
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="logo">{{ __('logo') }} </label>
-                                <div id="ctrl-logo-holder" class=" "> 
-                                    <input id="ctrl-logo" data-field="logo"  value="<?php  echo $data['logo']; ?>" type="text" placeholder="{{ __('enterLogo') }}"  name="logo"  class="form-control " />
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="website">{{ __('website') }} </label>
+                                    <div id="ctrl-website-holder" class=" "> 
+                                        <input id="ctrl-website" data-field="website"  value="<?php  echo $data['website']; ?>" type="text" placeholder="{{ __('enterWebsite') }}"  name="website"  class="form-control " />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="website">{{ __('website') }} </label>
-                                <div id="ctrl-website-holder" class=" "> 
-                                    <input id="ctrl-website" data-field="website"  value="<?php  echo $data['website']; ?>" type="text" placeholder="{{ __('enterWebsite') }}"  name="website"  class="form-control " />
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="com_email">{{ __('companysEmail') }} </label>
+                                    <div id="ctrl-com_email-holder" class=" "> 
+                                        <input id="ctrl-com_email" data-field="com_email"  value="<?php  echo $data['com_email']; ?>" type="email" placeholder="{{ __('enterCompanysEmail') }}"  name="com_email"  class="form-control " />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="favicon">{{ __('favicon') }} </label>
-                                <div id="ctrl-favicon-holder" class=" "> 
-                                    <input id="ctrl-favicon" data-field="favicon"  value="<?php  echo $data['favicon']; ?>" type="text" placeholder="{{ __('enterFavicon') }}"  name="favicon"  class="form-control " />
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="com_phone">{{ __('companysPhone') }} </label>
+                                    <div id="ctrl-com_phone-holder" class=" "> 
+                                        <input id="ctrl-com_phone" data-field="com_phone"  value="<?php  echo $data['com_phone']; ?>" type="text" placeholder="{{ __('enterCompanysPhone') }}"  name="com_phone"  class="form-control " />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="com_email">{{ __('comEmail') }} </label>
-                                <div id="ctrl-com_email-holder" class=" "> 
-                                    <input id="ctrl-com_email" data-field="com_email"  value="<?php  echo $data['com_email']; ?>" type="email" placeholder="{{ __('enterComEmail') }}"  name="com_email"  class="form-control " />
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="logo">{{ __('logo') }} </label>
+                                    <div id="ctrl-logo-holder" class=" "> 
+                                        <div class="dropzone " input="#ctrl-logo" fieldname="logo" uploadurl="{{ url('fileuploader/upload/logo') }}"    data-multiple="false" dropmsg="{{ __('chooseFilesOrDropFilesHere') }}"    btntext="{{ __('browse') }}" extensions=".jpg,.png,.gif,.jpeg" filesize="3" maximum="1">
+                                            <input name="logo" id="ctrl-logo" data-field="logo" class="dropzone-input form-control" value="<?php  echo $data['logo']; ?>" type="text"  />
+                                            <!--<div class="invalid-feedback animated bounceIn text-center">{{ __('pleaseAChooseFile') }}</div>-->
+                                            <div class="dz-file-limit animated bounceIn text-center text-danger"></div>
+                                        </div>
+                                    </div>
+                                    <?php Html :: uploaded_files_list($data['logo'], '#ctrl-logo'); ?>
                                 </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="com_phone">{{ __('comPhone') }} </label>
-                                <div id="ctrl-com_phone-holder" class=" "> 
-                                    <input id="ctrl-com_phone" data-field="com_phone"  value="<?php  echo $data['com_phone']; ?>" type="text" placeholder="{{ __('enterComPhone') }}"  name="com_phone"  class="form-control " />
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="favicon">{{ __('favicon') }} </label>
+                                    <div id="ctrl-favicon-holder" class=" "> 
+                                        <div class="dropzone " input="#ctrl-favicon" fieldname="favicon" uploadurl="{{ url('fileuploader/upload/favicon') }}"    data-multiple="false" dropmsg="{{ __('chooseFilesOrDropFilesHere') }}"    btntext="{{ __('browse') }}" extensions=".jpg,.png,.gif,.jpeg" filesize="3" maximum="1">
+                                            <input name="favicon" id="ctrl-favicon" data-field="favicon" class="dropzone-input form-control" value="<?php  echo $data['favicon']; ?>" type="text"  />
+                                            <!--<div class="invalid-feedback animated bounceIn text-center">{{ __('pleaseAChooseFile') }}</div>-->
+                                            <div class="dz-file-limit animated bounceIn text-center text-danger"></div>
+                                        </div>
+                                    </div>
+                                    <?php Html :: uploaded_files_list($data['favicon'], '#ctrl-favicon'); ?>
                                 </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="signature">{{ __('signature') }} </label>
-                                <div id="ctrl-signature-holder" class=" "> 
-                                    <input id="ctrl-signature" data-field="signature"  value="<?php  echo $data['signature']; ?>" type="text" placeholder="{{ __('enterSignature') }}"  name="signature"  class="form-control " />
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="signature">{{ __('signature') }} </label>
+                                    <div id="ctrl-signature-holder" class=" "> 
+                                        <div class="dropzone " input="#ctrl-signature" fieldname="signature" uploadurl="{{ url('fileuploader/upload/signature') }}"    data-multiple="false" dropmsg="{{ __('chooseFilesOrDropFilesHere') }}"    btntext="{{ __('browse') }}" extensions=".jpg,.png,.gif,.jpeg" filesize="3" maximum="1">
+                                            <input name="signature" id="ctrl-signature" data-field="signature" class="dropzone-input form-control" value="<?php  echo $data['signature']; ?>" type="text"  />
+                                            <!--<div class="invalid-feedback animated bounceIn text-center">{{ __('pleaseAChooseFile') }}</div>-->
+                                            <div class="dz-file-limit animated bounceIn text-center text-danger"></div>
+                                        </div>
+                                    </div>
+                                    <?php Html :: uploaded_files_list($data['signature'], '#ctrl-signature'); ?>
                                 </div>
                             </div>
                         </div>

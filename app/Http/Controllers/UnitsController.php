@@ -85,7 +85,7 @@ class UnitsController extends Controller
 		//save Units record
 		$record = Units::create($modeldata);
 		$rec_id = $record->id;
-		return $this->redirect("units", __('recordAddedSuccessfully'));
+		return $this->redirect("units/adminlist", __('recordAddedSuccessfully'));
 	}
 	
 
@@ -123,5 +123,32 @@ class UnitsController extends Controller
 		});
 		$redirectUrl = $request->redirect ?? url()->previous();
 		return $this->redirect($redirectUrl, __('recordDeletedSuccessfully'));
+	}
+	
+
+	/**
+     * List table records
+	 * @param  \Illuminate\Http\Request
+     * @param string $fieldname //filter records by a table field
+     * @param string $fieldvalue //filter value
+     * @return \Illuminate\View\View
+     */
+	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
+		$view = "pages.units.adminlist";
+		$query = Units::query();
+		$limit = $request->limit ?? 20;
+		if($request->search){
+			$search = trim($request->search);
+			Units::search($query, $search); // search table records
+		}
+		$orderby = $request->orderby ?? "units.id";
+		$ordertype = $request->ordertype ?? "desc";
+		$query->orderBy($orderby, $ordertype);
+		$query->where("company_id", "=" , auth()->user()->company_id);
+		if($fieldname){
+			$query->where($fieldname , $fieldvalue); //filter by a table field
+		}
+		$records = $query->paginate($limit, Units::adminlistFields());
+		return $this->renderView($view, compact("records"));
 	}
 }

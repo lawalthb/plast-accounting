@@ -28,9 +28,8 @@ class ReportsEditRequest extends FormRequest
 				"name" => "filled|string",
 				"link" => "filled|string",
 				"company_id" => "filled",
-				"is_active" => "filled|string",
-				"no_views" => "filled|numeric",
-				"last_view_time" => "nullable|date",
+				"is_active" => "filled",
+				"report_code" => "nullable|numeric",
             
         ];
     }

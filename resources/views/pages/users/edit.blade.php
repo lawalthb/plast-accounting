@@ -44,88 +44,72 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                         <!--[form-content-start]-->
                         @csrf
                         <div>
-                            <div class="form-group ">
-                                <label class="control-label" for="firstname">{{ __('firstname') }} </label>
-                                <div id="ctrl-firstname-holder" class=" "> 
-                                    <input id="ctrl-firstname" data-field="firstname"  value="<?php  echo $data['firstname']; ?>" type="text" placeholder="{{ __('enterFirstname') }}"  name="firstname"  class="form-control " />
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="lastname">{{ __('lastname') }} <span class="text-danger">*</span></label>
-                                <div id="ctrl-lastname-holder" class=" "> 
-                                    <input id="ctrl-lastname" data-field="lastname"  value="<?php  echo $data['lastname']; ?>" type="text" placeholder="{{ __('enterLastname') }}"  required="" name="lastname"  class="form-control " />
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="role_id">{{ __('roleId') }} </label>
-                                <div id="ctrl-role_id-holder" class=" "> 
-                                    <input id="ctrl-role_id" data-field="role_id"  value="<?php  echo $data['role_id']; ?>" type="number" placeholder="{{ __('enterRoleId') }}" step="any"  name="role_id"  class="form-control " />
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="phone">{{ __('phone') }} </label>
-                                <div id="ctrl-phone-holder" class=" "> 
-                                    <input id="ctrl-phone" data-field="phone"  value="<?php  echo $data['phone']; ?>" type="text" placeholder="{{ __('enterPhone') }}"  name="phone"  class="form-control " />
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="photo">{{ __('photo') }} </label>
-                                <div id="ctrl-photo-holder" class=" "> 
-                                    <div class="dropzone " input="#ctrl-photo" fieldname="photo" uploadurl="{{ url('fileuploader/upload/photo') }}"    data-multiple="false" dropmsg="{{ __('chooseFilesOrDropFilesHere') }}"    btntext="{{ __('browse') }}" extensions=".jpg,.png,.gif,.jpeg" filesize="3" maximum="1">
-                                        <input name="photo" id="ctrl-photo" data-field="photo" class="dropzone-input form-control" value="<?php  echo $data['photo']; ?>" type="text"  />
-                                        <!--<div class="invalid-feedback animated bounceIn text-center">{{ __('pleaseAChooseFile') }}</div>-->
-                                        <div class="dz-file-limit animated bounceIn text-center text-danger"></div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="firstname">{{ __('firstname') }} <span class="text-danger">*</span></label>
+                                    <div id="ctrl-firstname-holder" class=" "> 
+                                        <input id="ctrl-firstname" data-field="firstname"  value="<?php  echo $data['firstname']; ?>" type="text" placeholder="{{ __('enterFirstname') }}"  required="" name="firstname"  class="form-control " />
                                     </div>
                                 </div>
-                                <?php Html :: uploaded_files_list($data['photo'], '#ctrl-photo'); ?>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="user_type">{{ __('userType') }} </label>
-                                <div id="ctrl-user_type-holder" class=" "> 
-                                    <input id="ctrl-user_type" data-field="user_type"  value="<?php  echo $data['user_type']; ?>" type="text" placeholder="{{ __('enterUserType') }}"  name="user_type"  class="form-control " />
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="lastname">{{ __('lastname') }} <span class="text-danger">*</span></label>
+                                    <div id="ctrl-lastname-holder" class=" "> 
+                                        <input id="ctrl-lastname" data-field="lastname"  value="<?php  echo $data['lastname']; ?>" type="text" placeholder="{{ __('enterLastname') }}"  required="" name="lastname"  class="form-control " />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="email">{{ __('email') }} <span class="text-danger">*</span></label>
+                                    <div id="ctrl-email-holder" class=" "> 
+                                        <input id="ctrl-email" data-field="email"  value="<?php  echo $data['email']; ?>" type="email" placeholder="{{ __('enterEmail') }}"  required="" name="email"  data-url="componentsdata/users_email_value_exist/" data-loading-msg="{{ __('checkingAvailability') }}" data-available-msg="{{ __('available') }}" data-unavailable-msg="{{ __('notAvailable') }}" class="form-control  ctrl-check-duplicate" />
+                                        <div class="check-status"></div> 
+                                    </div>
+                                    <small class="form-text">Password is 123456</small>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="username">{{ __('username') }} <span class="text-danger">*</span></label>
+                                    <div id="ctrl-username-holder" class=" "> 
+                                        <input id="ctrl-username" data-field="username"  value="<?php  echo $data['username']; ?>" type="text" placeholder="{{ __('enterUsername') }}"  required="" name="username"  data-url="componentsdata/users_username_value_exist/" data-loading-msg="{{ __('checkingAvailability') }}" data-available-msg="{{ __('available') }}" data-unavailable-msg="{{ __('notAvailable') }}" class="form-control  ctrl-check-duplicate" />
+                                        <div class="check-status"></div> 
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="phone">{{ __('phone') }} </label>
+                                    <div id="ctrl-phone-holder" class=" "> 
+                                        <input id="ctrl-phone" data-field="phone"  value="<?php  echo $data['phone']; ?>" type="text" placeholder="{{ __('enterPhone') }}"  name="phone"  class="form-control " />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="photo">{{ __('photo') }} </label>
+                                    <div id="ctrl-photo-holder" class=" "> 
+                                        <div class="dropzone " input="#ctrl-photo" fieldname="photo" uploadurl="{{ url('fileuploader/upload/photo') }}"    data-multiple="false" dropmsg="{{ __('chooseFilesOrDropFilesHere') }}"    btntext="{{ __('browse') }}" extensions=".jpg,.png,.gif,.jpeg" filesize="3" maximum="1">
+                                            <input name="photo" id="ctrl-photo" data-field="photo" class="dropzone-input form-control" value="<?php  echo $data['photo']; ?>" type="text"  />
+                                            <!--<div class="invalid-feedback animated bounceIn text-center">{{ __('pleaseAChooseFile') }}</div>-->
+                                            <div class="dz-file-limit animated bounceIn text-center text-danger"></div>
+                                        </div>
+                                    </div>
+                                    <?php Html :: uploaded_files_list($data['photo'], '#ctrl-photo'); ?>
                                 </div>
                             </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="is_active">{{ __('isActive') }} </label>
-                                <div id="ctrl-is_active-holder" class=" "> 
-                                    <input id="ctrl-is_active" data-field="is_active"  value="<?php  echo $data['is_active']; ?>" type="text" placeholder="{{ __('enterIsActive') }}"  name="is_active"  class="form-control " />
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="company_id">{{ __('companyId') }} </label>
-                                <div id="ctrl-company_id-holder" class=" "> 
-                                    <select  id="ctrl-company_id" data-field="company_id" name="company_id"  placeholder="{{ __('selectAValue') }}"    class="form-select" >
-                                    <option value="">{{ __('selectAValue') }}</option>
-                                    <?php
-                                        $options = $comp_model->company_id_option_list() ?? [];
-                                        foreach($options as $option){
-                                        $value = $option->value;
-                                        $label = $option->label ?? $value;
-                                        $selected = ( $value == $data['company_id'] ? 'selected' : null );
-                                    ?>
-                                    <option <?php echo $selected; ?> value="<?php echo $value; ?>">
-                                    <?php echo $label; ?>
-                                    </option>
-                                    <?php
-                                        }
-                                    ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="username">{{ __('username') }} <span class="text-danger">*</span></label>
-                                <div id="ctrl-username-holder" class=" "> 
-                                    <input id="ctrl-username" data-field="username"  value="<?php  echo $data['username']; ?>" type="text" placeholder="{{ __('enterUsername') }}"  required="" name="username"  data-url="componentsdata/users_username_value_exist/" data-loading-msg="{{ __('checkingAvailability') }}" data-available-msg="{{ __('available') }}" data-unavailable-msg="{{ __('notAvailable') }}" class="form-control  ctrl-check-duplicate" />
-                                    <div class="check-status"></div> 
-                                </div>
-                            </div>
+                            <input id="ctrl-company_id" data-field="company_id"  value="<?php  echo $data['company_id']; ?>" type="hidden" placeholder="{{ __('enterCompanyId') }}" list="company_id_list"  name="company_id"  class="form-control " />
+                            <datalist id="company_id_list">
+                            <?php
+                                $options = $comp_model->company_id_option_list() ?? [];
+                                foreach($options as $option){
+                                $value = $option->value;
+                                $label = $option->label ?? $value;
+                            ?>
+                            <option value="<?php echo $value; ?>"><?php echo $label; ?></option>
+                            <?php
+                                }
+                            ?>
+                            </datalist>
                             <div class="form-group ">
                                 <label class="control-label" for="user_role_id">{{ __('userRole') }} <span class="text-danger">*</span></label>
                                 <div id="ctrl-user_role_id-holder" class=" "> 
                                     <select required=""  id="ctrl-user_role_id" data-field="user_role_id" name="user_role_id"  placeholder="{{ __('selectAValue') }}"    class="form-select" >
                                     <option value="">{{ __('selectAValue') }}</option>
                                     <?php
-                                        $options = $comp_model->role_id_option_list() ?? [];
+                                        $options = $comp_model->user_role_id_option_list() ?? [];
                                         foreach($options as $option){
                                         $value = $option->value;
                                         $label = $option->label ?? $value;
@@ -138,6 +122,35 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         }
                                     ?>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label" for="is_active">{{ __('isActive') }} </label>
+                                <div id="ctrl-is_active-holder" class=" "> 
+                                    <?php
+                                        $options = Menu::common_description();
+                                        $field_value = $data['is_active'];
+                                        if(!empty($options)){
+                                        foreach($options as $option){
+                                        $value = $option['value'];
+                                        $label = $option['label'];
+                                        //check if value is among checked options
+                                        $checked = Html::get_record_checked($field_value, $value);
+                                    ?>
+                                    <label class="form-check form-check-inline">
+                                    <input class="form-check-input" <?php echo $checked ?>  value="<?php echo $value ?>" type="radio"   name="is_active" />
+                                    <span class="form-check-label"><?php echo $label ?></span>
+                                    </label>
+                                    <?php
+                                        }
+                                        }
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label" for="user_type">{{ __('userType') }} </label>
+                                <div id="ctrl-user_type-holder" class=" "> 
+                                    <input id="ctrl-user_type" data-field="user_type"  value="<?php  echo $data['user_type']; ?>" type="text" placeholder="{{ __('enterUserType') }}"  name="user_type"  class="form-control " />
                                 </div>
                             </div>
                         </div>

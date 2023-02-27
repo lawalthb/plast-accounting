@@ -149,6 +149,9 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         <th class="td-created_by <?php echo (get_value('orderby') == 'created_by' ? 'sortedby' : null); ?>" >
                                         <?php Html :: get_field_order_link('created_by', __('createdBy'), ''); ?>
                                         </th>
+                                        <th class="td-no_view <?php echo (get_value('orderby') == 'no_view' ? 'sortedby' : null); ?>" >
+                                        <?php Html :: get_field_order_link('no_view', __('noView'), ''); ?>
+                                        </th>
                                         <th class="td-btn"></th>
                                     </tr>
                                 </thead>
@@ -212,6 +215,9 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                     </td>
                                     <td class="td-created_by">
                                         <?php echo  $data['created_by'] ; ?>
+                                    </td>
+                                    <td class="td-no_view">
+                                        <?php echo  $data['no_view'] ; ?>
                                     </td>
                                     <!--PageComponentEnd-->
                                     <td class="td-btn">

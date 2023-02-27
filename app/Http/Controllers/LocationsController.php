@@ -72,11 +72,12 @@ class LocationsController extends Controller
 		$modeldata = $this->normalizeFormData($request->validated());
 		$modeldata['company_id'] = auth()->user()->company_id;
 		$modeldata['created_by'] = auth()->user()->id;
+		$modeldata['is_active'] = "Yes";
 		
 		//save Locations record
 		$record = Locations::create($modeldata);
 		$rec_id = $record->id;
-		return $this->redirect("locations", __('recordAddedSuccessfully'));
+		return $this->redirect("locations/adminlist", __('recordAddedSuccessfully'));
 	}
 	
 
@@ -114,5 +115,33 @@ class LocationsController extends Controller
 		});
 		$redirectUrl = $request->redirect ?? url()->previous();
 		return $this->redirect($redirectUrl, __('recordDeletedSuccessfully'));
+	}
+	
+
+	/**
+     * List table records
+	 * @param  \Illuminate\Http\Request
+     * @param string $fieldname //filter records by a table field
+     * @param string $fieldvalue //filter value
+     * @return \Illuminate\View\View
+     */
+	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
+		$view = "pages.locations.adminlist";
+		$query = Locations::query();
+		$limit = $request->limit ?? 20;
+		if($request->search){
+			$search = trim($request->search);
+			Locations::search($query, $search); // search table records
+		}
+		$query->join("companies", "locations.company_id", "=", "companies.id");
+		$orderby = $request->orderby ?? "locations.id";
+		$ordertype = $request->ordertype ?? "desc";
+		$query->orderBy($orderby, $ordertype);
+		$query->where("company_id", "=" , auth()->user()->company_id);
+		if($fieldname){
+			$query->where($fieldname , $fieldvalue); //filter by a table field
+		}
+		$records = $query->paginate($limit, Locations::adminlistFields());
+		return $this->renderView($view, compact("records"));
 	}
 }

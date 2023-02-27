@@ -30,7 +30,7 @@ class Document_Types extends Model implements Auditable
      * @var array
      */
 	protected $fillable = [
-		'name','method_numbering','prefix','prefix_char','starting_num','common_description','print_onsave','desc_each_line','document_code','company_id','created_by'
+		'name','method_numbering','prefix','prefix_char','starting_num','common_description','print_onsave','desc_each_line','document_code','company_id','created_by','no_view'
 	];
 	public $timestamps = true;
 	const CREATED_AT = 'date_created'; 
@@ -74,7 +74,8 @@ class Document_Types extends Model implements Auditable
 			"document_code",
 			"date_created",
 			"prefix_char",
-			"created_by" 
+			"created_by",
+			"no_view" 
 		];
 	}
 	
@@ -97,7 +98,8 @@ class Document_Types extends Model implements Auditable
 			"document_code",
 			"date_created",
 			"prefix_char",
-			"created_by" 
+			"created_by",
+			"no_view" 
 		];
 	}
 	
@@ -122,7 +124,8 @@ class Document_Types extends Model implements Auditable
 			"date_created",
 			"date_updated",
 			"prefix_char",
-			"created_by" 
+			"created_by",
+			"no_view" 
 		];
 	}
 	
@@ -147,7 +150,8 @@ class Document_Types extends Model implements Auditable
 			"date_created",
 			"date_updated",
 			"prefix_char",
-			"created_by" 
+			"created_by",
+			"no_view" 
 		];
 	}
 	
@@ -169,8 +173,55 @@ class Document_Types extends Model implements Auditable
 			"desc_each_line",
 			"document_code",
 			"company_id",
+			"created_by",
+			"no_view",
+			"id" 
+		];
+	}
+	
+
+	/**
+     * return adminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function adminlistFields(){
+		return [ 
 			"id",
-			"created_by" 
+			"name",
+			"method_numbering",
+			"prefix",
+			"starting_num",
+			"common_description",
+			"print_onsave",
+			"desc_each_line",
+			"document_code",
+			"prefix_char",
+			"created_by",
+			"no_view" 
+		];
+	}
+	
+
+	/**
+     * return exportAdminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function exportAdminlistFields(){
+		return [ 
+			"id",
+			"name",
+			"method_numbering",
+			"prefix",
+			"starting_num",
+			"common_description",
+			"print_onsave",
+			"desc_each_line",
+			"document_code",
+			"prefix_char",
+			"created_by",
+			"no_view" 
 		];
 	}
 	

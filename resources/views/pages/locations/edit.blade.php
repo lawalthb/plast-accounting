@@ -50,29 +50,6 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                     <input id="ctrl-name" data-field="name"  value="<?php  echo $data['name']; ?>" type="text" placeholder="{{ __('enterName') }}" minlength="3"  required="" name="name"  class="form-control " />
                                 </div>
                             </div>
-                            <div class="form-group ">
-                                <label class="control-label" for="is_active">{{ __('isActive') }} <span class="text-danger">*</span></label>
-                                <div id="ctrl-is_active-holder" class=" "> 
-                                    <?php
-                                        $options = Menu::common_description();
-                                        $field_value = $data['is_active'];
-                                        if(!empty($options)){
-                                        foreach($options as $option){
-                                        $value = $option['value'];
-                                        $label = $option['label'];
-                                        //check if value is among checked options
-                                        $checked = Html::get_record_checked($field_value, $value);
-                                    ?>
-                                    <label class="option-btn">
-                                    <input class="btn-check" <?php echo $checked ?>  value="<?php echo $value ?>" type="radio" required=""   name="is_active" />
-                                    <span class="btn btn-outline-secondary"><?php echo $label ?></span>
-                                    </label>
-                                    <?php
-                                        }
-                                        }
-                                    ?>
-                                </div>
-                            </div>
                         </div>
                         <div class="form-ajax-status"></div>
                         <!--[form-content-end]-->

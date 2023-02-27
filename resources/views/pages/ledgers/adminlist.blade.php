@@ -108,180 +108,182 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
         </div>
         <div  class=" page-content" >
             <div id="ledgers-adminlist-records">
-                <div id="page-main-content" class="table-responsive">
-                    <?php Html::page_bread_crumb("/ledgers/adminlist", $field_name, $field_value); ?>
-                    <table class="table table-hover table-striped table-sm text-left">
-                        <thead class="table-header ">
-                            <tr>
-                                <?php if($can_delete){ ?>
-                                <th class="td-checkbox">
-                                <label class="form-check-label">
-                                <input class="toggle-check-all form-check-input" type="checkbox" />
-                                </label>
-                                </th>
-                                <?php } ?>
-                                <th class="td-" > </th>
-                                <th class="td-id <?php echo (get_value('orderby') == 'id' ? 'sortedby' : null); ?>" >
-                                <?php Html :: get_field_order_link('id', __('id'), ''); ?>
-                                </th>
-                                <th class="td-sub_account_group_id <?php echo (get_value('orderby') == 'sub_account_group_id' ? 'sortedby' : null); ?>" >
-                                <?php Html :: get_field_order_link('sub_account_group_id', __('accountGroup'), ''); ?>
-                                </th>
-                                <th class="td-ledger_name <?php echo (get_value('orderby') == 'ledger_name' ? 'sortedby' : null); ?>" >
-                                <?php Html :: get_field_order_link('ledger_name', __('ledgerName'), ''); ?>
-                                </th>
-                                <th class="td-marketer_id <?php echo (get_value('orderby') == 'marketer_id' ? 'sortedby' : null); ?>" >
-                                <?php Html :: get_field_order_link('marketer_id', __('marketerId'), ''); ?>
-                                </th>
-                                <th class="td-credit_amount <?php echo (get_value('orderby') == 'credit_amount' ? 'sortedby' : null); ?>" >
-                                <?php Html :: get_field_order_link('credit_amount', __('creditAmount'), ''); ?>
-                                </th>
-                                <th class="td-debit_amount <?php echo (get_value('orderby') == 'debit_amount' ? 'sortedby' : null); ?>" >
-                                <?php Html :: get_field_order_link('debit_amount', __('debitAmount'), ''); ?>
-                                </th>
-                                <th class="td-is_active <?php echo (get_value('orderby') == 'is_active' ? 'sortedby' : null); ?>" >
-                                <?php Html :: get_field_order_link('is_active', __('isActive'), ''); ?>
-                                </th>
-                                <th class="td-user_id <?php echo (get_value('orderby') == 'user_id' ? 'sortedby' : null); ?>" >
-                                <?php Html :: get_field_order_link('user_id', __('userId'), ''); ?>
-                                </th>
-                                <th class="td-btn"></th>
-                            </tr>
-                        </thead>
-                        <?php
-                            if($total_records){
-                        ?>
-                        <tbody class="page-data">
-                            <!--record-->
-                            <?php
-                                $counter = 0;
-                                foreach($records as $data){
-                                $rec_id = ($data['id'] ? urlencode($data['id']) : null);
-                                $counter++;
-                            ?>
-                            <tr>
-                                <?php if($can_delete){ ?>
-                                <td class=" td-checkbox">
-                                    <label class="form-check-label">
-                                    <input class="optioncheck form-check-input" name="optioncheck[]" value="<?php echo $data['id'] ?>" type="checkbox" />
-                                    </label>
-                                </td>
-                                <?php } ?>
-                                <!--PageComponentStart-->
-                                <td class="td-masterdetailbtn">
-                                    <a data-page-id="ledgers-detail-page" class="btn btn-sm btn-secondary open-master-detail-page" href="<?php print_link("ledgers/masterdetail/$data[id]"); ?>">
-                                    <i class="material-icons">more_vert</i> 
-                                </a>
-                            </td>
-                            <td class="td-id">
-                                <a href="<?php print_link("ledgers/view/$data[id]") ?>"><?php echo $data['id']; ?></a>
-                            </td>
-                            <td class="td-sub_account_group_id">
-                                <?php echo  $data['sub_account_group_id'] ; ?>
-                            </td>
-                            <td class="td-ledger_name">
-                                <?php echo  $data['ledger_name'] ; ?>
-                            </td>
-                            <td class="td-marketer_id">
-                                <?php echo  $data['marketer_id'] ; ?>
-                            </td>
-                            <td class="td-credit_amount">
-                                <?php echo  $data['credit_amount'] ; ?>
-                            </td>
-                            <td class="td-debit_amount">
-                                <?php echo  $data['debit_amount'] ; ?>
-                            </td>
-                            <td class="td-is_active">
-                                <?php echo  $data['is_active'] ; ?>
-                            </td>
-                            <td class="td-user_id">
-                                <?php echo  $data['user_id'] ; ?>
-                            </td>
-                            <!--PageComponentEnd-->
-                            <td class="td-btn">
-                                <div class="dropdown" >
-                                    <button data-bs-toggle="dropdown" class="dropdown-toggle btn text-primary btn-flat btn-sm">
-                                    <i class="material-icons">menu</i> 
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <?php if($can_view){ ?>
-                                        <a class="dropdown-item "   href="<?php print_link("ledgers/view/$rec_id"); ?>" >
-                                        <i class="material-icons">visibility</i> {{ __('view') }}
+                <div class="row gutter-lg ">
+                    <div class="col">
+                        <div id="page-main-content" class="table-responsive">
+                            <?php Html::page_bread_crumb("/ledgers/adminlist", $field_name, $field_value); ?>
+                            <table class="table table-hover table-striped table-sm text-left">
+                                <thead class="table-header ">
+                                    <tr>
+                                        <?php if($can_delete){ ?>
+                                        <th class="td-checkbox">
+                                        <label class="form-check-label">
+                                        <input class="toggle-check-all form-check-input" type="checkbox" />
+                                        </label>
+                                        </th>
+                                        <?php } ?>
+                                        <th class="td-" > </th>
+                                        <th class="td-id <?php echo (get_value('orderby') == 'id' ? 'sortedby' : null); ?>" >
+                                        <?php Html :: get_field_order_link('id', __('id'), ''); ?>
+                                        </th>
+                                        <th class="td-sub_account_group_id <?php echo (get_value('orderby') == 'sub_account_group_id' ? 'sortedby' : null); ?>" >
+                                        <?php Html :: get_field_order_link('sub_account_group_id', __('accountGroup'), ''); ?>
+                                        </th>
+                                        <th class="td-ledger_name <?php echo (get_value('orderby') == 'ledger_name' ? 'sortedby' : null); ?>" >
+                                        <?php Html :: get_field_order_link('ledger_name', __('ledgerName'), ''); ?>
+                                        </th>
+                                        <th class="td-marketer_id <?php echo (get_value('orderby') == 'marketer_id' ? 'sortedby' : null); ?>" >
+                                        <?php Html :: get_field_order_link('marketer_id', __('marketerId'), ''); ?>
+                                        </th>
+                                        <th class="td-credit_amount <?php echo (get_value('orderby') == 'credit_amount' ? 'sortedby' : null); ?>" >
+                                        <?php Html :: get_field_order_link('credit_amount', __('creditAmount'), ''); ?>
+                                        </th>
+                                        <th class="td-debit_amount <?php echo (get_value('orderby') == 'debit_amount' ? 'sortedby' : null); ?>" >
+                                        <?php Html :: get_field_order_link('debit_amount', __('debitAmount'), ''); ?>
+                                        </th>
+                                        <th class="td-is_active <?php echo (get_value('orderby') == 'is_active' ? 'sortedby' : null); ?>" >
+                                        <?php Html :: get_field_order_link('is_active', __('isActive'), ''); ?>
+                                        </th>
+                                        <th class="td-user_id <?php echo (get_value('orderby') == 'user_id' ? 'sortedby' : null); ?>" >
+                                        <?php Html :: get_field_order_link('user_id', __('userId'), ''); ?>
+                                        </th>
+                                        <th class="td-btn"></th>
+                                    </tr>
+                                </thead>
+                                <?php
+                                    if($total_records){
+                                ?>
+                                <tbody class="page-data">
+                                    <!--record-->
+                                    <?php
+                                        $counter = 0;
+                                        foreach($records as $data){
+                                        $rec_id = ($data['id'] ? urlencode($data['id']) : null);
+                                        $counter++;
+                                    ?>
+                                    <tr>
+                                        <?php if($can_delete){ ?>
+                                        <td class=" td-checkbox">
+                                            <label class="form-check-label">
+                                            <input class="optioncheck form-check-input" name="optioncheck[]" value="<?php echo $data['id'] ?>" type="checkbox" />
+                                            </label>
+                                        </td>
+                                        <?php } ?>
+                                        <!--PageComponentStart-->
+                                        <td class="td-masterdetailbtn">
+                                            <a data-page-id="ledgers-detail-page" class="btn btn-sm btn-secondary open-master-detail-page" href="<?php print_link("ledgers/masterdetail/$data[id]"); ?>">
+                                            <i class="material-icons">more_vert</i> 
+                                        </a>
+                                    </td>
+                                    <td class="td-id">
+                                        <a href="<?php print_link("ledgers/view/$data[id]") ?>"><?php echo $data['id']; ?></a>
+                                    </td>
+                                    <td class="td-sub_account_group_id">
+                                        <?php echo  $data['sub_account_group_id'] ; ?>
+                                    </td>
+                                    <td class="td-ledger_name">
+                                        <?php echo  $data['ledger_name'] ; ?>
+                                    </td>
+                                    <td class="td-marketer_id">
+                                        <?php echo  $data['marketer_id'] ; ?>
+                                    </td>
+                                    <td class="td-credit_amount">
+                                        <?php echo  $data['credit_amount'] ; ?>
+                                    </td>
+                                    <td class="td-debit_amount">
+                                        <?php echo  $data['debit_amount'] ; ?>
+                                    </td>
+                                    <td class="td-is_active">
+                                        <?php echo  $data['is_active'] ; ?>
+                                    </td>
+                                    <td class="td-user_id">
+                                        <?php echo  $data['user_id'] ; ?>
+                                    </td>
+                                    <!--PageComponentEnd-->
+                                    <td class="td-btn">
+                                        <div class="dropdown" >
+                                            <button data-bs-toggle="dropdown" class="dropdown-toggle btn text-primary btn-flat btn-sm">
+                                            <i class="material-icons">menu</i> 
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <?php if($can_view){ ?>
+                                                <a class="dropdown-item "   href="<?php print_link("ledgers/view/$rec_id"); ?>" >
+                                                <i class="material-icons">visibility</i> {{ __('view') }}
+                                            </a>
+                                            <?php } ?>
+                                            <?php if($can_edit){ ?>
+                                            <a class="dropdown-item "   href="<?php print_link("ledgers/edit/$rec_id"); ?>" >
+                                            <i class="material-icons">edit</i> {{ __('edit') }}
+                                        </a>
+                                        <?php } ?>
+                                        <?php if($can_delete){ ?>
+                                        <a class="dropdown-item record-delete-btn" data-prompt-msg="{{ __('promptDeleteRecord') }}" data-display-style="modal" href="<?php print_link("ledgers/delete/$rec_id"); ?>" >
+                                        <i class="material-icons">delete_sweep</i> {{ __('delete') }}
                                     </a>
                                     <?php } ?>
-                                    <?php if($can_edit){ ?>
-                                    <a class="dropdown-item "   href="<?php print_link("ledgers/edit/$rec_id"); ?>" >
-                                    <i class="material-icons">edit</i> {{ __('edit') }}
-                                </a>
-                                <?php } ?>
-                                <?php if($can_delete){ ?>
-                                <a class="dropdown-item record-delete-btn" data-prompt-msg="{{ __('promptDeleteRecord') }}" data-display-style="modal" href="<?php print_link("ledgers/delete/$rec_id"); ?>" >
-                                <i class="material-icons">delete_sweep</i> {{ __('delete') }}
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php 
+                        }
+                    ?>
+                    <!--endrecord-->
+                </tbody>
+                <tbody class="search-data"></tbody>
+                <?php
+                    }
+                    else{
+                ?>
+                <tbody class="page-data">
+                    <tr>
+                        <td class="bg-light text-center text-muted animated bounce p-3" colspan="1000">
+                            <i class="material-icons">block</i> {{ __('noRecordFound') }}
+                        </td>
+                    </tr>
+                </tbody>
+                <?php
+                    }
+                ?>
+            </table>
+        </div>
+        <?php
+            if($show_footer){
+        ?>
+        <div class=" mt-3">
+            <div class="row align-items-center justify-content-between">    
+                <div class="col-md-auto justify-content-center">    
+                    <div class="d-flex justify-content-start">  
+                        <?php if($can_delete){ ?>
+                        <button data-prompt-msg="{{ __('promptDeleteRecords') }}" data-display-style="modal" data-url="<?php print_link("ledgers/delete/{sel_ids}"); ?>" class="btn btn-sm btn-danger btn-delete-selected d-none">
+                        <i class="material-icons">delete_sweep</i> {{ __('deleteSelected') }}
+                        </button>
+                        <?php } ?>
+                        <div class="dropup export-btn-holder mx-1">
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">save</i> 
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <?php $export_print_link = add_query_params(['export' => 'print']); ?>
+                                <a class="dropdown-item export-link-btn" data-format="print" href="<?php print_link($export_print_link); ?>" target="_blank">
+                                <img src="{{ asset('images/print.png') }}" class="mr-2" /> PRINT
                             </a>
-                            <?php } ?>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-            <?php 
-                }
-            ?>
-            <!--endrecord-->
-        </tbody>
-        <tbody class="search-data"></tbody>
-        <?php
-            }
-            else{
-        ?>
-        <tbody class="page-data">
-            <tr>
-                <td class="bg-light text-center text-muted animated bounce p-3" colspan="1000">
-                    <i class="material-icons">block</i> {{ __('noRecordFound') }}
-                </td>
-            </tr>
-        </tbody>
-        <?php
-            }
-        ?>
-    </table>
-</div>
-<?php
-    if($show_footer){
-?>
-<div class=" mt-3">
-    <div class="row align-items-center justify-content-between">    
-        <div class="col-md-auto justify-content-center">    
-            <div class="d-flex justify-content-start">  
-                <?php if($can_delete){ ?>
-                <button data-prompt-msg="{{ __('promptDeleteRecords') }}" data-display-style="modal" data-url="<?php print_link("ledgers/delete/{sel_ids}"); ?>" class="btn btn-sm btn-danger btn-delete-selected d-none">
-                <i class="material-icons">delete_sweep</i> {{ __('deleteSelected') }}
-                </button>
-                <?php } ?>
-                <div class="dropup export-btn-holder mx-1">
-                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons">save</i> 
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <?php $export_print_link = add_query_params(['export' => 'print']); ?>
-                        <a class="dropdown-item export-link-btn" data-format="print" href="<?php print_link($export_print_link); ?>" target="_blank">
-                        <img src="{{ asset('images/print.png') }}" class="mr-2" /> PRINT
+                            <?php $export_pdf_link = add_query_params(['export' => 'pdf']); ?>
+                            <a class="dropdown-item export-link-btn" data-format="pdf" href="<?php print_link($export_pdf_link); ?>" target="_blank">
+                            <img src="{{ asset('images/pdf.png') }}" class="mr-2" /> PDF
+                        </a>
+                        <?php $export_csv_link = add_query_params(['export' => 'csv']); ?>
+                        <a class="dropdown-item export-link-btn" data-format="csv" href="<?php print_link($export_csv_link); ?>" target="_blank">
+                        <img src="{{ asset('/images/csv.png') }}" class="mr-2" /> CSV
                     </a>
-                    <?php $export_pdf_link = add_query_params(['export' => 'pdf']); ?>
-                    <a class="dropdown-item export-link-btn" data-format="pdf" href="<?php print_link($export_pdf_link); ?>" target="_blank">
-                    <img src="{{ asset('images/pdf.png') }}" class="mr-2" /> PDF
+                    <?php $export_excel_link = add_query_params(['export' => 'excel']); ?>
+                    <a class="dropdown-item export-link-btn" data-format="excel" href="<?php print_link($export_excel_link); ?>" target="_blank">
+                    <img src="{{ asset('images/xsl.png') }}" class="mr-2" /> EXCEL
                 </a>
-                <?php $export_csv_link = add_query_params(['export' => 'csv']); ?>
-                <a class="dropdown-item export-link-btn" data-format="csv" href="<?php print_link($export_csv_link); ?>" target="_blank">
-                <img src="{{ asset('/images/csv.png') }}" class="mr-2" /> CSV
-            </a>
-            <?php $export_excel_link = add_query_params(['export' => 'excel']); ?>
-            <a class="dropdown-item export-link-btn" data-format="excel" href="<?php print_link($export_excel_link); ?>" target="_blank">
-            <img src="{{ asset('images/xsl.png') }}" class="mr-2" /> EXCEL
-        </a>
+            </div>
+        </div>
+        <?php Html :: import_form('ledgers/importdata' , __('importData'), 'CSV , JSON'); ?>
     </div>
-</div>
-<?php Html :: import_form('ledgers/importdata' , __('importData'), 'CSV , JSON'); ?>
-</div>
 </div>
 <div class="col">   
     <?php
@@ -302,6 +304,16 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
 <?php
     }
 ?>
+</div>
+<!-- Detail Page Column -->
+<?php if(!request()->has('subpage')){ ?>
+<div class="col-12">
+    <div class=" ">
+        <div id="ledgers-detail-page" class="master-detail-page"></div>
+    </div>
+</div>
+<?php } ?>
+</div>
 </div>
 </div>
 </div>

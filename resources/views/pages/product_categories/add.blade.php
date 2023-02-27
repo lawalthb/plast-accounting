@@ -36,7 +36,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
     <div  class="" >
         <div class="container">
             <div class="row ">
-                <div class="col-md-9 comp-grid " >
+                <div class="col-md-4 comp-grid " >
                     <?php Html::display_page_errors($errors); ?>
                     <div  class="card-1 border rounded page-content" >
                         <!--[form-start]-->
@@ -44,41 +44,45 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                             @csrf
                             <div>
                                 <div class="row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
                                         <label class="control-label" for="name">{{ __('name') }} <span class="text-danger">*</span></label>
                                         <div id="ctrl-name-holder" class=" "> 
                                             <input id="ctrl-name" data-field="name"  value="<?php echo get_value('name') ?>" type="text" placeholder="{{ __('enterName') }}" minlength="3"  required="" name="name"  class="form-control " />
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group ">
-                                    <label class="control-label" for="is_active">{{ __('isActive') }} <span class="text-danger">*</span></label>
-                                    <div id="ctrl-is_active-holder" class=" "> 
-                                        <?php
-                                            $options = Menu::common_description();
-                                            if(!empty($options)){
-                                            foreach($options as $option){
-                                            $value = $option['value'];
-                                            $label = $option['label'];
-                                            //check if current option is checked option
-                                            $checked = Html::get_field_checked('is_active', $value, "Yes");
-                                        ?>
-                                        <label class="option-btn">
-                                        <input class="btn-check" <?php echo $checked ?>  value="<?php echo $value ?>" type="radio" required=""   name="is_active" />
-                                        <span class="btn btn-outline-secondary"><?php echo $label ?></span>
-                                        </label>
-                                        <?php
-                                            }
-                                            }
-                                        ?>
-                                    </div>
-                                </div>
+                                <input id="ctrl-company_id" data-field="company_id"  value="<?php echo get_value('company_id', auth()->user()->company_id) ?>" type="hidden" placeholder="{{ __('enterCompanyId') }}" list="company_id_list"  required="" name="company_id"  class="form-control " />
+                                <datalist id="company_id_list">
+                                <?php 
+                                    $options = $comp_model->product_categories_company_id_option_list() ?? [];
+                                    foreach($options as $option){
+                                    $value = $option->value;
+                                    $label = $option->label ?? $value;
+                                ?>
+                                <option value="<?php echo $value; ?>"><?php echo $label; ?></option>
+                                <?php
+                                    }
+                                ?>
+                                </datalist>
+                                <input id="ctrl-user_id" data-field="user_id"  value="<?php echo get_value('user_id', auth()->user()->id) ?>" type="hidden" placeholder="{{ __('enterUserId') }}" list="user_id_list"  required="" name="user_id"  class="form-control " />
+                                <datalist id="user_id_list">
+                                <?php 
+                                    $options = $comp_model->updated_by_option_list() ?? [];
+                                    foreach($options as $option){
+                                    $value = $option->value;
+                                    $label = $option->label ?? $value;
+                                ?>
+                                <option value="<?php echo $value; ?>"><?php echo $label; ?></option>
+                                <?php
+                                    }
+                                ?>
+                                </datalist>
                             </div>
                             <div class="form-ajax-status"></div>
                             <!--[form-button-start]-->
                             <div class="form-group form-submit-btn-holder text-center mt-3">
                                 <button class="btn btn-primary" type="submit">
-                                {{ __('submit') }}
+                                {{ __('add') }}
                                 <i class="material-icons">send</i>
                                 </button>
                             </div>

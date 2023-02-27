@@ -5,10 +5,6 @@ use App\Http\Requests\MarketersAddRequest;
 use App\Http\Requests\MarketersEditRequest;
 use App\Models\Marketers;
 use Illuminate\Http\Request;
-use \PDF;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\MarketersListExport;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Exception;
 class MarketersController extends Controller
@@ -42,39 +38,8 @@ class MarketersController extends Controller
 			$val = $request->marketers_company_id;
 			$query->where(DB::raw("marketers.company_id"), "=", $val);
 		}
-		// if request format is for export example:- product/index?export=pdf
-		if($this->getExportFormat()){
-			return $this->ExportList($query); // export current query
-		}
 		$records = $query->paginate($limit, Marketers::listFields());
 		return $this->renderView($view, compact("records"));
-	}
-	
-
-	/**
-     * Import csv file data into a table 
-     * @return data
-     */
-	function importdata(Request $request){
-		$importSettings = config("upload.import");
-		$maxFileSize = intval($importSettings["max_file_size"]) * 1000; //in kilobyte
-		$validator = Validator::make($request->all(), 
-			[
-				"file" => "file|required|max:$maxFileSize|mimes:csv,txt",
-			]
-		);
-		if ($validator->fails()) {
-			return back()->withErrors($validator->errors());
-		}
-		$csvOptions = array(
-			'fields' => '', //leave empty to use the first row as the columns
-			'delimiter' => ',', 
-			'quote' => '"'
-		);
-		$filePath = $request->file('file')->getRealPath();
-		$modeldata = parse_csv_file($filePath, $csvOptions);
-		Marketers::insert($modeldata);
-		return $this->redirect(url()->previous(), __('dataImportedSuccessfully'));
 	}
 	
 
@@ -121,7 +86,7 @@ class MarketersController extends Controller
 		//save Marketers record
 		$record = Marketers::create($modeldata);
 		$rec_id = $record->id;
-		return $this->redirect("marketers", __('recordAddedSuccessfully'));
+		return $this->redirect("marketers/adminlist", __('recordAddedSuccessfully'));
 	}
 	
 
@@ -163,29 +128,28 @@ class MarketersController extends Controller
 	
 
 	/**
-     * Export table records to different format
-	 * supported format:- PDF, CSV, EXCEL, HTML
-	 * @param \Illuminate\Database\Eloquent\Model $query
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * List table records
+	 * @param  \Illuminate\Http\Request
+     * @param string $fieldname //filter records by a table field
+     * @param string $fieldvalue //filter value
+     * @return \Illuminate\View\View
      */
-	private function ExportList($query){
-		ob_end_clean(); // clean any output to allow file download
-		$filename = "ListMarketersReport-" . date_now();
-		$format = $this->getExportFormat();
-		if($format == "print"){
-			$records = $query->get(Marketers::exportListFields());
-			return view("reports.marketers-list", ["records" => $records]);
+	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
+		$view = "pages.marketers.adminlist";
+		$query = Marketers::query();
+		$limit = $request->limit ?? 20;
+		if($request->search){
+			$search = trim($request->search);
+			Marketers::search($query, $search); // search table records
 		}
-		elseif($format == "pdf"){
-			$records = $query->get(Marketers::exportListFields());
-			$pdf = PDF::loadView("reports.marketers-list", ["records" => $records]);
-			return $pdf->download("$filename.pdf");
+		$orderby = $request->orderby ?? "marketers.id";
+		$ordertype = $request->ordertype ?? "desc";
+		$query->orderBy($orderby, $ordertype);
+		$query->where("company_id", "=" , auth()->user()->company_id);
+		if($fieldname){
+			$query->where($fieldname , $fieldvalue); //filter by a table field
 		}
-		elseif($format == "csv"){
-			return Excel::download(new MarketersListExport($query), "$filename.csv", \Maatwebsite\Excel\Excel::CSV);
-		}
-		elseif($format == "excel"){
-			return Excel::download(new MarketersListExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
-		}
+		$records = $query->paginate($limit, Marketers::adminlistFields());
+		return $this->renderView($view, compact("records"));
 	}
 }

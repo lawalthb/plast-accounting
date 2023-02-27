@@ -128,12 +128,6 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         <th class="td-is_active <?php echo (get_value('orderby') == 'is_active' ? 'sortedby' : null); ?>" >
                                         <?php Html :: get_field_order_link('is_active', __('isActive'), ''); ?>
                                         </th>
-                                        <th class="td-date_created <?php echo (get_value('orderby') == 'date_created' ? 'sortedby' : null); ?>" >
-                                        <?php Html :: get_field_order_link('date_created', __('dateCreated'), ''); ?>
-                                        </th>
-                                        <th class="td-date_updated <?php echo (get_value('orderby') == 'date_updated' ? 'sortedby' : null); ?>" >
-                                        <?php Html :: get_field_order_link('date_updated', __('dateUpdated'), ''); ?>
-                                        </th>
                                         <th class="td-btn"></th>
                                     </tr>
                                 </thead>
@@ -180,12 +174,6 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                             </td>
                             <td class="td-is_active">
                                 <?php echo  $data['is_active'] ; ?>
-                            </td>
-                            <td class="td-date_created">
-                                <?php echo  $data['date_created'] ; ?>
-                            </td>
-                            <td class="td-date_updated">
-                                <?php echo  $data['date_updated'] ; ?>
                             </td>
                             <!--PageComponentEnd-->
                             <td class="td-btn">
@@ -247,47 +235,23 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                 <i class="material-icons">delete_sweep</i> {{ __('deleteSelected') }}
                 </button>
                 <?php } ?>
-                <div class="dropup export-btn-holder mx-1">
-                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons">save</i> 
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <?php $export_print_link = add_query_params(['export' => 'print']); ?>
-                        <a class="dropdown-item export-link-btn" data-format="print" href="<?php print_link($export_print_link); ?>" target="_blank">
-                        <img src="{{ asset('images/print.png') }}" class="mr-2" /> PRINT
-                    </a>
-                    <?php $export_pdf_link = add_query_params(['export' => 'pdf']); ?>
-                    <a class="dropdown-item export-link-btn" data-format="pdf" href="<?php print_link($export_pdf_link); ?>" target="_blank">
-                    <img src="{{ asset('images/pdf.png') }}" class="mr-2" /> PDF
-                </a>
-                <?php $export_csv_link = add_query_params(['export' => 'csv']); ?>
-                <a class="dropdown-item export-link-btn" data-format="csv" href="<?php print_link($export_csv_link); ?>" target="_blank">
-                <img src="{{ asset('/images/csv.png') }}" class="mr-2" /> CSV
-            </a>
-            <?php $export_excel_link = add_query_params(['export' => 'excel']); ?>
-            <a class="dropdown-item export-link-btn" data-format="excel" href="<?php print_link($export_excel_link); ?>" target="_blank">
-            <img src="{{ asset('images/xsl.png') }}" class="mr-2" /> EXCEL
-        </a>
+            </div>
+        </div>
+        <div class="col">   
+            <?php
+                if($show_pagination == true){
+                $pager = new Pagination($total_records, $record_count);
+                $pager->show_page_count = false;
+                $pager->show_record_count = true;
+                $pager->show_page_limit =false;
+                $pager->limit = $limit;
+                $pager->show_page_number_list = true;
+                $pager->pager_link_range=5;
+                $pager->render();
+                }
+            ?>
+        </div>
     </div>
-</div>
-<?php Html :: import_form('marketers/importdata' , __('importData'), 'CSV , JSON'); ?>
-</div>
-</div>
-<div class="col">   
-    <?php
-        if($show_pagination == true){
-        $pager = new Pagination($total_records, $record_count);
-        $pager->show_page_count = false;
-        $pager->show_record_count = true;
-        $pager->show_page_limit =false;
-        $pager->limit = $limit;
-        $pager->show_page_number_list = true;
-        $pager->pager_link_range=5;
-        $pager->render();
-        }
-    ?>
-</div>
-</div>
 </div>
 <?php
     }

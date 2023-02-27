@@ -29,8 +29,14 @@ use Illuminate\Support\Facades\Mail;
 
 
 	
+	Route::get('companies/add', 'CompaniesController@add')->name('companies.add');
+	Route::post('companies/add', 'CompaniesController@store')->name('companies.store');
+		
 	Route::get('auth/register', 'AuthController@register')->name('auth.register')->middleware(['redirect.to.home']);
 	Route::post('auth/register', 'AuthController@register_store')->name('auth.register_store');
+		
+	Route::get('users/add', 'UsersController@add')->name('users.add');
+	Route::post('users/add', 'UsersController@store')->name('users.store');
 		
 	Route::post('auth/login', 'AuthController@login')->name('auth.login');
 	Route::get('auth/password/forgotpassword', 'AuthController@showForgotPassword')->name('password.forgotpassword');
@@ -80,9 +86,6 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::get('companies/index/{filter?}/{filtervalue?}', 'CompaniesController@index')->name('companies.index');	
 	Route::get('companies/view/{rec_id}', 'CompaniesController@view')->name('companies.view');
 	Route::get('companies/masterdetail/{rec_id}', 'CompaniesController@masterDetail')->name('companies.masterdetail');	
-	Route::get('companies/add', 'CompaniesController@add')->name('companies.add');
-	Route::post('companies/add', 'CompaniesController@store')->name('companies.store');
-		
 	Route::any('companies/edit/{rec_id}', 'CompaniesController@edit')->name('companies.edit');	
 	Route::get('companies/delete/{rec_id}', 'CompaniesController@delete');	
 	Route::get('companies/dashboardlist', 'CompaniesController@dashboardlist');
@@ -98,7 +101,12 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::post('document_types/add', 'Document_TypesController@store')->name('document_types.store');
 		
 	Route::any('document_types/edit/{rec_id}', 'Document_TypesController@edit')->name('document_types.edit');	
-	Route::get('document_types/delete/{rec_id}', 'Document_TypesController@delete');
+	Route::get('document_types/delete/{rec_id}', 'Document_TypesController@delete');	
+	Route::get('document_types/adminlist', 'Document_TypesController@adminlist');
+	Route::get('document_types/adminlist/{filter?}/{filtervalue?}', 'Document_TypesController@adminlist');	
+	Route::get('document_types/adminadd', 'Document_TypesController@adminadd')->name('document_types.adminadd');
+	Route::post('document_types/adminadd', 'Document_TypesController@adminadd_store')->name('document_types.adminadd_store');
+	
 
 /* routes for General_Descriptions Controller */	
 	Route::get('general_descriptions', 'General_DescriptionsController@index')->name('general_descriptions.index');
@@ -132,7 +140,9 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::post('git_insurance/add', 'Git_InsuranceController@store')->name('git_insurance.store');
 		
 	Route::any('git_insurance/edit/{rec_id}', 'Git_InsuranceController@edit')->name('git_insurance.edit');	
-	Route::get('git_insurance/delete/{rec_id}', 'Git_InsuranceController@delete');
+	Route::get('git_insurance/delete/{rec_id}', 'Git_InsuranceController@delete');	
+	Route::get('git_insurance/adminlist', 'Git_InsuranceController@adminlist');
+	Route::get('git_insurance/adminlist/{filter?}/{filtervalue?}', 'Git_InsuranceController@adminlist');
 
 /* routes for Ledgers Controller */	
 	Route::get('ledgers', 'LedgersController@index')->name('ledgers.index');
@@ -166,21 +176,24 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::get('locations/add', 'LocationsController@add')->name('locations.add');
 	Route::post('locations/add', 'LocationsController@store')->name('locations.store');
 		
-	Route::any('locations/edit/{rec_id}', 'LocationsController@edit')->name('locations.edit');	
-	Route::get('locations/delete/{rec_id}', 'LocationsController@delete');
+	Route::any('locations/edit/{rec_id}', 'LocationsController@edit')->name('locations.edit');Route::any('locations/editfield/{rec_id}', 'LocationsController@editfield');	
+	Route::get('locations/delete/{rec_id}', 'LocationsController@delete');	
+	Route::get('locations/adminlist', 'LocationsController@adminlist');
+	Route::get('locations/adminlist/{filter?}/{filtervalue?}', 'LocationsController@adminlist');
 
 /* routes for Marketers Controller */	
 	Route::get('marketers', 'MarketersController@index')->name('marketers.index');
 	Route::get('marketers/index', 'MarketersController@index')->name('marketers.index');
 	Route::get('marketers/index/{filter?}/{filtervalue?}', 'MarketersController@index')->name('marketers.index');	
-	Route::post('marketers/importdata', 'MarketersController@importdata');	
 	Route::get('marketers/view/{rec_id}', 'MarketersController@view')->name('marketers.view');
 	Route::get('marketers/masterdetail/{rec_id}', 'MarketersController@masterDetail')->name('marketers.masterdetail');	
 	Route::get('marketers/add', 'MarketersController@add')->name('marketers.add');
 	Route::post('marketers/add', 'MarketersController@store')->name('marketers.store');
 		
-	Route::any('marketers/edit/{rec_id}', 'MarketersController@edit')->name('marketers.edit');	
-	Route::get('marketers/delete/{rec_id}', 'MarketersController@delete');
+	Route::any('marketers/edit/{rec_id}', 'MarketersController@edit')->name('marketers.edit');Route::any('marketers/editfield/{rec_id}', 'MarketersController@editfield');	
+	Route::get('marketers/delete/{rec_id}', 'MarketersController@delete');	
+	Route::get('marketers/adminlist', 'MarketersController@adminlist');
+	Route::get('marketers/adminlist/{filter?}/{filtervalue?}', 'MarketersController@adminlist');
 
 /* routes for Narrations Controller */	
 	Route::get('narrations', 'NarrationsController@index')->name('narrations.index');
@@ -232,8 +245,10 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::get('product_categories/add', 'Product_CategoriesController@add')->name('product_categories.add');
 	Route::post('product_categories/add', 'Product_CategoriesController@store')->name('product_categories.store');
 		
-	Route::any('product_categories/edit/{rec_id}', 'Product_CategoriesController@edit')->name('product_categories.edit');	
-	Route::get('product_categories/delete/{rec_id}', 'Product_CategoriesController@delete');
+	Route::any('product_categories/edit/{rec_id}', 'Product_CategoriesController@edit')->name('product_categories.edit');Route::any('product_categories/editfield/{rec_id}', 'Product_CategoriesController@editfield');	
+	Route::get('product_categories/delete/{rec_id}', 'Product_CategoriesController@delete');	
+	Route::get('product_categories/adminlist', 'Product_CategoriesController@adminlist');
+	Route::get('product_categories/adminlist/{filter?}/{filtervalue?}', 'Product_CategoriesController@adminlist');
 
 /* routes for Products Controller */	
 	Route::get('products', 'ProductsController@index')->name('products.index');
@@ -246,19 +261,23 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::any('products/edit/{rec_id}', 'ProductsController@edit')->name('products.edit');	
 	Route::get('products/delete/{rec_id}', 'ProductsController@delete');	
 	Route::get('products/superdashboardlist', 'ProductsController@superdashboardlist');
-	Route::get('products/superdashboardlist/{filter?}/{filtervalue?}', 'ProductsController@superdashboardlist');
+	Route::get('products/superdashboardlist/{filter?}/{filtervalue?}', 'ProductsController@superdashboardlist');	
+	Route::get('products/adminlist', 'ProductsController@adminlist');
+	Route::get('products/adminlist/{filter?}/{filtervalue?}', 'ProductsController@adminlist');	
+	Route::get('products/adminview/{rec_id}', 'ProductsController@adminview')->name('products.adminview');
 
 /* routes for Reports Controller */	
 	Route::get('reports', 'ReportsController@index')->name('reports.index');
 	Route::get('reports/index', 'ReportsController@index')->name('reports.index');
 	Route::get('reports/index/{filter?}/{filtervalue?}', 'ReportsController@index')->name('reports.index');	
-	Route::post('reports/importdata', 'ReportsController@importdata');	
 	Route::get('reports/view/{rec_id}', 'ReportsController@view')->name('reports.view');	
 	Route::get('reports/add', 'ReportsController@add')->name('reports.add');
 	Route::post('reports/add', 'ReportsController@store')->name('reports.store');
 		
 	Route::any('reports/edit/{rec_id}', 'ReportsController@edit')->name('reports.edit');	
-	Route::get('reports/delete/{rec_id}', 'ReportsController@delete');
+	Route::get('reports/delete/{rec_id}', 'ReportsController@delete');	
+	Route::get('reports/adminlist', 'ReportsController@adminlist');
+	Route::get('reports/adminlist/{filter?}/{filtervalue?}', 'ReportsController@adminlist');
 
 /* routes for Roles Controller */	
 	Route::get('roles', 'RolesController@index')->name('roles.index');
@@ -270,7 +289,9 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::post('roles/add', 'RolesController@store')->name('roles.store');
 		
 	Route::any('roles/edit/{rec_id}', 'RolesController@edit')->name('roles.edit');	
-	Route::get('roles/delete/{rec_id}', 'RolesController@delete');
+	Route::get('roles/delete/{rec_id}', 'RolesController@delete');	
+	Route::get('roles/adminlist', 'RolesController@adminlist');
+	Route::get('roles/adminlist/{filter?}/{filtervalue?}', 'RolesController@adminlist');
 
 /* routes for Source_Documents Controller */	
 	Route::get('source_documents', 'Source_DocumentsController@index')->name('source_documents.index');
@@ -288,7 +309,6 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::get('stocks', 'StocksController@index')->name('stocks.index');
 	Route::get('stocks/index', 'StocksController@index')->name('stocks.index');
 	Route::get('stocks/index/{filter?}/{filtervalue?}', 'StocksController@index')->name('stocks.index');	
-	Route::post('stocks/importdata', 'StocksController@importdata');	
 	Route::get('stocks/view/{rec_id}', 'StocksController@view')->name('stocks.view');	
 	Route::get('stocks/add', 'StocksController@add')->name('stocks.add');
 	Route::post('stocks/add', 'StocksController@store')->name('stocks.store');
@@ -359,8 +379,10 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::get('units/add', 'UnitsController@add')->name('units.add');
 	Route::post('units/add', 'UnitsController@store')->name('units.store');
 		
-	Route::any('units/edit/{rec_id}', 'UnitsController@edit')->name('units.edit');	
-	Route::get('units/delete/{rec_id}', 'UnitsController@delete');
+	Route::any('units/edit/{rec_id}', 'UnitsController@edit')->name('units.edit');Route::any('units/editfield/{rec_id}', 'UnitsController@editfield');	
+	Route::get('units/delete/{rec_id}', 'UnitsController@delete');	
+	Route::get('units/adminlist', 'UnitsController@adminlist');
+	Route::get('units/adminlist/{filter?}/{filtervalue?}', 'UnitsController@adminlist');
 
 /* routes for Users Controller */	
 	Route::get('users', 'UsersController@index')->name('users.index');
@@ -372,15 +394,21 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::any('account/edit', 'AccountController@edit')->name('account.edit');	
 	Route::get('account', 'AccountController@index');	
 	Route::post('account/changepassword', 'AccountController@changepassword')->name('account.changepassword');	
-	Route::get('users/add', 'UsersController@add')->name('users.add');
-	Route::post('users/add', 'UsersController@store')->name('users.store');
-		
 	Route::any('users/edit/{rec_id}', 'UsersController@edit')->name('users.edit');	
 	Route::get('users/delete/{rec_id}', 'UsersController@delete');	
 	Route::get('users/adminlist', 'UsersController@adminlist');
 	Route::get('users/adminlist/{filter?}/{filtervalue?}', 'UsersController@adminlist');	
+	Route::get('users/adminadd', 'UsersController@adminadd')->name('users.adminadd');
+	Route::post('users/adminadd', 'UsersController@adminadd_store')->name('users.adminadd_store');
+		
+	Route::any('users/adminedit/{rec_id}', 'UsersController@adminedit')->name('users.adminedit');	
 Route::get('outpage',  function(Request $request){
 		return view("pages.custom.outpage");
+	}
+);
+	
+Route::get('report',  function(Request $request){
+		return view("pages.custom.report");
 	}
 );
 
@@ -391,6 +419,12 @@ Route::get('outpage',  function(Request $request){
 Route::get('componentsdata/document_code_option_list',  function(Request $request){
 		$compModel = new App\Models\ComponentsData();
 		return $compModel->document_code_option_list($request);
+	}
+)->middleware(['auth']);
+	
+Route::get('componentsdata/document_types_document_code_option_list',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->document_types_document_code_option_list($request);
 	}
 )->middleware(['auth']);
 	
@@ -466,6 +500,12 @@ Route::get('componentsdata/permission_option_list',  function(Request $request){
 	}
 )->middleware(['auth']);
 	
+Route::get('componentsdata/product_categories_company_id_option_list',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->product_categories_company_id_option_list($request);
+	}
+)->middleware(['auth']);
+	
 Route::get('componentsdata/category_option_list',  function(Request $request){
 		$compModel = new App\Models\ComponentsData();
 		return $compModel->category_option_list($request);
@@ -520,9 +560,39 @@ Route::get('componentsdata/users_username_value_exist',  function(Request $reque
 	}
 );
 	
+Route::get('componentsdata/user_role_id_option_list',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->user_role_id_option_list($request);
+	}
+)->middleware(['auth']);
+	
+Route::get('componentsdata/users_user_role_id_option_list',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->users_user_role_id_option_list($request);
+	}
+)->middleware(['auth']);
+	
+Route::get('componentsdata/user_role_id_option_list_2',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->user_role_id_option_list_2($request);
+	}
+)->middleware(['auth']);
+	
 Route::get('componentsdata/document_types_company_id_option_list',  function(Request $request){
 		$compModel = new App\Models\ComponentsData();
 		return $compModel->document_types_company_id_option_list($request);
+	}
+)->middleware(['auth']);
+	
+Route::get('componentsdata/git_insurance_driver_name_option_list',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->git_insurance_driver_name_option_list($request);
+	}
+)->middleware(['auth']);
+	
+Route::get('componentsdata/git_insurance_going_to_option_list',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->git_insurance_going_to_option_list($request);
 	}
 )->middleware(['auth']);
 	
@@ -550,9 +620,27 @@ Route::get('componentsdata/products_category_option_list',  function(Request $re
 	}
 )->middleware(['auth']);
 	
+Route::get('componentsdata/products_category_option_list_2',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->products_category_option_list_2($request);
+	}
+)->middleware(['auth']);
+	
+Route::get('componentsdata/reportsid_list',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->reportsid_list($request);
+	}
+)->middleware(['auth']);
+	
 Route::get('componentsdata/transactions_id_option_list_2',  function(Request $request){
 		$compModel = new App\Models\ComponentsData();
 		return $compModel->transactions_id_option_list_2($request);
+	}
+)->middleware(['auth']);
+	
+Route::get('componentsdata/transactions_document_type_id_option_list',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->transactions_document_type_id_option_list($request);
 	}
 )->middleware(['auth']);
 	

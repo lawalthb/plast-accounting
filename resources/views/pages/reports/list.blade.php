@@ -14,6 +14,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
     $total_records = $records->total();
     $limit = $records->perPage();
     $record_count = count($records);
+    $document_types_company_id_option_list = $comp_model->document_types_company_id_option_list();
     $pageTitle = __('reports'); //set dynamic page title
 ?>
 @extends($layout)
@@ -58,174 +59,214 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
 <div  class="" >
     <div class="container-fluid">
         <div class="row ">
-            <div class="col-md-12 comp-grid " >
-                <?php Html::display_page_errors($errors); ?>
-                <div  class=" page-content" >
-                    <div id="reports-list-records">
-                        <div id="page-main-content" class="table-responsive">
-                            <?php Html::page_bread_crumb("/reports/", $field_name, $field_value); ?>
-                            <table class="table table-hover table-striped table-sm text-left">
-                                <thead class="table-header ">
-                                    <tr>
-                                        <?php if($can_delete){ ?>
-                                        <th class="td-checkbox">
-                                        <label class="form-check-label">
-                                        <input class="toggle-check-all form-check-input" type="checkbox" />
-                                        </label>
-                                        </th>
-                                        <?php } ?>
-                                        <th class="td-id <?php echo (get_value('orderby') == 'id' ? 'sortedby' : null); ?>" >
-                                        <?php Html :: get_field_order_link('id', __('id'), ''); ?>
-                                        </th>
-                                        <th class="td-name <?php echo (get_value('orderby') == 'name' ? 'sortedby' : null); ?>" >
-                                        <?php Html :: get_field_order_link('name', __('name'), ''); ?>
-                                        </th>
-                                        <th class="td-link <?php echo (get_value('orderby') == 'link' ? 'sortedby' : null); ?>" >
-                                        <?php Html :: get_field_order_link('link', __('link'), ''); ?>
-                                        </th>
-                                        <th class="td-company_id <?php echo (get_value('orderby') == 'company_id' ? 'sortedby' : null); ?>" >
-                                        <?php Html :: get_field_order_link('company_id', __('companyId'), ''); ?>
-                                        </th>
-                                        <th class="td-is_active <?php echo (get_value('orderby') == 'is_active' ? 'sortedby' : null); ?>" >
-                                        <?php Html :: get_field_order_link('is_active', __('isActive'), ''); ?>
-                                        </th>
-                                        <th class="td-no_views <?php echo (get_value('orderby') == 'no_views' ? 'sortedby' : null); ?>" >
-                                        <?php Html :: get_field_order_link('no_views', __('noViews'), ''); ?>
-                                        </th>
-                                        <th class="td-last_view_time <?php echo (get_value('orderby') == 'last_view_time' ? 'sortedby' : null); ?>" >
-                                        <?php Html :: get_field_order_link('last_view_time', __('lastViewTime'), ''); ?>
-                                        </th>
-                                        <th class="td-btn"></th>
-                                    </tr>
-                                </thead>
-                                <?php
-                                    if($total_records){
-                                ?>
-                                <tbody class="page-data">
-                                    <!--record-->
-                                    <?php
-                                        $counter = 0;
-                                        foreach($records as $data){
-                                        $rec_id = ($data['id'] ? urlencode($data['id']) : null);
-                                        $counter++;
-                                    ?>
-                                    <tr>
-                                        <?php if($can_delete){ ?>
-                                        <td class=" td-checkbox">
-                                            <label class="form-check-label">
-                                            <input class="optioncheck form-check-input" name="optioncheck[]" value="<?php echo $data['id'] ?>" type="checkbox" />
-                                            </label>
-                                        </td>
-                                        <?php } ?>
-                                        <!--PageComponentStart-->
-                                        <td class="td-id">
-                                            <a href="<?php print_link("reports/view/$data[id]") ?>"><?php echo $data['id']; ?></a>
-                                        </td>
-                                        <td class="td-name">
-                                            <?php echo  $data['name'] ; ?>
-                                        </td>
-                                        <td class="td-link">
-                                            <?php echo  $data['link'] ; ?>
-                                        </td>
-                                        <td class="td-company_id">
-                                            <a size="sm" class="btn btn-sm btn btn-secondary page-modal" href="<?php print_link("companies/view/$data[company_id]?subpage=1") ?>">
-                                            <i class="material-icons">visibility</i> <?php echo "Companies" ?>
-                                        </a>
-                                    </td>
-                                    <td class="td-is_active">
-                                        <?php echo  $data['is_active'] ; ?>
-                                    </td>
-                                    <td class="td-no_views">
-                                        <?php echo  $data['no_views'] ; ?>
-                                    </td>
-                                    <td class="td-last_view_time">
-                                        <?php echo  $data['last_view_time'] ; ?>
-                                    </td>
-                                    <!--PageComponentEnd-->
-                                    <td class="td-btn">
-                                        <div class="dropdown" >
-                                            <button data-bs-toggle="dropdown" class="dropdown-toggle btn text-primary btn-flat btn-sm">
-                                            <i class="material-icons">menu</i> 
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <?php if($can_view){ ?>
-                                                <a class="dropdown-item "   href="<?php print_link("reports/view/$rec_id"); ?>" >
-                                                <i class="material-icons">visibility</i> {{ __('view') }}
-                                            </a>
-                                            <?php } ?>
-                                            <?php if($can_edit){ ?>
-                                            <a class="dropdown-item "   href="<?php print_link("reports/edit/$rec_id"); ?>" >
-                                            <i class="material-icons">edit</i> {{ __('edit') }}
-                                        </a>
-                                        <?php } ?>
-                                        <?php if($can_delete){ ?>
-                                        <a class="dropdown-item record-delete-btn" data-prompt-msg="{{ __('promptDeleteRecord') }}" data-display-style="modal" href="<?php print_link("reports/delete/$rec_id"); ?>" >
-                                        <i class="material-icons">delete_sweep</i> {{ __('delete') }}
-                                    </a>
-                                    <?php } ?>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                    <?php 
+            <div class="col-md-2 comp-grid " >
+                <div class="q-mb-sm q-pa-sm sticky-top" >
+                    <?php $menu_id = "menu-" . random_str(); ?>
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="h4">Companies</div>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#<?php echo $menu_id ?>" aria-expanded="false">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                    </nav>
+                    <div class="collapse collapse-lg " id="<?php echo $menu_id ?>" >
+                    <ul class="nav nav-pills flex-column">
+                        <?php 
+                            $options = $document_types_company_id_option_list ?? [];
+                            foreach($options as $option){
+                            $value = $option->value;
+                            $label = $option->label ?? $value;
+                            $nav_link = add_query_params(['reports_company_id' => $value] , false);
+                        ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?php echo is_active_link('reports_company_id', $value); ?>" href="<?php print_link($nav_link) ?>">
+                            <?php echo $label; ?>
+                        </a>
+                    </li>
+                    <?php
                         }
                     ?>
-                    <!--endrecord-->
-                </tbody>
-                <tbody class="search-data"></tbody>
-                <?php
-                    }
-                    else{
-                ?>
-                <tbody class="page-data">
-                    <tr>
-                        <td class="bg-light text-center text-muted animated bounce p-3" colspan="1000">
-                            <i class="material-icons">block</i> {{ __('noRecordFound') }}
-                        </td>
-                    </tr>
-                </tbody>
-                <?php
-                    }
-                ?>
-            </table>
-        </div>
-        <?php
-            if($show_footer){
-        ?>
-        <div class=" mt-3">
-            <div class="row align-items-center justify-content-between">    
-                <div class="col-md-auto justify-content-center">    
-                    <div class="d-flex justify-content-start">  
-                        <?php if($can_delete){ ?>
-                        <button data-prompt-msg="{{ __('promptDeleteRecords') }}" data-display-style="modal" data-url="<?php print_link("reports/delete/{sel_ids}"); ?>" class="btn btn-sm btn-danger btn-delete-selected d-none">
-                        <i class="material-icons">delete_sweep</i> {{ __('deleteSelected') }}
-                        </button>
-                        <?php } ?>
-                        <div class="dropup export-btn-holder mx-1">
-                            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">save</i> {{ __('export') }}
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <?php $export_print_link = add_query_params(['export' => 'print']); ?>
-                                <a class="dropdown-item export-link-btn" data-format="print" href="<?php print_link($export_print_link); ?>" target="_blank">
-                                <img src="{{ asset('images/print.png') }}" class="mr-2" /> PRINT
-                            </a>
-                            <?php $export_pdf_link = add_query_params(['export' => 'pdf']); ?>
-                            <a class="dropdown-item export-link-btn" data-format="pdf" href="<?php print_link($export_pdf_link); ?>" target="_blank">
-                            <img src="{{ asset('images/pdf.png') }}" class="mr-2" /> PDF
-                        </a>
-                        <?php $export_csv_link = add_query_params(['export' => 'csv']); ?>
-                        <a class="dropdown-item export-link-btn" data-format="csv" href="<?php print_link($export_csv_link); ?>" target="_blank">
-                        <img src="{{ asset('/images/csv.png') }}" class="mr-2" /> CSV
-                    </a>
-                    <?php $export_excel_link = add_query_params(['export' => 'excel']); ?>
-                    <a class="dropdown-item export-link-btn" data-format="excel" href="<?php print_link($export_excel_link); ?>" target="_blank">
-                    <img src="{{ asset('images/xsl.png') }}" class="mr-2" /> EXCEL
-                </a>
+                </ul>
             </div>
         </div>
-        <?php Html :: import_form('reports/importdata' , __('importData'), 'CSV , JSON'); ?>
     </div>
+    <div class="col-md-10 comp-grid " >
+        <?php Html::display_page_errors($errors); ?>
+        <div class="filter-tags mb-2">
+            <?php
+                Html::filter_tag('reports_company_id', 'Company', $document_types_company_id_option_list);
+            ?>
+        </div>
+        <div  class=" page-content" >
+            <div id="reports-list-records">
+                <div id="page-main-content" class="table-responsive">
+                    <?php Html::page_bread_crumb("/reports/", $field_name, $field_value); ?>
+                    <table class="table table-hover table-striped table-sm text-left">
+                        <thead class="table-header ">
+                            <tr>
+                                <?php if($can_delete){ ?>
+                                <th class="td-checkbox">
+                                <label class="form-check-label">
+                                <input class="toggle-check-all form-check-input" type="checkbox" />
+                                </label>
+                                </th>
+                                <?php } ?>
+                                <th class="td-id <?php echo (get_value('orderby') == 'id' ? 'sortedby' : null); ?>" >
+                                <?php Html :: get_field_order_link('id', __('id'), ''); ?>
+                                </th>
+                                <th class="td-name <?php echo (get_value('orderby') == 'name' ? 'sortedby' : null); ?>" >
+                                <?php Html :: get_field_order_link('name', __('name'), ''); ?>
+                                </th>
+                                <th class="td-link <?php echo (get_value('orderby') == 'link' ? 'sortedby' : null); ?>" >
+                                <?php Html :: get_field_order_link('link', __('link'), ''); ?>
+                                </th>
+                                <th class="td-company_id <?php echo (get_value('orderby') == 'company_id' ? 'sortedby' : null); ?>" >
+                                <?php Html :: get_field_order_link('company_id', __('companyId'), ''); ?>
+                                </th>
+                                <th class="td-is_active <?php echo (get_value('orderby') == 'is_active' ? 'sortedby' : null); ?>" >
+                                <?php Html :: get_field_order_link('is_active', __('isActive'), ''); ?>
+                                </th>
+                                <th class="td-no_views <?php echo (get_value('orderby') == 'no_views' ? 'sortedby' : null); ?>" >
+                                <?php Html :: get_field_order_link('no_views', __('noViews'), ''); ?>
+                                </th>
+                                <th class="td-last_view_time <?php echo (get_value('orderby') == 'last_view_time' ? 'sortedby' : null); ?>" >
+                                <?php Html :: get_field_order_link('last_view_time', __('lastViewTime'), ''); ?>
+                                </th>
+                                <th class="td-report_code <?php echo (get_value('orderby') == 'report_code' ? 'sortedby' : null); ?>" >
+                                <?php Html :: get_field_order_link('report_code', __('reportCode'), ''); ?>
+                                </th>
+                                <th class="td-btn"></th>
+                            </tr>
+                        </thead>
+                        <?php
+                            if($total_records){
+                        ?>
+                        <tbody class="page-data">
+                            <!--record-->
+                            <?php
+                                $counter = 0;
+                                foreach($records as $data){
+                                $rec_id = ($data['id'] ? urlencode($data['id']) : null);
+                                $counter++;
+                            ?>
+                            <tr>
+                                <?php if($can_delete){ ?>
+                                <td class=" td-checkbox">
+                                    <label class="form-check-label">
+                                    <input class="optioncheck form-check-input" name="optioncheck[]" value="<?php echo $data['id'] ?>" type="checkbox" />
+                                    </label>
+                                </td>
+                                <?php } ?>
+                                <!--PageComponentStart-->
+                                <td class="td-id">
+                                    <a href="<?php print_link("reports/view/$data[id]") ?>"><?php echo $data['id']; ?></a>
+                                </td>
+                                <td class="td-name">
+                                    <?php echo  $data['name'] ; ?>
+                                </td>
+                                <td class="td-link">
+                                    <?php echo  $data['link'] ; ?>
+                                </td>
+                                <td class="td-company_id">
+                                    <a size="sm" class="btn btn-sm btn btn-secondary page-modal" href="<?php print_link("companies/view/$data[company_id]?subpage=1") ?>">
+                                    <?php echo $data['companies_name'] ?>
+                                </a>
+                            </td>
+                            <td class="td-is_active">
+                                <?php echo  $data['is_active'] ; ?>
+                            </td>
+                            <td class="td-no_views">
+                                <?php echo  $data['no_views'] ; ?>
+                            </td>
+                            <td class="td-last_view_time">
+                                <?php echo  $data['last_view_time'] ; ?>
+                            </td>
+                            <td class="td-report_code">
+                                <?php echo  $data['report_code'] ; ?>
+                            </td>
+                            <!--PageComponentEnd-->
+                            <td class="td-btn">
+                                <div class="dropdown" >
+                                    <button data-bs-toggle="dropdown" class="dropdown-toggle btn text-primary btn-flat btn-sm">
+                                    <i class="material-icons">menu</i> 
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <?php if($can_view){ ?>
+                                        <a class="dropdown-item "   href="<?php print_link("reports/view/$rec_id"); ?>" >
+                                        <i class="material-icons">visibility</i> {{ __('view') }}
+                                    </a>
+                                    <?php } ?>
+                                    <?php if($can_edit){ ?>
+                                    <a class="dropdown-item "   href="<?php print_link("reports/edit/$rec_id"); ?>" >
+                                    <i class="material-icons">edit</i> {{ __('edit') }}
+                                </a>
+                                <?php } ?>
+                                <?php if($can_delete){ ?>
+                                <a class="dropdown-item record-delete-btn" data-prompt-msg="{{ __('promptDeleteRecord') }}" data-display-style="modal" href="<?php print_link("reports/delete/$rec_id"); ?>" >
+                                <i class="material-icons">delete_sweep</i> {{ __('delete') }}
+                            </a>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <?php 
+                }
+            ?>
+            <!--endrecord-->
+        </tbody>
+        <tbody class="search-data"></tbody>
+        <?php
+            }
+            else{
+        ?>
+        <tbody class="page-data">
+            <tr>
+                <td class="bg-light text-center text-muted animated bounce p-3" colspan="1000">
+                    <i class="material-icons">block</i> {{ __('noRecordFound') }}
+                </td>
+            </tr>
+        </tbody>
+        <?php
+            }
+        ?>
+    </table>
+</div>
+<?php
+    if($show_footer){
+?>
+<div class=" mt-3">
+    <div class="row align-items-center justify-content-between">    
+        <div class="col-md-auto justify-content-center">    
+            <div class="d-flex justify-content-start">  
+                <?php if($can_delete){ ?>
+                <button data-prompt-msg="{{ __('promptDeleteRecords') }}" data-display-style="modal" data-url="<?php print_link("reports/delete/{sel_ids}"); ?>" class="btn btn-sm btn-danger btn-delete-selected d-none">
+                <i class="material-icons">delete_sweep</i> {{ __('deleteSelected') }}
+                </button>
+                <?php } ?>
+                <div class="dropup export-btn-holder mx-1">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="material-icons">save</i> {{ __('export') }}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <?php $export_print_link = add_query_params(['export' => 'print']); ?>
+                        <a class="dropdown-item export-link-btn" data-format="print" href="<?php print_link($export_print_link); ?>" target="_blank">
+                        <img src="{{ asset('images/print.png') }}" class="mr-2" /> PRINT
+                    </a>
+                    <?php $export_pdf_link = add_query_params(['export' => 'pdf']); ?>
+                    <a class="dropdown-item export-link-btn" data-format="pdf" href="<?php print_link($export_pdf_link); ?>" target="_blank">
+                    <img src="{{ asset('images/pdf.png') }}" class="mr-2" /> PDF
+                </a>
+                <?php $export_csv_link = add_query_params(['export' => 'csv']); ?>
+                <a class="dropdown-item export-link-btn" data-format="csv" href="<?php print_link($export_csv_link); ?>" target="_blank">
+                <img src="{{ asset('/images/csv.png') }}" class="mr-2" /> CSV
+            </a>
+            <?php $export_excel_link = add_query_params(['export' => 'excel']); ?>
+            <a class="dropdown-item export-link-btn" data-format="excel" href="<?php print_link($export_excel_link); ?>" target="_blank">
+            <img src="{{ asset('images/xsl.png') }}" class="mr-2" /> EXCEL
+        </a>
+    </div>
+</div>
+</div>
 </div>
 <div class="col">   
     <?php

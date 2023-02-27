@@ -68,9 +68,7 @@ class Marketers extends Model implements Auditable
 			"marketers.name AS name",
 			"marketers.user_id AS user_id",
 			"users.username AS users_username",
-			"marketers.is_active AS is_active",
-			"marketers.date_created AS date_created",
-			"marketers.date_updated AS date_updated" 
+			"marketers.is_active AS is_active" 
 		];
 	}
 	
@@ -88,9 +86,7 @@ class Marketers extends Model implements Auditable
 			"marketers.name AS name",
 			"marketers.user_id AS user_id",
 			"users.username AS users_username",
-			"marketers.is_active AS is_active",
-			"marketers.date_created AS date_created",
-			"marketers.date_updated AS date_updated" 
+			"marketers.is_active AS is_active" 
 		];
 	}
 	
@@ -143,6 +139,36 @@ class Marketers extends Model implements Auditable
 			"user_id",
 			"is_active",
 			"id" 
+		];
+	}
+	
+
+	/**
+     * return adminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function adminlistFields(){
+		return [ 
+			"id",
+			"name",
+			"is_active",
+			"user_id" 
+		];
+	}
+	
+
+	/**
+     * return exportAdminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function exportAdminlistFields(){
+		return [ 
+			"id",
+			"name",
+			"is_active",
+			"user_id" 
 		];
 	}
 	

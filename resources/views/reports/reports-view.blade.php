@@ -32,6 +32,10 @@
             <th>Last View Time</th>
             <td>{{ $record->last_view_time }}</td>
         </tr>
+        <tr>
+            <th>Report Code</th>
+            <td>{{ $record->report_code }}</td>
+        </tr>
     </tbody>
 </table>
 @endsection

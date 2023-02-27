@@ -26,7 +26,7 @@ class MarketersAddRequest extends FormRequest
         return [
             
 				"name" => "required|string|min:3",
-				"is_active" => "required",
+				"is_active" => "nullable",
             
         ];
     }

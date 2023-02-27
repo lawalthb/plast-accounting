@@ -34,7 +34,7 @@ class Document_TypesAddRequest extends FormRequest
 				"print_onsave" => "required",
 				"desc_each_line" => "required",
 				"document_code" => "required",
-				"created_by" => "required|numeric",
+				"created_by" => "required",
             
         ];
     }

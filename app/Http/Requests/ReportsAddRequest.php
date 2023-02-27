@@ -28,9 +28,8 @@ class ReportsAddRequest extends FormRequest
 				"name" => "required|string",
 				"link" => "required|string",
 				"company_id" => "required",
-				"is_active" => "required|string",
-				"no_views" => "required|numeric",
-				"last_view_time" => "nullable|date",
+				"is_active" => "required",
+				"report_code" => "nullable|numeric",
             
         ];
     }

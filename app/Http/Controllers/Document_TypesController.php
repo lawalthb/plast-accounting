@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Document_TypesAddRequest;
 use App\Http\Requests\Document_TypesEditRequest;
+use App\Http\Requests\Document_TypesadminAddRequest;
 use App\Models\Document_Types;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -49,6 +50,7 @@ class Document_TypesController extends Controller
 	function view($rec_id = null){
 		$query = Document_Types::query();
 		$record = $query->findOrFail($rec_id, Document_Types::viewFields());
+		$this->afterView($rec_id, $record);
 		return $this->renderView("pages.document_types.view", ["data" => $record]);
 	}
 	
@@ -61,6 +63,17 @@ class Document_TypesController extends Controller
 	function masterDetail($rec_id = null){
 		return View("pages.document_types.detail-pages", ["masterRecordId" => $rec_id]);
 	}
+    /**
+     * After view page record
+     * @param string $rec_id // record id to be selected
+     * @param object $record // selected page record
+     */
+    private function afterView($rec_id, $record){
+        //enter statement here
+        DB::table('document_types')->where('id', $rec_id)->update(['no_view' =>
+        DB::raw('no_view + 1')
+        ]);
+    }
 	
 
 	/**
@@ -98,7 +111,7 @@ class Document_TypesController extends Controller
 		if ($request->isMethod('post')) {
 			$modeldata = $this->normalizeFormData($request->validated());
 			$record->update($modeldata);
-			return $this->redirect("document_types", __('recordUpdatedSuccessfully'));
+			return $this->redirect("document_types/adminlist", __('recordUpdatedSuccessfully'));
 		}
 		return $this->renderView("pages.document_types.edit", ["data" => $record, "rec_id" => $rec_id]);
 	}
@@ -121,5 +134,79 @@ class Document_TypesController extends Controller
 		});
 		$redirectUrl = $request->redirect ?? url()->previous();
 		return $this->redirect($redirectUrl, __('recordDeletedSuccessfully'));
+	}
+	
+
+	/**
+     * List table records
+	 * @param  \Illuminate\Http\Request
+     * @param string $fieldname //filter records by a table field
+     * @param string $fieldvalue //filter value
+     * @return \Illuminate\View\View
+     */
+	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
+		$view = "pages.document_types.adminlist";
+		$query = Document_Types::query();
+		$limit = $request->limit ?? 50;
+		if($request->search){
+			$search = trim($request->search);
+			Document_Types::search($query, $search); // search table records
+		}
+		if($request->orderby){
+			$orderby = $request->orderby;
+			$ordertype = ($request->ordertype ? $request->ordertype : "desc");
+			$query->orderBy($orderby, $ordertype);
+		}
+		else{
+			$query->orderBy("document_types.no_view", "DESC");
+		}
+		$query->where("company_id", "=" , auth()->user()->company_id);
+		if($fieldname){
+			$query->where($fieldname , $fieldvalue); //filter by a table field
+		}
+		if($request->document_types_document_code){
+			$val = $request->document_types_document_code;
+			$query->where(DB::raw("document_types.document_code"), "=", $val);
+		}
+		$records = $query->paginate($limit, Document_Types::adminlistFields());
+		return $this->renderView($view, compact("records"));
+	}
+	
+
+	/**
+     * Display form page
+     * @return \Illuminate\View\View
+     */
+	function adminadd(){
+		return $this->renderView("pages.document_types.adminadd");
+	}
+	
+
+	/**
+     * Save form record to the table
+     * @return \Illuminate\Http\Response
+     */
+	function adminadd_store(Document_TypesadminAddRequest $request){
+		$modeldata = $this->normalizeFormData($request->validated());
+		$modeldata['company_id'] = auth()->user()->company_id;
+		
+		//save Document_Types record
+		$record = Document_Types::create($modeldata);
+		$rec_id = $record->id;
+	$this->sendMailOnRecordAdminadd($record);
+		return $this->redirect("document_types/adminlist", __('recordAddedSuccessfully'));
+	}
+	private function sendMailOnRecordAdminadd($record = null){
+		try{
+			$subject = "New Document Types Record Added";
+			$message = "New Document Types record has been added.";	
+			$receiver = "admin@plast_accounting.com";
+			$recid = $record->id;
+			$recordLink = url("document_types/view/$recid");
+			$this->sendRecordActionMail($receiver, $subject, $message, $recordLink);
+		}
+		catch(Exception $ex){
+			throw $ex;
+		}
 	}
 }

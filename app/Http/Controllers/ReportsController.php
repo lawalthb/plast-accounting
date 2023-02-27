@@ -9,7 +9,8 @@ use \PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReportsListExport;
 use App\Exports\ReportsViewExport;
-use Illuminate\Support\Facades\Validator;
+use App\Exports\ReportsAdminlistExport;
+use Illuminate\Support\Facades\DB;
 use Exception;
 class ReportsController extends Controller
 {
@@ -30,11 +31,16 @@ class ReportsController extends Controller
 			$search = trim($request->search);
 			Reports::search($query, $search); // search table records
 		}
+		$query->join("companies", "reports.company_id", "=", "companies.id");
 		$orderby = $request->orderby ?? "reports.id";
 		$ordertype = $request->ordertype ?? "desc";
 		$query->orderBy($orderby, $ordertype);
 		if($fieldname){
 			$query->where($fieldname , $fieldvalue); //filter by a table field
+		}
+		if($request->reports_company_id){
+			$val = $request->reports_company_id;
+			$query->where(DB::raw("reports.company_id"), "=", $val);
 		}
 		// if request format is for export example:- product/index?export=pdf
 		if($this->getExportFormat()){
@@ -42,33 +48,6 @@ class ReportsController extends Controller
 		}
 		$records = $query->paginate($limit, Reports::listFields());
 		return $this->renderView($view, compact("records"));
-	}
-	
-
-	/**
-     * Import csv file data into a table 
-     * @return data
-     */
-	function importdata(Request $request){
-		$importSettings = config("upload.import");
-		$maxFileSize = intval($importSettings["max_file_size"]) * 1000; //in kilobyte
-		$validator = Validator::make($request->all(), 
-			[
-				"file" => "file|required|max:$maxFileSize|mimes:csv,txt",
-			]
-		);
-		if ($validator->fails()) {
-			return back()->withErrors($validator->errors());
-		}
-		$csvOptions = array(
-			'fields' => '', //leave empty to use the first row as the columns
-			'delimiter' => ',', 
-			'quote' => '"'
-		);
-		$filePath = $request->file('file')->getRealPath();
-		$modeldata = parse_csv_file($filePath, $csvOptions);
-		Reports::insert($modeldata);
-		return $this->redirect(url()->previous(), __('dataImportedSuccessfully'));
 	}
 	
 
@@ -84,8 +63,20 @@ class ReportsController extends Controller
 			return $this->ExportView($query, $rec_id);
 		}
 		$record = $query->findOrFail($rec_id, Reports::viewFields());
+		$this->afterView($rec_id, $record);
 		return $this->renderView("pages.reports.view", ["data" => $record]);
 	}
+    /**
+     * After view page record
+     * @param string $rec_id // record id to be selected
+     * @param object $record // selected page record
+     */
+    private function afterView($rec_id, $record){
+        //enter statement here
+         DB::table('reports')->where('id', $rec_id)->update(['no_views' =>
+        DB::raw('no_view + 1')
+        ]);
+    }
 	
 
 	/**
@@ -145,6 +136,37 @@ class ReportsController extends Controller
 		});
 		$redirectUrl = $request->redirect ?? url()->previous();
 		return $this->redirect($redirectUrl, __('recordDeletedSuccessfully'));
+	}
+	
+
+	/**
+     * List table records
+	 * @param  \Illuminate\Http\Request
+     * @param string $fieldname //filter records by a table field
+     * @param string $fieldvalue //filter value
+     * @return \Illuminate\View\View
+     */
+	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
+		$view = "pages.reports.adminlist";
+		$query = Reports::query();
+		$limit = $request->limit ?? 20;
+		if($request->search){
+			$search = trim($request->search);
+			Reports::search($query, $search); // search table records
+		}
+		$query->join("companies", "reports.company_id", "=", "companies.id");
+		$orderby = $request->orderby ?? "reports.id";
+		$ordertype = $request->ordertype ?? "desc";
+		$query->orderBy($orderby, $ordertype);
+		if($fieldname){
+			$query->where($fieldname , $fieldvalue); //filter by a table field
+		}
+		// if request format is for export example:- product/index?export=pdf
+		if($this->getExportFormat()){
+			return $this->ExportAdminlist($query); // export current query
+		}
+		$records = $query->paginate($limit, Reports::adminlistFields());
+		return $this->renderView($view, compact("records"));
 	}
 	private function getNextRecordId($rec_id){
 		$query = Reports::query();
@@ -221,6 +243,34 @@ class ReportsController extends Controller
 		}
 		elseif($format == "excel"){
 			return Excel::download(new ReportsViewExport($query, $rec_id), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
+		}
+	}
+	
+
+	/**
+     * Export table records to different format
+	 * supported format:- PDF, CSV, EXCEL, HTML
+	 * @param \Illuminate\Database\Eloquent\Model $query
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+	private function ExportAdminlist($query){
+		ob_end_clean(); // clean any output to allow file download
+		$filename = "AdminlistReportsReport-" . date_now();
+		$format = $this->getExportFormat();
+		if($format == "print"){
+			$records = $query->get(Reports::exportAdminlistFields());
+			return view("reports.reports-adminlist", ["records" => $records]);
+		}
+		elseif($format == "pdf"){
+			$records = $query->get(Reports::exportAdminlistFields());
+			$pdf = PDF::loadView("reports.reports-adminlist", ["records" => $records]);
+			return $pdf->download("$filename.pdf");
+		}
+		elseif($format == "csv"){
+			return Excel::download(new ReportsAdminlistExport($query), "$filename.csv", \Maatwebsite\Excel\Excel::CSV);
+		}
+		elseif($format == "excel"){
+			return Excel::download(new ReportsAdminlistExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
 		}
 	}
 }

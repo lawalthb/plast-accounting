@@ -28,12 +28,12 @@ class CompaniesEditRequest extends FormRequest
 				"name" => "filled|string",
 				"slogan" => "nullable|string",
 				"address" => "nullable",
-				"logo" => "nullable|string",
 				"website" => "nullable|string",
-				"favicon" => "nullable|string",
 				"com_email" => "nullable|email",
 				"com_phone" => "nullable|string",
-				"signature" => "nullable|string",
+				"logo" => "nullable",
+				"favicon" => "nullable",
+				"signature" => "nullable",
             
         ];
     }

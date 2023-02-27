@@ -55,29 +55,24 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         <input id="ctrl-symbol" data-field="symbol"  value="<?php echo get_value('symbol') ?>" type="text" placeholder="{{ __('enterSymbol') }}"  required="" name="symbol"  class="form-control " />
                                     </div>
                                 </div>
-                                <div class="form-group ">
-                                    <label class="control-label" for="status">{{ __('status') }} <span class="text-danger">*</span></label>
-                                    <div id="ctrl-status-holder" class=" "> 
-                                        <select required=""  id="ctrl-status" data-field="status" name="status"  placeholder="{{ __('selectAValue') }}"    class="form-select" >
-                                        <option value="">{{ __('selectAValue') }}</option>
-                                        <?php
-                                            $options = Menu::status();
-                                            if(!empty($options)){
-                                            foreach($options as $option){
-                                            $value = $option['value'];
-                                            $label = $option['label'];
-                                            $selected = Html::get_field_selected('status', $value);
-                                        ?>
-                                        <option <?php echo $selected ?> value="<?php echo $value ?>">
-                                        <?php echo $label ?>
-                                        </option>                                   
-                                        <?php
-                                            }
-                                            }
-                                        ?>
-                                        </select>
-                                    </div>
-                                </div>
+                                <input id="ctrl-status" data-field="status"  value="<?php echo get_value('status', "1") ?>" type="hidden" placeholder="{{ __('enterStatus') }}" list="status_list"  required="" name="status"  class="form-control " />
+                                <datalist id="status_list">
+                                <?php
+                                    $options = Menu::status();
+                                    if(!empty($options)){
+                                    foreach($options as $option){
+                                    $value = $option['value'];
+                                    $label = $option['label'];
+                                    $selected = Html::get_field_selected('status', $value);
+                                ?>
+                                <option <?php echo $selected ?> value="<?php echo $value ?>">
+                                <?php echo $label ?>
+                                </option>
+                                <?php
+                                    }
+                                    }
+                                ?>
+                                </datalist>
                             </div>
                             <div class="form-ajax-status"></div>
                             <!--[form-button-start]-->

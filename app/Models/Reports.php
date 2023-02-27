@@ -28,7 +28,7 @@ class Reports extends Model
      * @var array
      */
 	protected $fillable = [
-		'name','link','company_id','is_active','no_views','last_view_time'
+		'name','link','company_id','is_active','no_views','last_view_time','report_code'
 	];
 	public $timestamps = false;
 	
@@ -41,8 +41,8 @@ class Reports extends Model
 	public static function search($query, $text){
 		//search table record 
 		$search_condition = '(
-				name LIKE ?  OR 
-				link LIKE ? 
+				reports.name LIKE ?  OR 
+				reports.link LIKE ? 
 		)';
 		$search_params = [
 			"%$text%","%$text%"
@@ -59,13 +59,15 @@ class Reports extends Model
      */
 	public static function listFields(){
 		return [ 
-			"id",
-			"name",
-			"link",
-			"company_id",
-			"is_active",
-			"no_views",
-			"last_view_time" 
+			"reports.id AS id",
+			"reports.name AS name",
+			"reports.link AS link",
+			"reports.company_id AS company_id",
+			"companies.name AS companies_name",
+			"reports.is_active AS is_active",
+			"reports.no_views AS no_views",
+			"reports.last_view_time AS last_view_time",
+			"reports.report_code AS report_code" 
 		];
 	}
 	
@@ -77,13 +79,15 @@ class Reports extends Model
      */
 	public static function exportListFields(){
 		return [ 
-			"id",
-			"name",
-			"link",
-			"company_id",
-			"is_active",
-			"no_views",
-			"last_view_time" 
+			"reports.id AS id",
+			"reports.name AS name",
+			"reports.link AS link",
+			"reports.company_id AS company_id",
+			"companies.name AS companies_name",
+			"reports.is_active AS is_active",
+			"reports.no_views AS no_views",
+			"reports.last_view_time AS last_view_time",
+			"reports.report_code AS report_code" 
 		];
 	}
 	
@@ -101,7 +105,8 @@ class Reports extends Model
 			"company_id",
 			"is_active",
 			"no_views",
-			"last_view_time" 
+			"last_view_time",
+			"report_code" 
 		];
 	}
 	
@@ -119,7 +124,8 @@ class Reports extends Model
 			"company_id",
 			"is_active",
 			"no_views",
-			"last_view_time" 
+			"last_view_time",
+			"report_code" 
 		];
 	}
 	
@@ -131,13 +137,54 @@ class Reports extends Model
      */
 	public static function editFields(){
 		return [ 
-			"id",
 			"name",
 			"link",
 			"company_id",
 			"is_active",
 			"no_views",
-			"last_view_time" 
+			"last_view_time",
+			"report_code",
+			"id" 
+		];
+	}
+	
+
+	/**
+     * return adminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function adminlistFields(){
+		return [ 
+			"reports.id AS id",
+			"reports.name AS name",
+			"reports.link AS link",
+			"reports.company_id AS company_id",
+			"companies.name AS companies_name",
+			"reports.is_active AS is_active",
+			"reports.no_views AS no_views",
+			"reports.last_view_time AS last_view_time",
+			"reports.report_code AS report_code" 
+		];
+	}
+	
+
+	/**
+     * return exportAdminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function exportAdminlistFields(){
+		return [ 
+			"reports.id AS id",
+			"reports.name AS name",
+			"reports.link AS link",
+			"reports.company_id AS company_id",
+			"companies.name AS companies_name",
+			"reports.is_active AS is_active",
+			"reports.no_views AS no_views",
+			"reports.last_view_time AS last_view_time",
+			"reports.report_code AS report_code" 
 		];
 	}
 }

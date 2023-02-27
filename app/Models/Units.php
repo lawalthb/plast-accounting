@@ -152,6 +152,38 @@ class Units extends Model implements Auditable
 	
 
 	/**
+     * return adminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function adminlistFields(){
+		return [ 
+			"id",
+			"name",
+			"symbol",
+			"status",
+			"user_id" 
+		];
+	}
+	
+
+	/**
+     * return exportAdminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function exportAdminlistFields(){
+		return [ 
+			"id",
+			"name",
+			"symbol",
+			"status",
+			"user_id" 
+		];
+	}
+	
+
+	/**
      * Audit log events
      * 
      * @var array

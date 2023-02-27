@@ -32,7 +32,7 @@ class Companies extends Model implements Auditable
      * @var array
      */
 	protected $fillable = [
-		'name','slogan','address','logo','website','favicon','com_email','com_phone','signature'
+		'name','slogan','address','website','com_email','com_phone','logo','favicon','signature'
 	];
 	public $timestamps = true;
 	const CREATED_AT = 'date_created'; 
@@ -156,11 +156,11 @@ class Companies extends Model implements Auditable
 			"name",
 			"slogan",
 			"address",
-			"logo",
 			"website",
-			"favicon",
 			"com_email",
 			"com_phone",
+			"logo",
+			"favicon",
 			"signature",
 			"id" 
 		];

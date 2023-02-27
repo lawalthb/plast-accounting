@@ -148,6 +148,40 @@ class Locations extends Model implements Auditable
 	
 
 	/**
+     * return adminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function adminlistFields(){
+		return [ 
+			"locations.id AS id",
+			"locations.name AS name",
+			"locations.created_by AS created_by",
+			"locations.is_active AS is_active",
+			"locations.date_created AS date_created",
+			"companies.name AS companies_name" 
+		];
+	}
+	
+
+	/**
+     * return exportAdminlist page fields of the model.
+     * 
+     * @return array
+     */
+	public static function exportAdminlistFields(){
+		return [ 
+			"locations.id AS id",
+			"locations.name AS name",
+			"locations.created_by AS created_by",
+			"locations.is_active AS is_active",
+			"locations.date_created AS date_created",
+			"companies.name AS companies_name" 
+		];
+	}
+	
+
+	/**
      * Audit log events
      * 
      * @var array

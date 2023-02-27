@@ -26,7 +26,6 @@ class LocationsEditRequest extends FormRequest
         return [
             
 				"name" => "filled|string|min:3",
-				"is_active" => "filled",
             
         ];
     }

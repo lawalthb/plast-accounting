@@ -93,18 +93,41 @@ class RolesController extends Controller
 		if ($permissionsValidator->fails()) {
 			return $permissionsValidator->errors();
 		}
-		$permissionsModeldata = $this->normalizeFormData($permissionsValidator->valid());
+		$permissionsValidData = $permissionsValidator->valid();
+		$permissionsModeldata = array_values($permissionsValidData);
 		
 		//save Roles record
 		$record = Roles::create($modeldata);
 		$rec_id = $record->role_id;
 		
-        // set permissions.role_id to roles.permission_id
-		$permissionsModeldata['role_id'] = $rec_id;
-		//save Permissions record
-		$permissionsRecord = \App\Models\Permissions::create($permissionsModeldata);
+		// set permissions.role_id to roles $rec_id
+		foreach ($permissionsModeldata as &$data) {
+			$data['role_id'] = $rec_id;
+		}
+		
+		//Save Permissions record
+		\App\Models\Permissions::insert($permissionsModeldata);
+	$this->sendMailOnRecordAdd($record);
+		$this->afterAdd($record);
 		return $this->redirect("roles", __('recordAddedSuccessfully'));
 	}
+    /**
+     * After new record created
+     * @param array $record // newly created record
+     */
+    private function afterAdd($record){
+        //enter statement here
+        $role_id   = $record['role_id'];
+        $modeldata = ['permission' => 'home/list', 'role_id' => $role_id, 
+        'company_id' => auth()->user()->company_id];
+        DB::table('permissions')->insert($modeldata);
+        $modeldata = ['permission' => 'account/list', 'role_id' => $role_id, 
+        'company_id' => auth()->user()->company_id];
+        DB::table('permissions')->insert($modeldata);
+        $modeldata = ['permission' => 'account/edit', 'role_id' => $role_id, 
+        'company_id' => auth()->user()->company_id];
+        DB::table('permissions')->insert($modeldata);
+    }
 	
 
 	/**
@@ -141,6 +164,32 @@ class RolesController extends Controller
 		});
 		$redirectUrl = $request->redirect ?? url()->previous();
 		return $this->redirect($redirectUrl, __('recordDeletedSuccessfully'));
+	}
+	
+
+	/**
+     * List table records
+	 * @param  \Illuminate\Http\Request
+     * @param string $fieldname //filter records by a table field
+     * @param string $fieldvalue //filter value
+     * @return \Illuminate\View\View
+     */
+	function adminlist(Request $request, $fieldname = null , $fieldvalue = null){
+		$view = "pages.roles.adminlist";
+		$query = Roles::query();
+		$limit = $request->limit ?? 20;
+		if($request->search){
+			$search = trim($request->search);
+			Roles::search($query, $search); // search table records
+		}
+		$orderby = $request->orderby ?? "roles.role_id";
+		$ordertype = $request->ordertype ?? "desc";
+		$query->orderBy($orderby, $ordertype);
+		if($fieldname){
+			$query->where($fieldname , $fieldvalue); //filter by a table field
+		}
+		$records = $query->paginate($limit, Roles::adminlistFields());
+		return $this->renderView($view, compact("records"));
 	}
 	private function getNextRecordId($rec_id){
 		$query = Roles::query();
@@ -189,6 +238,19 @@ class RolesController extends Controller
 		}
 		elseif($format == "excel"){
 			return Excel::download(new RolesViewExport($query, $rec_id), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
+		}
+	}
+	private function sendMailOnRecordAdd($record = null){
+		try{
+			$subject = "New Roles Record Added";
+			$message = "New Roles record has been added.";	
+			$receiver = "admin@plast_accounting.com";
+			$recid = $record->role_id;
+			$recordLink = url("roles/view/$recid");
+			$this->sendRecordActionMail($receiver, $subject, $message, $recordLink);
+		}
+		catch(Exception $ex){
+			throw $ex;
 		}
 	}
 }

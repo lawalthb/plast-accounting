@@ -25,6 +25,19 @@ class ComponentsData{
 	
 
 	/**
+     * document_types_document_code_option_list Model Action
+     * @return array
+     */
+	function document_types_document_code_option_list(){
+		$sqltext = "SELECT  DISTINCT document_code AS value,name AS label FROM document_types WHERE company_id=:comp_id ORDER BY name ASC" ;
+		$query_params = [];
+		$query_params['comp_id'] = 1;
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
      * transactions_id_option_list Model Action
      * @return array
      */
@@ -65,8 +78,9 @@ class ComponentsData{
      * @return array
      */
 	function sub_account_group_id_option_list(){
-		$sqltext = "SELECT id as value, name as label FROM sub_account_group";
+		$sqltext = "SELECT id as value, name as label FROM sub_account_group WHERE company_id=:comp_id" ;
 		$query_params = [];
+		$query_params['comp_id'] = auth()->user()->company_id;
 		$arr = DB::select(DB::raw($sqltext), $query_params);
 		return $arr;
 	}
@@ -89,7 +103,7 @@ class ComponentsData{
      * @return array
      */
 	function ledgers_sub_account_group_id_option_list(){
-		$sqltext = "SELECT id as value, name as label FROM sub_account_group WHERE code = 2014 and company_id=:comp" ;
+		$sqltext = "SELECT id as value, name as label FROM sub_account_group WHERE code=2012 and  company_id=:comp" ;
 		$query_params = [];
 $query_params['comp'] =  auth()->user()->company_id;
 		$arr = DB::select(DB::raw($sqltext), $query_params);
@@ -115,7 +129,7 @@ $query_params['comp'] = auth()->user()->company_id;
      * @return array
      */
 	function sub_account_group_id_option_list_2(){
-		$sqltext = "SELECT id as value, name as label FROM sub_account_group WHERE code = 2013 and company_id=:comp" ;
+		$sqltext = "SELECT id as value, name as label FROM sub_account_group WHERE code = 2011 and company_id=:comp" ;
 		$query_params = [];
 		$query_params['comp'] =  auth()->user()->company_id;
 		$arr = DB::select(DB::raw($sqltext), $query_params);
@@ -173,12 +187,25 @@ $query_params['comp'] = auth()->user()->company_id;
 	
 
 	/**
+     * product_categories_company_id_option_list Model Action
+     * @return array
+     */
+	function product_categories_company_id_option_list(){
+		$sqltext = "SELECT id as value, name as label FROM product_categories";
+		$query_params = [];
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
      * category_option_list Model Action
      * @return array
      */
 	function category_option_list(){
-		$sqltext = "SELECT id as value, name as label FROM product_categories";
+		$sqltext = "SELECT id as value, name as label FROM product_categories WHERE company_id=:comp_id" ;
 		$query_params = [];
+$query_params['comp_id'] = auth()->user()->company_id;
 		$arr = DB::select(DB::raw($sqltext), $query_params);
 		return $arr;
 	}
@@ -189,8 +216,9 @@ $query_params['comp'] = auth()->user()->company_id;
      * @return array
      */
 	function unit_option_list(){
-		$sqltext = "SELECT id as value, name as label FROM units";
+		$sqltext = "SELECT id as value, name as label FROM units WHERE company_id=:comp_id" ;
 		$query_params = [];
+$query_params['comp_id'] = auth()->user()->company_id;
 		$arr = DB::select(DB::raw($sqltext), $query_params);
 		return $arr;
 	}
@@ -289,11 +317,73 @@ $query_params['comp'] = auth()->user()->company_id;
 	
 
 	/**
+     * user_role_id_option_list Model Action
+     * @return array
+     */
+	function user_role_id_option_list(){
+		$sqltext = "SELECT role_id AS value, role_name AS label FROM roles" ;
+		$query_params = [];
+$query_params['comp_id'] = auth()->user()->company_id;
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
+     * users_user_role_id_option_list Model Action
+     * @return array
+     */
+	function users_user_role_id_option_list(){
+		$sqltext = "SELECT role_id AS value, role_name AS label FROM roles" ;
+		$query_params = [];
+$query_params['id'] = '3';
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
+     * user_role_id_option_list_2 Model Action
+     * @return array
+     */
+	function user_role_id_option_list_2(){
+		$sqltext = "SELECT role_id AS value, role_name AS label FROM roles" ;
+		$query_params = [];
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
      * document_types_company_id_option_list Model Action
      * @return array
      */
 	function document_types_company_id_option_list(){
 		$sqltext = "SELECT  DISTINCT id AS value,name AS label FROM companies ORDER BY name ASC";
+		$query_params = [];
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
+     * git_insurance_driver_name_option_list Model Action
+     * @return array
+     */
+	function git_insurance_driver_name_option_list(){
+		$sqltext = "SELECT  DISTINCT driver_name AS value,driver_name AS label FROM git_insurance ORDER BY driver_name ASC";
+		$query_params = [];
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
+     * git_insurance_going_to_option_list Model Action
+     * @return array
+     */
+	function git_insurance_going_to_option_list(){
+		$sqltext = "SELECT  DISTINCT going_to AS value,going_to AS label FROM git_insurance ORDER BY going_to ASC";
 		$query_params = [];
 		$arr = DB::select(DB::raw($sqltext), $query_params);
 		return $arr;
@@ -350,12 +440,50 @@ $query_params['comp'] = auth()->user()->company_id;
 	
 
 	/**
+     * products_category_option_list_2 Model Action
+     * @return array
+     */
+	function products_category_option_list_2(){
+		$sqltext = "SELECT  DISTINCT id AS value,name AS label FROM product_categories WHERE company_id=:comp_id ORDER BY name ASC" ;
+		$query_params = [];
+		$query_params['comp_id'] = auth()->user()->company_id;
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
+     * reportsid_list Model Action
+     * @return array
+     */
+	function reportsid_list(){
+		$sqltext = "SELECT id AS value, name AS label FROM reports GROUP BY id ORDER BY no_views DESC";
+		$query_params = [];
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
      * transactions_id_option_list_2 Model Action
      * @return array
      */
 	function transactions_id_option_list_2(){
 		$sqltext = "SELECT  DISTINCT id AS value,name AS label FROM document_types ORDER BY name ASC";
 		$query_params = [];
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
+     * transactions_document_type_id_option_list Model Action
+     * @return array
+     */
+	function transactions_document_type_id_option_list(){
+		$sqltext = "SELECT  DISTINCT id AS value,name AS label FROM document_types WHERE company_id=:comp_id ORDER BY name ASC" ;
+		$query_params = [];
+$query_params['comp_id'] = auth()->user()->company_id;
 		$arr = DB::select(DB::raw($sqltext), $query_params);
 		return $arr;
 	}

@@ -34,7 +34,8 @@ class ReportsViewExport implements FromQuery, WithHeadings, WithMapping, ShouldA
 			'Company Id',
 			'Is Active',
 			'No Views',
-			'Last View Time'
+			'Last View Time',
+			'Report Code'
         ];
     }
 
@@ -48,7 +49,8 @@ class ReportsViewExport implements FromQuery, WithHeadings, WithMapping, ShouldA
 			$record->company_id,
 			$record->is_active,
 			$record->no_views,
-			$record->last_view_time
+			$record->last_view_time,
+			$record->report_code
         ];
     }
 }

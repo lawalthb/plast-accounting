@@ -49,28 +49,24 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         <input id="ctrl-name" data-field="name"  value="<?php echo get_value('name') ?>" type="text" placeholder="{{ __('enterName') }}" minlength="3"  required="" name="name"  class="form-control " />
                                     </div>
                                 </div>
-                                <div class="form-group ">
-                                    <label class="control-label" for="is_active">{{ __('isActive') }} <span class="text-danger">*</span></label>
-                                    <div id="ctrl-is_active-holder" class=" "> 
-                                        <?php
-                                            $options = Menu::common_description();
-                                            if(!empty($options)){
-                                            foreach($options as $option){
-                                            $value = $option['value'];
-                                            $label = $option['label'];
-                                            //check if current option is checked option
-                                            $checked = Html::get_field_checked('is_active', $value, "Yes");
-                                        ?>
-                                        <label class="option-btn">
-                                        <input class="btn-check" <?php echo $checked ?>  value="<?php echo $value ?>" type="radio" required=""   name="is_active" />
-                                        <span class="btn btn-outline-secondary"><?php echo $label ?></span>
-                                        </label>
-                                        <?php
-                                            }
-                                            }
-                                        ?>
-                                    </div>
-                                </div>
+                                <input id="ctrl-is_active" data-field="is_active"  value="<?php echo get_value('is_active', "Yes") ?>" type="hidden" placeholder="{{ __('enterIsActive') }}" list="is_active_list"  name="is_active"  class="form-control " />
+                                <datalist id="is_active_list">
+                                <?php
+                                    $options = Menu::common_description();
+                                    if(!empty($options)){
+                                    foreach($options as $option){
+                                    $value = $option['value'];
+                                    $label = $option['label'];
+                                    $selected = Html::get_field_selected('is_active', $value);
+                                ?>
+                                <option <?php echo $selected ?> value="<?php echo $value ?>">
+                                <?php echo $label ?>
+                                </option>
+                                <?php
+                                    }
+                                    }
+                                ?>
+                                </datalist>
                             </div>
                             <div class="form-ajax-status"></div>
                             <!--[form-button-start]-->

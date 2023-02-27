@@ -64,6 +64,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                             ?>
                                             </select>
                                         </div>
+                                        <small class="form-text"><a href="/product_categories/adminlist" target="_blank">[New]</a></small>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label" for="unit">{{ __('unit') }} </label>
@@ -85,6 +86,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                             ?>
                                             </select>
                                         </div>
+                                        <small class="form-text"><a href="/units/adminlist" target="_blank">[New]</a></small>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label" for="name">{{ __('productName') }} <span class="text-danger">*</span></label>
@@ -93,9 +95,9 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label class="control-label" for="qty">{{ __('qty') }} <span class="text-danger">*</span></label>
+                                        <label class="control-label" for="qty">{{ __('openingQuantity') }} <span class="text-danger">*</span></label>
                                         <div id="ctrl-qty-holder" class=" "> 
-                                            <input id="ctrl-qty" data-field="qty"  value="<?php echo get_value('qty', "0.00") ?>" type="number" placeholder="{{ __('enterQty') }}" step="0.1"  required="" name="qty"  class="form-control " />
+                                            <input id="ctrl-qty" data-field="qty"  value="<?php echo get_value('qty', "0.00") ?>" type="number" placeholder="{{ __('enterOpeningQuantity') }}" step="0.1"  required="" name="qty"  class="form-control " />
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">

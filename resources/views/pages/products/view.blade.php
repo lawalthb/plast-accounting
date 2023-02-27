@@ -70,10 +70,10 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         <div class="bg-light mb-3 card-1 p-2 border rounded">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <small class="text-muted">{{ __('companyId') }}</small>
+                                                    <small class="text-muted">{{ __('companyName') }}</small>
                                                     <div class="fw-bold">
                                                         <a size="sm" class="btn btn-sm btn btn-secondary page-modal" href="<?php print_link("companies/view/$data[company_id]?subpage=1") ?>">
-                                                        <i class="material-icons">visibility</i> <?php echo "Companies Detail" ?>
+                                                        <?php echo $data['companies_name'] ?>
                                                     </a>
                                                 </div>
                                             </div>
@@ -99,7 +99,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                                 <small class="text-muted">{{ __('category') }}</small>
                                                 <div class="fw-bold">
                                                     <a size="sm" class="btn btn-sm btn btn-secondary page-modal" href="<?php print_link("product_categories/view/$data[category]?subpage=1") ?>">
-                                                    <i class="material-icons">visibility</i> <?php echo "Product Categories Detail" ?>
+                                                    <?php echo $data['product_categories_name'] ?>
                                                 </a>
                                             </div>
                                         </div>
@@ -208,10 +208,10 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                 <div class="bg-light mb-3 card-1 p-2 border rounded">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <small class="text-muted">{{ __('userId') }}</small>
+                                            <small class="text-muted">{{ __('username') }}</small>
                                             <div class="fw-bold">
                                                 <a size="sm" class="btn btn-sm btn btn-secondary page-modal" href="<?php print_link("users/view/$data[user_id]?subpage=1") ?>">
-                                                <i class="material-icons">visibility</i> <?php echo "Users Detail" ?>
+                                                <?php echo $data['users_username'] ?>
                                             </a>
                                         </div>
                                     </div>
@@ -225,7 +225,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         <small class="text-muted">{{ __('unit') }}</small>
                                         <div class="fw-bold">
                                             <a size="sm" class="btn btn-sm btn btn-secondary page-modal" href="<?php print_link("units/view/$data[unit]?subpage=1") ?>">
-                                            <i class="material-icons">visibility</i> <?php echo "Units Detail" ?>
+                                            <?php echo $data['units_name'] ?>
                                         </a>
                                     </div>
                                 </div>

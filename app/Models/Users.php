@@ -158,7 +158,6 @@ class Users extends Authenticatable implements MustVerifyEmail , Auditable
      */
 	public static function accounteditFields(){
 		return [ 
-			"id",
 			"firstname",
 			"lastname",
 			"role_id",
@@ -168,7 +167,8 @@ class Users extends Authenticatable implements MustVerifyEmail , Auditable
 			"is_active",
 			"company_id",
 			"username",
-			"user_role_id" 
+			"user_role_id",
+			"id" 
 		];
 	}
 	
@@ -234,14 +234,14 @@ class Users extends Authenticatable implements MustVerifyEmail , Auditable
 		return [ 
 			"firstname",
 			"lastname",
-			"role_id",
+			"email",
+			"username",
 			"phone",
 			"photo",
-			"user_type",
-			"is_active",
 			"company_id",
-			"username",
 			"user_role_id",
+			"is_active",
+			"user_type",
 			"id" 
 		];
 	}
@@ -254,22 +254,16 @@ class Users extends Authenticatable implements MustVerifyEmail , Auditable
      */
 	public static function adminlistFields(){
 		return [ 
-			"id",
 			"firstname",
 			"lastname",
 			"email",
-			"role_id",
+			"username",
+			"user_role_id",
 			"phone",
 			"photo",
-			"user_type",
 			"date_join",
 			"is_active",
-			"company_id",
-			"username",
-			"email_verified_at",
-			"user_role_id",
-			"date_created",
-			"date_updated" 
+			"id" 
 		];
 	}
 	
@@ -281,22 +275,37 @@ class Users extends Authenticatable implements MustVerifyEmail , Auditable
      */
 	public static function exportAdminlistFields(){
 		return [ 
-			"id",
 			"firstname",
 			"lastname",
 			"email",
-			"role_id",
+			"username",
+			"user_role_id",
 			"phone",
 			"photo",
-			"user_type",
 			"date_join",
 			"is_active",
-			"company_id",
+			"id" 
+		];
+	}
+	
+
+	/**
+     * return adminedit page fields of the model.
+     * 
+     * @return array
+     */
+	public static function admineditFields(){
+		return [ 
+			"firstname",
+			"lastname",
+			"email",
 			"username",
-			"email_verified_at",
+			"phone",
+			"photo",
+			"company_id",
 			"user_role_id",
-			"date_created",
-			"date_updated" 
+			"is_active",
+			"id" 
 		];
 	}
 	

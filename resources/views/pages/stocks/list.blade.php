@@ -276,7 +276,6 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
         </a>
     </div>
 </div>
-<?php Html :: import_form('stocks/importdata' , __('importData'), 'CSV , JSON'); ?>
 </div>
 </div>
 <div class="col">   
