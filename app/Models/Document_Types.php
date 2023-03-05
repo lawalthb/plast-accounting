@@ -30,7 +30,7 @@ class Document_Types extends Model implements Auditable
      * @var array
      */
 	protected $fillable = [
-		'name','method_numbering','prefix','prefix_char','starting_num','common_description','print_onsave','desc_each_line','document_code','company_id','created_by','no_view'
+		'name','method_numbering','prefix','prefix_char','starting_num','common_description','print_onsave','desc_each_line','document_code','company_id','created_by','no_view','date_created'
 	];
 	public $timestamps = true;
 	const CREATED_AT = 'date_created'; 

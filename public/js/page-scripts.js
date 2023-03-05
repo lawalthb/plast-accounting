@@ -775,5 +775,13 @@ $(document).on('click', '.btn-pager-load-more', function(){
 	event.preventDefault();
 });
 $(document).ready(function(){
-	// custom javascript | jquery codes
+    // custom javascript | jquery codes
+});
+$(document).on("change", ".credit_value", function(){
+    var sum = 0;
+    $(".credit_value").each(function(){
+        sum += +$(this).val();
+    });
+   $("#ctrl-total_debit").val(sum);
+  //alert(sum);
 });

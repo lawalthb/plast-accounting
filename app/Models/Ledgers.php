@@ -30,7 +30,7 @@ class Ledgers extends Model implements Auditable
      * @var array
      */
 	protected $fillable = [
-		'company_id','sub_account_group_id','ledger_name','marketer_id','address','email','phone','contact_person','is_active','credit_amount','debit_amount','user_id'
+		'company_id','sub_account_group_id','ledger_name','marketer_id','address','email','phone','contact_person','is_active','credit_amount','debit_amount','user_id','code'
 	];
 	public $timestamps = true;
 	const CREATED_AT = 'date_created'; 
@@ -76,7 +76,8 @@ class Ledgers extends Model implements Auditable
 			"is_active",
 			"user_id",
 			"date_created",
-			"date_updated" 
+			"date_updated",
+			"code" 
 		];
 	}
 	
@@ -98,7 +99,8 @@ class Ledgers extends Model implements Auditable
 			"is_active",
 			"user_id",
 			"date_created",
-			"date_updated" 
+			"date_updated",
+			"code" 
 		];
 	}
 	
@@ -125,7 +127,8 @@ class Ledgers extends Model implements Auditable
 			"user_id",
 			"reg_date",
 			"date_created",
-			"date_updated" 
+			"date_updated",
+			"code" 
 		];
 	}
 	
@@ -152,7 +155,8 @@ class Ledgers extends Model implements Auditable
 			"user_id",
 			"reg_date",
 			"date_created",
-			"date_updated" 
+			"date_updated",
+			"code" 
 		];
 	}
 	
@@ -176,7 +180,8 @@ class Ledgers extends Model implements Auditable
 			"credit_amount",
 			"debit_amount",
 			"user_id",
-			"id" 
+			"id",
+			"code" 
 		];
 	}
 	
@@ -195,7 +200,8 @@ class Ledgers extends Model implements Auditable
 			"credit_amount",
 			"debit_amount",
 			"is_active",
-			"user_id" 
+			"user_id",
+			"code" 
 		];
 	}
 	
@@ -214,7 +220,8 @@ class Ledgers extends Model implements Auditable
 			"credit_amount",
 			"debit_amount",
 			"is_active",
-			"user_id" 
+			"user_id",
+			"code" 
 		];
 	}
 	

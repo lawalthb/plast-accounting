@@ -206,6 +206,18 @@
 			'path' => 'auth/logout',
 			'label' => __('logOut'), 
 			'icon' => '<i class="material-icons ">subdirectory_arrow_left</i>'
+		],
+		
+		[
+			'path' => 'transactions/addreceipt',
+			'label' => __('addreceipt'), 
+			'icon' => '<i class="material-icons">extension</i>'
+		],
+		
+		[
+			'path' => 'transaction_ledgers/add4receipt',
+			'label' => __('add4receipt'), 
+			'icon' => '<i class="material-icons">extension</i>'
 		]
 	] ;
 	}

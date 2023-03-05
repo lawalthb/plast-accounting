@@ -121,6 +121,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                     ?>
                                     </datalist>
                                 </div>
+                                <input id="ctrl-code" data-field="code"  value="<?php echo get_value('code') ?>" type="hidden" placeholder="{{ __('enterCode') }}"  name="code"  class="form-control " />
                             </div>
                             <div class="form-ajax-status"></div>
                             <!--[form-button-start]-->
@@ -149,6 +150,17 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
 <!-- Page custom js -->
 @section('pagejs')
 <script>
+    
+    $(document).on('change', '#ctrl-sub_account_group_id', function() {
+    var val = $(this).val();
+    var url = `/componentsdata/ledgers_sub_account_group_id_autofill?value=${val}`;
+    $.get(url, function(result){
+    const data = result[0];
+    if(data){
+    $('#ctrl-code').val(data.code);
+    }
+    });
+    });
     
 $(document).ready(function(){
 	// custom javascript | jquery codes

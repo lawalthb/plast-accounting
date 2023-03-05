@@ -142,9 +142,9 @@ $query_params['comp'] = auth()->user()->company_id;
      * @return array
      */
 	function sub_account_group_id_option_list_3(){
-		$sqltext = "SELECT id as value, name as label FROM sub_account_group WHERE company_id=:comp" ;
+		$sqltext = "SELECT  DISTINCT id AS value,name AS label FROM sub_account_group WHERE company_id=:comp_id ORDER BY name ASC" ;
 		$query_params = [];
-		$query_params['comp'] =  auth()->user()->company_id;
+$query_params['comp_id'] = auth()->user()->company_id;
 		$arr = DB::select(DB::raw($sqltext), $query_params);
 		return $arr;
 	}
@@ -275,12 +275,38 @@ $query_params['comp_id'] = auth()->user()->company_id;
 	
 
 	/**
+     * transaction_ledgers_ledger_id_option_list Model Action
+     * @return array
+     */
+	function transaction_ledgers_ledger_id_option_list(){
+		$sqltext = "SELECT  DISTINCT id AS value,ledger_name AS label FROM ledgers WHERE code !=2001 and  company_id=:comp_id  ORDER BY ledger_name ASC" ;
+		$query_params = [];
+		$query_params['comp_id'] = auth()->user()->company_id;
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
      * document_type_id_option_list Model Action
      * @return array
      */
 	function document_type_id_option_list(){
 		$sqltext = "SELECT id as value, name as label FROM document_types";
 		$query_params = [];
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
+     * party_ledger_id_option_list Model Action
+     * @return array
+     */
+	function party_ledger_id_option_list(){
+		$sqltext = "SELECT  DISTINCT id AS value,ledger_name AS label FROM ledgers WHERE company_id=:comp_id and (code =2001  or code =2002 or code =2003)  ORDER BY ledger_name ASC" ;
+		$query_params = [];
+		$query_params['comp_id'] = auth()->user()->company_id;
 		$arr = DB::select(DB::raw($sqltext), $query_params);
 		return $arr;
 	}
@@ -398,6 +424,19 @@ $query_params['id'] = '3';
 		$sqltext = "SELECT  DISTINCT id AS value,name AS label FROM sub_account_group where company_id=:comp ORDER BY name ASC" ;
 		$query_params = [];
 $query_params['comp'] = auth()->user()->company_id;
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
+     * ledgers_sub_account_group_id_autofill Model Action
+     * @return array
+     */
+	function ledgers_sub_account_group_id_autofill(){
+		$sqltext = "SELECT code FROM sub_account_group WHERE id=:value" ;
+		$query_params = [];
+		$query_params['value'] = request()->get('value');
 		$arr = DB::select(DB::raw($sqltext), $query_params);
 		return $arr;
 	}

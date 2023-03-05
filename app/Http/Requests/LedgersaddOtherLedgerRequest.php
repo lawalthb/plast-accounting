@@ -35,6 +35,7 @@ class LedgersaddOtherLedgerRequest extends FormRequest
 				"credit_amount" => "required|numeric|min:0",
 				"debit_amount" => "required|numeric|min:0",
 				"is_active" => "nullable",
+				"code" => "nullable",
             
         ];
     }

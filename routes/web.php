@@ -339,7 +339,10 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::post('transaction_ledgers/add', 'Transaction_LedgersController@store')->name('transaction_ledgers.store');
 		
 	Route::any('transaction_ledgers/edit/{rec_id}', 'Transaction_LedgersController@edit')->name('transaction_ledgers.edit');	
-	Route::get('transaction_ledgers/delete/{rec_id}', 'Transaction_LedgersController@delete');
+	Route::get('transaction_ledgers/delete/{rec_id}', 'Transaction_LedgersController@delete');	
+	Route::get('transaction_ledgers/add4receipt', 'Transaction_LedgersController@add4receipt')->name('transaction_ledgers.add4receipt');
+	Route::post('transaction_ledgers/add4receipt', 'Transaction_LedgersController@add4receipt_store')->name('transaction_ledgers.add4receipt_store');
+	
 
 /* routes for Transaction_Products Controller */	
 	Route::get('transaction_products', 'Transaction_ProductsController@index')->name('transaction_products.index');
@@ -368,7 +371,10 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::get('transactions/superdashboardlist/{filter?}/{filtervalue?}', 'TransactionsController@superdashboardlist');	
 	Route::get('transactions/adminlist', 'TransactionsController@adminlist');
 	Route::get('transactions/adminlist/{filter?}/{filtervalue?}', 'TransactionsController@adminlist');	
-	Route::any('transactions/adminedit/{rec_id}', 'TransactionsController@adminedit')->name('transactions.adminedit');
+	Route::any('transactions/adminedit/{rec_id}', 'TransactionsController@adminedit')->name('transactions.adminedit');	
+	Route::get('transactions/addreceipt', 'TransactionsController@addreceipt')->name('transactions.addreceipt');
+	Route::post('transactions/addreceipt', 'TransactionsController@addreceipt_store')->name('transactions.addreceipt_store');
+	
 
 /* routes for Units Controller */	
 	Route::get('units', 'UnitsController@index')->name('units.index');
@@ -542,9 +548,21 @@ Route::get('componentsdata/code_option_list',  function(Request $request){
 	}
 )->middleware(['auth']);
 	
+Route::get('componentsdata/transaction_ledgers_ledger_id_option_list',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->transaction_ledgers_ledger_id_option_list($request);
+	}
+)->middleware(['auth']);
+	
 Route::get('componentsdata/document_type_id_option_list',  function(Request $request){
 		$compModel = new App\Models\ComponentsData();
 		return $compModel->document_type_id_option_list($request);
+	}
+)->middleware(['auth']);
+	
+Route::get('componentsdata/party_ledger_id_option_list',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->party_ledger_id_option_list($request);
 	}
 )->middleware(['auth']);
 	
@@ -599,6 +617,12 @@ Route::get('componentsdata/git_insurance_going_to_option_list',  function(Reques
 Route::get('componentsdata/ledgers_sub_account_group_id_option_list_2',  function(Request $request){
 		$compModel = new App\Models\ComponentsData();
 		return $compModel->ledgers_sub_account_group_id_option_list_2($request);
+	}
+)->middleware(['auth']);
+	
+Route::get('componentsdata/ledgers_sub_account_group_id_autofill',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->ledgers_sub_account_group_id_autofill($request);
 	}
 )->middleware(['auth']);
 	

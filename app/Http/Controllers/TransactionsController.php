@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TransactionsAddRequest;
 use App\Http\Requests\TransactionsEditRequest;
 use App\Http\Requests\TransactionsadminEditRequest;
+use App\Http\Requests\TransactionsaddReceiptRequest;
 use App\Models\Transactions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -114,11 +115,11 @@ class TransactionsController extends Controller
 		
 		//Validate Transaction_Ledgers form data
 		$transactionLedgersPostData = $request->transaction_ledgers;
-		$transactionLedgersValidator = validator()->make($transactionLedgersPostData, ["*.ledger_id" => "required|numeric",
-				"*.debit_id" => "required|numeric",
-				"*.credit_id" => "required|numeric",
-				"*.comment" => "nullable|numeric",
-				"*.company_id" => "required"]);
+		$transactionLedgersValidator = validator()->make($transactionLedgersPostData, ["ledger_id" => "required|numeric",
+				"debit_id" => "required|numeric",
+				"credit_id" => "required|numeric",
+				"comment" => "nullable|numeric",
+				"company_id" => "required"]);
 		if ($transactionLedgersValidator->fails()) {
 			return $transactionLedgersValidator->errors();
 		}
@@ -285,4 +286,105 @@ class TransactionsController extends Controller
 		}
 		return $this->renderView("pages.transactions.adminedit", ["data" => $record, "rec_id" => $rec_id]);
 	}
+	
+
+	/**
+     * Display form page
+     * @return \Illuminate\View\View
+     */
+	function addreceipt(){
+		return $this->renderView("pages.transactions.addreceipt");
+	}
+	
+
+	/**
+     * Save form record to the table
+     * @return \Illuminate\Http\Response
+     */
+	function addreceipt_store(TransactionsaddReceiptRequest $request){
+		$modeldata = $this->normalizeFormData($request->validated());
+		
+		//Validate Transaction_Ledgers form data
+		$transactionLedgersPostData = $request->transaction_ledgers;
+		$transactionLedgersValidator = validator()->make($transactionLedgersPostData, ["*.ledger_id" => "required",
+				"*.credit_id" => "required|string",
+				"*.comment" => "nullable|string",
+				"*.company_id" => "required"]);
+		if ($transactionLedgersValidator->fails()) {
+			return $transactionLedgersValidator->errors();
+		}
+		$transactionLedgersValidData = $transactionLedgersValidator->valid();
+		$transactionLedgersModeldata = array_values($transactionLedgersValidData);
+		
+		//Validate Narrations form data
+		$narrationsPostData = $request->narrations;
+		$narrationsValidator = validator()->make($narrationsPostData, ["narration" => "nullable"]);
+		if ($narrationsValidator->fails()) {
+			return $narrationsValidator->errors();
+		}
+		$narrationsModeldata = $this->normalizeFormData($narrationsValidator->valid());
+		$modeldata['created_by'] = auth()->user()->id;
+		$modeldata['company_id'] = auth()->user()->company_id;
+		$this->beforeAddreceipt($modeldata);
+		
+		//save Transactions record
+		$record = Transactions::create($modeldata);
+		$rec_id = $record->id;
+		
+		// set transaction_ledgers.transactions_id to transactions $rec_id
+		foreach ($transactionLedgersModeldata as &$data) {
+			$data['transactions_id'] = $rec_id;
+		}
+		
+		//Save Transaction_Ledgers record
+		\App\Models\Transaction_Ledgers::insert($transactionLedgersModeldata);
+		
+        // set narrations.trans_id to transactions.id
+		$narrationsModeldata['trans_id'] = $rec_id;
+		//save Narrations record
+		$narrationsRecord = \App\Models\Narrations::create($narrationsModeldata);
+		$this->afterAddreceipt($record);
+		return $this->redirect("transactions/adminlist", __('recordAddedSuccessfully'));
+	}
+    /**
+     * Before create new record
+     * @param array $modeldata // validated form data used to create new record
+     */
+    private function beforeAddreceipt($modeldata){
+        //enter statement here
+        echo "<script>
+        alert('i will run before page load finish');
+        </script>";
+    }
+    /**
+     * After new record created
+     * @param array $record // newly created record
+     */
+    private function afterAddreceipt($record){
+        //enter statement here
+        $rec_id            = $record['id'];
+        $transactions = DB::table('transactions')->where('id', $rec_id )->first();
+        //var_dump($user->name);
+        $party_Ledger_id   = $transactions->party_Ledger_id;
+        $against_ledger_id = $transactions->against_ledger_id;
+        $total_debit       = $transactions->total_debit;
+        $company_id        = $transactions->company_id;
+        $modeldata         = [
+                            'transactions_id' =>  $rec_id, 
+                            'ledger_id' => $party_Ledger_id,
+                            'debit_id' => $total_debit,
+                            'company_id' => $company_id         
+                            ];
+        DB::table('transaction_ledgers')->insert($modeldata);
+           $modeldata         = [
+                            'transactions_id' =>  $rec_id , 
+                            'ledger_id' => $against_ledger_id,
+                            'credit_id' => $total_debit,
+                            'company_id' => $company_id       
+                            ];
+        DB::table('transaction_ledgers')->insert($modeldata);
+           DB::table('document_types')->where('id', $rec_id)->update(['no_view' =>
+        DB::raw('no_view + 1')
+        ]);
+    }
 }

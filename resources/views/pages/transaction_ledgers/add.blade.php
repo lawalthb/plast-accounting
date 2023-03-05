@@ -40,98 +40,101 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                     <?php Html::display_page_errors($errors); ?>
                     <div  class="card-1 border rounded page-content" >
                         <!--[form-start]-->
-                        <form id="transaction_ledgers-add-form"  novalidate role="form" enctype="multipart/form-data" class="form multi-form page-form" action="{{ route('transaction_ledgers.store') }}" method="post" >
+                        <form id="transaction_ledgers-add-form" role="form" novalidate enctype="multipart/form-data" class="form page-form form-horizontal needs-validation" action="{{ route('transaction_ledgers.store') }}" method="post">
                             @csrf
                             <div>
-                                <table class="table table-striped table-sm" data-maxrow="10" data-minrow="0">
-                                    <thead>
-                                        <tr>
-                                            <th class="bg-light"><label for="ledger_id">{{ __('ledgerId') }}</label></th>
-                                            <th class="bg-light"><label for="debit_id">{{ __('debitId') }}</label></th>
-                                            <th class="bg-light"><label for="credit_id">{{ __('creditId') }}</label></th>
-                                            <th class="bg-light"><label for="comment">{{ __('comment') }}</label></th>
-                                            <th class="bg-light"><label for="company_id">{{ __('companyId') }}</label></th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <th colspan="100" class="text-right">
-                                        <?php $template_id = "table-row-" . random_str(); ?>
-                                        <button type="button" data-template="#<?php echo $template_id ?>" class="btn btn-sm btn-success btn-add-table-row"><i class="material-icons">add</i></button>
-                                        </th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                                <!--[table row template]-->
-                                <template id="<?php echo $template_id ?>">
-                                <?php $row = "CURRENTROW"; // will be replaced with current row index. ?>
-                                <tr data-row="<?php echo $row ?>" class="input-row">
-                                <td>
-                                    <div id="ctrl-ledger_id-row<?php echo $row; ?>-holder" class=" ">
-                                    <input id="ctrl-ledger_id-row<?php echo $row; ?>" data-field="ledger_id"  value="<?php echo get_value('ledger_id') ?>" type="number" placeholder="{{ __('enterLedgerId') }}" step="any"  required="" name="row[<?php echo $row ?>][ledger_id]"  class="form-control " />
+                                <div class="form-group ">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label class="control-label" for="ledger_id">{{ __('ledgerId') }} <span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div id="ctrl-ledger_id-holder" class=" ">
+                                                <input id="ctrl-ledger_id" data-field="ledger_id"  value="<?php echo get_value('ledger_id') ?>" type="number" placeholder="{{ __('enterLedgerId') }}" step="any"  required="" name="ledger_id"  class="form-control " />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </td>
-                            <td>
-                                <div id="ctrl-debit_id-row<?php echo $row; ?>-holder" class=" ">
-                                <input id="ctrl-debit_id-row<?php echo $row; ?>" data-field="debit_id"  value="<?php echo get_value('debit_id', "0.00") ?>" type="number" placeholder="{{ __('enterDebitId') }}" step="0.1"  required="" name="row[<?php echo $row ?>][debit_id]"  class="form-control " />
+                                <div class="form-group ">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label class="control-label" for="debit_id">{{ __('debitId') }} <span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div id="ctrl-debit_id-holder" class=" ">
+                                                <input id="ctrl-debit_id" data-field="debit_id"  value="<?php echo get_value('debit_id', "0.00") ?>" type="number" placeholder="{{ __('enterDebitId') }}" step="0.1"  required="" name="debit_id"  class="form-control " />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label class="control-label" for="credit_id">{{ __('creditId') }} <span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div id="ctrl-credit_id-holder" class=" ">
+                                                <input id="ctrl-credit_id" data-field="credit_id"  value="<?php echo get_value('credit_id', "0.00") ?>" type="number" placeholder="{{ __('enterCreditId') }}" step="0.1"  required="" name="credit_id"  class="form-control " />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label class="control-label" for="comment">{{ __('comment') }} </label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div id="ctrl-comment-holder" class=" ">
+                                                <input id="ctrl-comment" data-field="comment"  value="<?php echo get_value('comment', "NULL") ?>" type="number" placeholder="{{ __('enterComment') }}" step="any"  name="comment"  class="form-control " />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label class="control-label" for="company_id">{{ __('companyId') }} <span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div id="ctrl-company_id-holder" class=" ">
+                                                <select required=""  id="ctrl-company_id" data-field="company_id" name="company_id"  placeholder="{{ __('selectAValue') }}"    class="form-select" >
+                                                <option value="">{{ __('selectAValue') }}</option>
+                                                <?php 
+                                                    $options = $comp_model->company_id_option_list() ?? [];
+                                                    foreach($options as $option){
+                                                    $value = $option->value;
+                                                    $label = $option->label ?? $value;
+                                                    $selected = Html::get_field_selected('company_id', $value, "");
+                                                ?>
+                                                <option <?php echo $selected; ?> value="<?php echo $value; ?>">
+                                                <?php echo $label; ?>
+                                                </option>
+                                                <?php
+                                                    }
+                                                ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </td>
-                        <td>
-                            <div id="ctrl-credit_id-row<?php echo $row; ?>-holder" class=" ">
-                            <input id="ctrl-credit_id-row<?php echo $row; ?>" data-field="credit_id"  value="<?php echo get_value('credit_id', "0.00") ?>" type="number" placeholder="{{ __('enterCreditId') }}" step="0.1"  required="" name="row[<?php echo $row ?>][credit_id]"  class="form-control " />
-                        </div>
-                    </td>
-                    <td>
-                        <div id="ctrl-comment-row<?php echo $row; ?>-holder" class=" ">
-                        <input id="ctrl-comment-row<?php echo $row; ?>" data-field="comment"  value="<?php echo get_value('comment', "NULL") ?>" type="number" placeholder="{{ __('enterComment') }}" step="any"  name="row[<?php echo $row ?>][comment]"  class="form-control " />
+                            <div class="form-ajax-status"></div>
+                            <!--[form-button-start]-->
+                            <div class="form-group form-submit-btn-holder text-center mt-3">
+                                <button class="btn btn-primary" type="submit">
+                                {{ __('submit') }}
+                                <i class="material-icons">send</i>
+                                </button>
+                            </div>
+                            <!--[form-button-end]-->
+                        </form>
+                        <!--[form-end]-->
                     </div>
-                </td>
-                <td>
-                    <div id="ctrl-company_id-row<?php echo $row; ?>-holder" class=" ">
-                    <select required=""  id="ctrl-company_id-row<?php echo $row; ?>" data-field="company_id" name="row[<?php echo $row ?>][company_id]"  placeholder="{{ __('selectAValue') }}"    class="form-select" >
-                    <option value="">{{ __('selectAValue') }}</option>
-                    <?php 
-                        $options = $comp_model->company_id_option_list() ?? [];
-                        foreach($options as $option){
-                        $value = $option->value;
-                        $label = $option->label ?? $value;
-                        $selected = Html::get_field_selected('company_id', $value, "");
-                    ?>
-                    <option <?php echo $selected; ?> value="<?php echo $value; ?>">
-                    <?php echo $label; ?>
-                    </option>
-                    <?php
-                        }
-                    ?>
-                    </select>
                 </div>
-            </td>
-            <th class="text-center">
-            <button type="button" class="btn-close btn-remove-table-row"></button>
-            </th>
-        </tr>
-    </template>
-    <!--[/table row template]-->
-</div>
-<div class="form-ajax-status"></div>
-<!--[form-button-start]-->
-<div class="form-group form-submit-btn-holder text-center mt-3">
-    <button class="btn btn-primary" type="submit">
-    {{ __('submit') }}
-    <i class="material-icons">send</i>
-    </button>
-</div>
-<!--[form-button-end]-->
-</form>
-<!--[form-end]-->
-</div>
-</div>
-</div>
-</div>
-</div>
+            </div>
+        </div>
+    </div>
 </section>
 @endsection
 <!-- Page custom css -->

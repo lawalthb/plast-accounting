@@ -168,7 +168,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                     <i class="material-icons">more_vert</i> 
                                 </a>
                             </td>
-                            <td class="td-id"><strong> <a href="view/<?php echo $data['id']; ?>" class="btn btn-primary">
+                            <td class="td-id"><strong> <a href="/transactions/addreceipt?document_type=<?php echo $data['id']; ?>&method_numbering=<?php echo  $data['method_numbering']; ?>" class="btn btn-primary">
                             <i class="material-icons">add</i>New
                         </a></strong></td>
                         <td class="td-name">

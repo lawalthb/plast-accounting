@@ -35,6 +35,7 @@ class LedgersEditRequest extends FormRequest
 				"is_active" => "filled",
 				"credit_amount" => "filled|numeric|min:0",
 				"debit_amount" => "filled|numeric|min:0",
+				"code" => "filled|numeric",
             
         ];
     }

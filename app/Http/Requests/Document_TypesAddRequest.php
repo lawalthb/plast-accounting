@@ -35,6 +35,7 @@ class Document_TypesAddRequest extends FormRequest
 				"desc_each_line" => "required",
 				"document_code" => "required",
 				"created_by" => "required",
+				"date_created" => "nullable|date",
             
         ];
     }

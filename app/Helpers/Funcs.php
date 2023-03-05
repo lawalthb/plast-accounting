@@ -686,6 +686,43 @@ function getUserCompanyName()
 	}
 }
 
+function getCompanyDirectIncomeId()
+{
+	if(isset(auth()->user()->company_id)){
+		$company_id = auth()->user()->company_id;
+		// $CompanyDirectIncomeId = DB::table('ledgers')
+	 	// 						->where('company_id', '=', $company_id)
+		// 						 ->where('code', '=', '2020')
+		// 						 ->where('ledger_name', '=', 'Direct Income')
+		// 						->pluck('id');
+								$CompanyDirectIncomeId = DB::table('ledgers')
+								->where('company_id', '=', $company_id)
+								->where('code', '=', '2020')
+								 ->where('ledger_name', '=', 'Direct Income')
+								 ->value('id');
+		return $CompanyDirectIncomeId
+		 ;
+	}
+	
+}
+
+function getNextReceiptNo($doc_id)
+{
+
+	if(isset(auth()->user()->company_id)){
+		$company_id = auth()->user()->company_id;
+		
+								$NextReceiptNo = DB::table('transactions')
+								->where('company_id', '=', $company_id)
+								->where('document_type_id', '=', $doc_id)
+								->orderByDesc('id')
+								->value('trans_no');
+		return $NextReceiptNo+1;
+		 
+	}
+	
+}
+
 function alloption($array = null)
 {
 

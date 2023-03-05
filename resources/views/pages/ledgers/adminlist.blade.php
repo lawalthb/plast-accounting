@@ -147,6 +147,9 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         <th class="td-user_id <?php echo (get_value('orderby') == 'user_id' ? 'sortedby' : null); ?>" >
                                         <?php Html :: get_field_order_link('user_id', __('userId'), ''); ?>
                                         </th>
+                                        <th class="td-code <?php echo (get_value('orderby') == 'code' ? 'sortedby' : null); ?>" >
+                                        <?php Html :: get_field_order_link('code', __('code'), ''); ?>
+                                        </th>
                                         <th class="td-btn"></th>
                                     </tr>
                                 </thead>
@@ -198,6 +201,9 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                     </td>
                                     <td class="td-user_id">
                                         <?php echo  $data['user_id'] ; ?>
+                                    </td>
+                                    <td class="td-code">
+                                        <?php echo  $data['code'] ; ?>
                                     </td>
                                     <!--PageComponentEnd-->
                                     <td class="td-btn">

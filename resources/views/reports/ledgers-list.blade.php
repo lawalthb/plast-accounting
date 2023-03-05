@@ -21,6 +21,7 @@
             <th>Reg Date</th>
             <th>Date Created</th>
             <th>Date Updated</th>
+            <th>Code</th>
         </tr>
     </thead>
     <tbody>
@@ -42,6 +43,7 @@
             <td>{{ $record->reg_date }}</td>
             <td>{{ $record->date_created }}</td>
             <td>{{ $record->date_updated }}</td>
+            <td>{{ $record->code }}</td>
         </tr>
         @endforeach
     </tbody>

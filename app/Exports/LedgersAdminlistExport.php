@@ -39,7 +39,8 @@ class LedgersAdminlistExport implements FromQuery, WithHeadings, WithMapping, Sh
 			'User Id',
 			'Reg Date',
 			'Date Created',
-			'Date Updated'
+			'Date Updated',
+			'Code'
         ];
     }
 	
@@ -61,7 +62,8 @@ class LedgersAdminlistExport implements FromQuery, WithHeadings, WithMapping, Sh
 			$record->user_id,
 			$record->reg_date,
 			$record->date_created,
-			$record->date_updated
+			$record->date_updated,
+			$record->code
         ];
     }
 }

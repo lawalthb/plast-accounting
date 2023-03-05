@@ -156,6 +156,9 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         <th class="td-date_updated <?php echo (get_value('orderby') == 'date_updated' ? 'sortedby' : null); ?>" >
                                         <?php Html :: get_field_order_link('date_updated', __('dateUpdated'), ''); ?>
                                         </th>
+                                        <th class="td-code <?php echo (get_value('orderby') == 'code' ? 'sortedby' : null); ?>" >
+                                        <?php Html :: get_field_order_link('code', __('code'), ''); ?>
+                                        </th>
                                         <th class="td-btn"></th>
                                     </tr>
                                 </thead>
@@ -216,6 +219,9 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                     </td>
                                     <td class="td-date_updated">
                                         <?php echo  $data['date_updated'] ; ?>
+                                    </td>
+                                    <td class="td-code">
+                                        <?php echo  $data['code'] ; ?>
                                     </td>
                                     <!--PageComponentEnd-->
                                     <td class="td-btn">

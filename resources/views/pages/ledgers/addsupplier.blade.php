@@ -154,6 +154,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         <small class="form-text">Amount customer is owning company</small>
                                     </div>
                                 </div>
+                                <input id="ctrl-code" data-field="code"  value="<?php echo get_value('code', "2012") ?>" type="hidden" placeholder="{{ __('enterCode') }}"  required="" name="code"  class="form-control " />
                             </div>
                             <div class="form-ajax-status"></div>
                             <!--[form-button-start]-->

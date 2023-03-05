@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaction_LedgersAddRequest;
 use App\Http\Requests\Transaction_LedgersEditRequest;
+use App\Http\Requests\Transaction_Ledgersadd4receiptRequest;
 use App\Models\Transaction_Ledgers;
 use Illuminate\Http\Request;
 use \PDF;
@@ -88,18 +89,20 @@ class Transaction_LedgersController extends Controller
      * @return \Illuminate\View\View
      */
 	function add(){
-		return view("pages.transaction_ledgers.add");
+		return $this->renderView("pages.transaction_ledgers.add");
 	}
 	
 
 	/**
-     * Insert multiple record into the database table
+     * Save form record to the table
      * @return \Illuminate\Http\Response
      */
 	function store(Transaction_LedgersAddRequest $request){
-		$postdata = $request->input("row");
-		$modeldata = array_values($postdata);
-		Transaction_Ledgers::insert($modeldata);
+		$modeldata = $this->normalizeFormData($request->validated());
+		
+		//save Transaction_Ledgers record
+		$record = Transaction_Ledgers::create($modeldata);
+		$rec_id = $record->id;
 		return $this->redirect("transaction_ledgers", __('recordAddedSuccessfully'));
 	}
 	
@@ -138,6 +141,27 @@ class Transaction_LedgersController extends Controller
 		});
 		$redirectUrl = $request->redirect ?? url()->previous();
 		return $this->redirect($redirectUrl, __('recordDeletedSuccessfully'));
+	}
+	
+
+	/**
+     * Display form page
+     * @return \Illuminate\View\View
+     */
+	function add4receipt(){
+		return view("pages.transaction_ledgers.add4receipt");
+	}
+	
+
+	/**
+     * Insert multiple record into the database table
+     * @return \Illuminate\Http\Response
+     */
+	function add4receipt_store(Transaction_Ledgersadd4receiptRequest $request){
+		$postdata = $request->input("row");
+		$modeldata = array_values($postdata);
+		Transaction_Ledgers::insert($modeldata);
+		return $this->redirect("transaction_ledgers", __('recordAddedSuccessfully'));
 	}
 	
 

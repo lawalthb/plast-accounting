@@ -199,6 +199,13 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                     </div>
                                 </div>
                                 <input id="ctrl-created_by" data-field="created_by"  value="<?php echo get_value('created_by', auth()->user()->id) ?>" type="hidden" placeholder="{{ __('enterCreatedBy') }}"  required="" name="created_by"  class="form-control " />
+                                <div class="form-group ">
+                                    <label class="control-label" for="date_created">{{ __('dateCreated') }} </label>
+                                    <div id="ctrl-date_created-holder" class="input-group "> 
+                                        <input id="ctrl-date_created" data-field="date_created" class="form-control datepicker  datepicker" value="<?php echo get_value('date_created', "NULL") ?>" type="datetime"  name="date_created" placeholder="{{ __('enterDateCreated') }}" data-enable-time="true" data-min-date="" data-max-date="" data-date-format="Y-m-d H:i:S" data-alt-format="F j, Y - H:i" data-inline="false" data-no-calendar="false" data-mode="single" /> 
+                                        <span class="input-group-text"><i class="material-icons">date_range</i></span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-ajax-status"></div>
                             <!--[form-button-start]-->

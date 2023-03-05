@@ -35,6 +35,7 @@ class LedgersaddCustomerRequest extends FormRequest
 				"is_active" => "required",
 				"credit_amount" => "required|numeric|min:0",
 				"debit_amount" => "required|numeric|min:0",
+				"code" => "required",
             
         ];
     }
