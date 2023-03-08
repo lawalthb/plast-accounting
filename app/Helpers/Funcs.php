@@ -690,11 +690,7 @@ function getCompanyDirectIncomeId()
 {
 	if(isset(auth()->user()->company_id)){
 		$company_id = auth()->user()->company_id;
-		// $CompanyDirectIncomeId = DB::table('ledgers')
-	 	// 						->where('company_id', '=', $company_id)
-		// 						 ->where('code', '=', '2020')
-		// 						 ->where('ledger_name', '=', 'Direct Income')
-		// 						->pluck('id');
+		
 								$CompanyDirectIncomeId = DB::table('ledgers')
 								->where('company_id', '=', $company_id)
 								->where('code', '=', '2020')
@@ -706,7 +702,44 @@ function getCompanyDirectIncomeId()
 	
 }
 
+function getCompanyDirectExpenseId()
+{
+	if(isset(auth()->user()->company_id)){
+		$company_id = auth()->user()->company_id;
+		// $CompanyDirectIncomeId = DB::table('ledgers')
+	 	// 						->where('company_id', '=', $company_id)
+		// 						 ->where('code', '=', '2020')
+		// 						 ->where('ledger_name', '=', 'Direct Income')
+		// 						->pluck('id');
+								$CompanyDirectIncomeId = DB::table('ledgers')
+								->where('company_id', '=', $company_id)
+								->where('code', '=', '2019')
+								 ->where('ledger_name', '=', 'Direct Expense')
+								 ->value('id');
+		return $CompanyDirectIncomeId
+		 ;
+	}
+	
+}
+
 function getNextReceiptNo($doc_id)
+{
+
+	if(isset(auth()->user()->company_id)){
+		$company_id = auth()->user()->company_id;
+		
+								$NextReceiptNo = DB::table('transactions')
+								->where('company_id', '=', $company_id)
+								->where('document_type_id', '=', $doc_id)
+								->orderByDesc('id')
+								->value('trans_no');
+		return $NextReceiptNo+1;
+		 
+	}
+	
+}
+
+function getNextPaymentNo($doc_id)
 {
 
 	if(isset(auth()->user()->company_id)){

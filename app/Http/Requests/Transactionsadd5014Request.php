@@ -3,7 +3,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Transaction_LedgersAddRequest extends FormRequest
+class Transactionsadd5014Request extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +25,15 @@ class Transaction_LedgersAddRequest extends FormRequest
 		
         return [
             
-				"ledger_id" => "required|numeric",
-				"debit_id" => "required|numeric",
-				"credit_id" => "nullable|numeric",
-				"comment" => "nullable|numeric",
-				"company_id" => "required",
+				"trans_no" => "nullable|string",
+				"reference" => "nullable|string",
+				"trans_date" => "required|date",
+				"party_ledger_id" => "required",
+				"against_ledger_id" => "nullable",
+				"document_type_id" => "nullable",
+				"document_type_code" => "required",
+				"total_debit" => "required|numeric",
+				"total_credit" => "required",
             
         ];
     }

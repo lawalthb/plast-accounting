@@ -342,6 +342,9 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::get('transaction_ledgers/delete/{rec_id}', 'Transaction_LedgersController@delete');	
 	Route::get('transaction_ledgers/add4receipt', 'Transaction_LedgersController@add4receipt')->name('transaction_ledgers.add4receipt');
 	Route::post('transaction_ledgers/add4receipt', 'Transaction_LedgersController@add4receipt_store')->name('transaction_ledgers.add4receipt_store');
+		
+	Route::get('transaction_ledgers/add4payment', 'Transaction_LedgersController@add4payment')->name('transaction_ledgers.add4payment');
+	Route::post('transaction_ledgers/add4payment', 'Transaction_LedgersController@add4payment_store')->name('transaction_ledgers.add4payment_store');
 	
 
 /* routes for Transaction_Products Controller */	
@@ -374,6 +377,12 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 	Route::any('transactions/adminedit/{rec_id}', 'TransactionsController@adminedit')->name('transactions.adminedit');	
 	Route::get('transactions/addreceipt', 'TransactionsController@addreceipt')->name('transactions.addreceipt');
 	Route::post('transactions/addreceipt', 'TransactionsController@addreceipt_store')->name('transactions.addreceipt_store');
+		
+	Route::get('transactions/add5014', 'TransactionsController@add5014')->name('transactions.add5014');
+	Route::post('transactions/add5014', 'TransactionsController@add5014_store')->name('transactions.add5014_store');
+		
+	Route::get('transactions/add5011', 'TransactionsController@add5011')->name('transactions.add5011');
+	Route::post('transactions/add5011', 'TransactionsController@add5011_store')->name('transactions.add5011_store');
 	
 
 /* routes for Units Controller */	

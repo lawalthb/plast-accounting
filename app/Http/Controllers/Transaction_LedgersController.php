@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaction_LedgersAddRequest;
 use App\Http\Requests\Transaction_LedgersEditRequest;
 use App\Http\Requests\Transaction_Ledgersadd4receiptRequest;
+use App\Http\Requests\Transaction_Ledgersadd4paymentRequest;
 use App\Models\Transaction_Ledgers;
 use Illuminate\Http\Request;
 use \PDF;
@@ -158,6 +159,27 @@ class Transaction_LedgersController extends Controller
      * @return \Illuminate\Http\Response
      */
 	function add4receipt_store(Transaction_Ledgersadd4receiptRequest $request){
+		$postdata = $request->input("row");
+		$modeldata = array_values($postdata);
+		Transaction_Ledgers::insert($modeldata);
+		return $this->redirect("transaction_ledgers", __('recordAddedSuccessfully'));
+	}
+	
+
+	/**
+     * Display form page
+     * @return \Illuminate\View\View
+     */
+	function add4payment(){
+		return view("pages.transaction_ledgers.add4payment");
+	}
+	
+
+	/**
+     * Insert multiple record into the database table
+     * @return \Illuminate\Http\Response
+     */
+	function add4payment_store(Transaction_Ledgersadd4paymentRequest $request){
 		$postdata = $request->input("row");
 		$modeldata = array_values($postdata);
 		Transaction_Ledgers::insert($modeldata);
