@@ -345,6 +345,9 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 		
 	Route::get('transaction_ledgers/add4payment', 'Transaction_LedgersController@add4payment')->name('transaction_ledgers.add4payment');
 	Route::post('transaction_ledgers/add4payment', 'Transaction_LedgersController@add4payment_store')->name('transaction_ledgers.add4payment_store');
+		
+	Route::get('transaction_ledgers/add4contra', 'Transaction_LedgersController@add4contra')->name('transaction_ledgers.add4contra');
+	Route::post('transaction_ledgers/add4contra', 'Transaction_LedgersController@add4contra_store')->name('transaction_ledgers.add4contra_store');
 	
 
 /* routes for Transaction_Products Controller */	
@@ -383,6 +386,9 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 		
 	Route::get('transactions/add5011', 'TransactionsController@add5011')->name('transactions.add5011');
 	Route::post('transactions/add5011', 'TransactionsController@add5011_store')->name('transactions.add5011_store');
+		
+	Route::get('transactions/add5005', 'TransactionsController@add5005')->name('transactions.add5005');
+	Route::post('transactions/add5005', 'TransactionsController@add5005_store')->name('transactions.add5005_store');
 	
 
 /* routes for Units Controller */	
@@ -560,6 +566,12 @@ Route::get('componentsdata/code_option_list',  function(Request $request){
 Route::get('componentsdata/transaction_ledgers_ledger_id_option_list',  function(Request $request){
 		$compModel = new App\Models\ComponentsData();
 		return $compModel->transaction_ledgers_ledger_id_option_list($request);
+	}
+)->middleware(['auth']);
+	
+Route::get('componentsdata/ledger_id_option_list_2',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->ledger_id_option_list_2($request);
 	}
 )->middleware(['auth']);
 	

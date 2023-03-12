@@ -288,6 +288,19 @@ $query_params['comp_id'] = auth()->user()->company_id;
 	
 
 	/**
+     * ledger_id_option_list_2 Model Action
+     * @return array
+     */
+	function ledger_id_option_list_2(){
+		$sqltext = "SELECT  DISTINCT id AS value,ledger_name AS label FROM ledgers WHERE (code =2001  or code =2002 or code =2003) and  company_id=:comp_id  ORDER BY ledger_name ASC" ;
+		$query_params = [];
+		$query_params['comp_id'] = auth()->user()->company_id;
+		$arr = DB::select(DB::raw($sqltext), $query_params);
+		return $arr;
+	}
+	
+
+	/**
      * document_type_id_option_list Model Action
      * @return array
      */

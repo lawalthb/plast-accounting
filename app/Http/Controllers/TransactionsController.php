@@ -7,6 +7,7 @@ use App\Http\Requests\TransactionsadminEditRequest;
 use App\Http\Requests\TransactionsaddReceiptRequest;
 use App\Http\Requests\Transactionsadd5014Request;
 use App\Http\Requests\Transactionsadd5011Request;
+use App\Http\Requests\Transactionsadd5005Request;
 use App\Models\Transactions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -371,6 +372,7 @@ class TransactionsController extends Controller
         $against_ledger_id = $transactions->against_ledger_id;
         $total_debit       = $transactions->total_debit;
         $company_id        = $transactions->company_id;
+        $document_type_code        = $transactions->document_type_code;
         $modeldata         = [
                             'transactions_id' =>  $rec_id, 
                             'ledger_id' => $party_Ledger_id,
@@ -461,6 +463,7 @@ class TransactionsController extends Controller
         $against_ledger_id = $transactions->against_ledger_id;
         $total_debit       = $transactions->total_debit;
         $company_id        = $transactions->company_id;
+        $document_type_code        = $transactions->document_type_code;
         $modeldata         = [
                             'transactions_id' =>  $rec_id, 
                             'ledger_id' => $party_Ledger_id,
@@ -475,7 +478,10 @@ class TransactionsController extends Controller
                             'company_id' => $company_id       
                             ];
         DB::table('transaction_ledgers')->insert($modeldata);
-           DB::table('document_types')->where('id', $rec_id)->update(['no_view' =>
+         DB::table('document_types')
+           ->where('document_code', $document_type_code)
+            ->where('company_id', $company_id)           
+           ->update(['no_view' =>
         DB::raw('no_view + 1')
         ]);
     }
@@ -551,6 +557,7 @@ class TransactionsController extends Controller
         $against_ledger_id = $transactions->against_ledger_id;
         $total_credit       = $transactions->total_credit;
         $company_id        = $transactions->company_id;
+        $document_type_code        = $transactions->document_type_code;
         $modeldata         = [
                             'transactions_id' =>  $rec_id, 
                             'ledger_id' => $party_Ledger_id,
@@ -565,7 +572,104 @@ class TransactionsController extends Controller
                             'company_id' => $company_id       
                             ];
         DB::table('transaction_ledgers')->insert($modeldata);
-           DB::table('document_types')->where('id', $rec_id)->update(['no_view' =>
+         DB::table('document_types')
+           ->where('document_code', $document_type_code)
+            ->where('company_id', $company_id)           
+           ->update(['no_view' =>
+        DB::raw('no_view + 1')
+        ]);
+    }
+	
+
+	/**
+     * Display form page
+     * @return \Illuminate\View\View
+     */
+	function add5005(){
+		return $this->renderView("pages.transactions.add5005");
+	}
+	
+
+	/**
+     * Save form record to the table
+     * @return \Illuminate\Http\Response
+     */
+	function add5005_store(Transactionsadd5005Request $request){
+		$modeldata = $this->normalizeFormData($request->validated());
+		
+		//Validate Transaction_Ledgers form data
+		$transactionLedgersPostData = $request->transaction_ledgers;
+		$transactionLedgersValidator = validator()->make($transactionLedgersPostData, ["*.ledger_id" => "required",
+				"*.debit_id" => "required|numeric",
+				"*.comment" => "nullable|string",
+				"*.company_id" => "required"]);
+		if ($transactionLedgersValidator->fails()) {
+			return $transactionLedgersValidator->errors();
+		}
+		$transactionLedgersValidData = $transactionLedgersValidator->valid();
+		$transactionLedgersModeldata = array_values($transactionLedgersValidData);
+		
+		//Validate Narrations form data
+		$narrationsPostData = $request->narrations;
+		$narrationsValidator = validator()->make($narrationsPostData, ["narration" => "nullable"]);
+		if ($narrationsValidator->fails()) {
+			return $narrationsValidator->errors();
+		}
+		$narrationsModeldata = $this->normalizeFormData($narrationsValidator->valid());
+		$modeldata['created_by'] = auth()->user()->id;
+		$modeldata['company_id'] = auth()->user()->company_id;
+		
+		//save Transactions record
+		$record = Transactions::create($modeldata);
+		$rec_id = $record->id;
+		
+		// set transaction_ledgers.transactions_id to transactions $rec_id
+		foreach ($transactionLedgersModeldata as &$data) {
+			$data['transactions_id'] = $rec_id;
+		}
+		
+		//Save Transaction_Ledgers record
+		\App\Models\Transaction_Ledgers::insert($transactionLedgersModeldata);
+		
+        // set narrations.trans_id to transactions.id
+		$narrationsModeldata['trans_id'] = $rec_id;
+		//save Narrations record
+		$narrationsRecord = \App\Models\Narrations::create($narrationsModeldata);
+		$this->afterAdd5005($record);
+		return $this->redirect("transactions/adminlist", __('recordAddedSuccessfully'));
+	}
+    /**
+     * After new record created
+     * @param array $record // newly created record
+     */
+     private function afterAdd5005($record){
+        //enter statement here
+        $rec_id            = $record['id'];
+        $transactions = DB::table('transactions')->where('id', $rec_id )->first();
+        //var_dump($user->name);
+        $party_Ledger_id   = $transactions->party_Ledger_id;
+        $against_ledger_id = $transactions->against_ledger_id;
+        $total_credit       = $transactions->total_credit;
+        $company_id        = $transactions->company_id;
+        $document_type_code        = $transactions->document_type_code;
+        $modeldata         = [
+                            'transactions_id' =>  $rec_id, 
+                            'ledger_id' => $party_Ledger_id,
+                            'credit_id' => $total_credit,
+                            'company_id' => $company_id         
+                            ];
+        DB::table('transaction_ledgers')->insert($modeldata);
+           $modeldata         = [
+                            'transactions_id' =>  $rec_id , 
+                            'ledger_id' => $against_ledger_id,
+                            'debit_id' => $total_credit,
+                            'company_id' => $company_id       
+                            ];
+        DB::table('transaction_ledgers')->insert($modeldata);
+           DB::table('document_types')
+           ->where('document_code', $document_type_code)
+            ->where('company_id', $company_id)           
+           ->update(['no_view' =>
         DB::raw('no_view + 1')
         ]);
     }

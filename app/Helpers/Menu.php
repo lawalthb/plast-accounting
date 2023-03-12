@@ -236,6 +236,18 @@
 			'path' => 'transaction_ledgers/add4payment',
 			'label' => __('add4payment'), 
 			'icon' => '<i class="material-icons">extension</i>'
+		],
+		
+		[
+			'path' => 'transactions/add5005',
+			'label' => __('add5005'), 
+			'icon' => '<i class="material-icons">extension</i>'
+		],
+		
+		[
+			'path' => 'transaction_ledgers/add4contra',
+			'label' => __('add4contra'), 
+			'icon' => '<i class="material-icons">extension</i>'
 		]
 	] ;
 	}

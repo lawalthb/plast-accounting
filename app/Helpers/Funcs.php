@@ -722,6 +722,22 @@ function getCompanyDirectExpenseId()
 	
 }
 
+function getCompanyContraId()
+{
+	if(isset(auth()->user()->company_id)){
+		$company_id = auth()->user()->company_id;
+		
+								$CompanyContraId = DB::table('ledgers')
+								->where('company_id', '=', $company_id)
+								->where('code', '=', '2018')
+								 ->where('ledger_name', '=', 'Contra')
+								 ->value('id');
+		return $CompanyContraId
+		 ;
+	}
+	
+}
+
 function getNextReceiptNo($doc_id)
 {
 
@@ -738,6 +754,26 @@ function getNextReceiptNo($doc_id)
 	}
 	
 }
+
+
+function getNextContraNo($doc_id)
+{
+
+	if(isset(auth()->user()->company_id)){
+		$company_id = auth()->user()->company_id;
+		
+								$NextContraNo = DB::table('transactions')
+								->where('company_id', '=', $company_id)
+								->where('document_type_id', '=', $doc_id)
+								->orderByDesc('id')
+								->value('trans_no');
+		return $NextContraNo+1;
+		 
+	}
+	
+}
+
+
 
 function getNextPaymentNo($doc_id)
 {

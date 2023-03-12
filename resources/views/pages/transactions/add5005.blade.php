@@ -4,7 +4,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
 -->
 @inject('comp_model', 'App\Models\ComponentsData')
 <?php
-    $pageTitle = __('addNewTransactions'); //set dynamic page title
+    $pageTitle = __('addNewContra'); //set dynamic page title
 ?>
 @extends($layout)
 @section('title', $pageTitle)
@@ -24,7 +24,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                 </div>
                 <div class="col col-md-auto  " >
                     <div class=" h5 font-weight-bold text-primary" >
-                        Add New Payment
+                        {{ __('addNewContra') }}
                     </div>
                 </div>
             </div>
@@ -43,19 +43,19 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                 </div>
                 <div  class="card-1 border rounded page-content" >
                     <!--[form-start]-->
-                    <form id="transactions-add5011-form" role="form" novalidate enctype="multipart/form-data" class="form page-form form-vertical needs-validation" action="{{ route('transactions.add5011_store') }}" method="post">
+                    <form id="transactions-add5005-form" role="form" novalidate enctype="multipart/form-data" class="form page-form form-vertical needs-validation" action="{{ route('transactions.add5005_store') }}" method="post">
                         @csrf
                         <div>
                             <div class="row">
                                 <div class="form-group col-sm-3">
-                                    <label class="control-label" for="trans_no">Payment No.: </label>
+                                    <label class="control-label" for="trans_no">{{ __('contraNo') }} </label>
                                     <div id="ctrl-trans_no-holder" class=" "> 
                                         <input id="ctrl-trans_no" data-field="trans_no" data-mask-value="col-sm-6" data-mask-clearifnotmatch="true" data-mask-reverse="true" value="<?php 
                                         if(isset($_GET['method_numbering']) && $_GET['method_numbering']=="Automatic"){
-                                        $doc_id = $_GET['document_type'] ; echo getNextPaymentNo($doc_id);}else{
+                                        $doc_id = $_GET['document_type'] ; echo getNextContraNo($doc_id);}else{
                                             echo "";
                                         }
-                                         ?>" type="text" placeholder="{{ __('enterReceiptNo') }}"  name="trans_no"  class="form-control " />
+                                         ?>" type="text" placeholder="{{ __('enterContraNo') }}"  name="trans_no"  class="form-control " />
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-3">
@@ -92,7 +92,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                         </select>
                                     </div>
                                 </div>
-                                <input id="ctrl-against_ledger_id" data-field="against_ledger_id"  value="<?php echo  getCompanyDirectExpenseId(); ?>" type="hidden" placeholder="{{ __('selectALedger') }}" list="against_ledger_id_list"  name="against_ledger_id"  class="form-control " />
+                                <input id="ctrl-against_ledger_id" data-field="against_ledger_id"  value="<?php echo  getCompanyContraId(); ?>" type="hidden" placeholder="{{ __('selectALedger') }}" list="against_ledger_id_list"  name="against_ledger_id"  class="form-control " />
                                 <datalist id="against_ledger_id_list">
                                 <?php 
                                     $options = $comp_model->ledger_id_option_list() ?? [];
@@ -118,12 +118,12 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                     }
                                 ?>
                                 </datalist>
-                                <input id="ctrl-document_type_code" data-field="document_type_code"  value="<?php echo get_value('document_type_code', "5011") ?>" type="hidden" placeholder="{{ __('enterDocumentTypeCode') }}"  required="" name="document_type_code"  class="form-control " />
-                                <input id="ctrl-total_debit" data-field="total_debit"   value="<?php echo get_value('total_debit', "0.00") ?>" type="hidden" placeholder="{{ __('enterTotalAmount') }}"  readonly required="" name="total_debit"  class="form-control " />
+                                <input id="ctrl-document_type_code" data-field="document_type_code"  value="<?php echo get_value('document_type_code', "5005") ?>" type="hidden" placeholder="{{ __('enterDocumentTypeCode') }}"  required="" name="document_type_code"  class="form-control " />
+                                <input id="ctrl-total_debit" data-field="total_debit"  value="<?php echo get_value('total_debit', "0.00") ?>" type="hidden" placeholder="{{ __('enterTotalAmount') }}"  readonly required="" name="total_debit"  class="form-control " />
                                 <div class="form-group col-sm-6">
-                                    <label class="control-label" for="total_credit">{{ __('totalAmount') }} <span class="text-danger">*</span></label>
+                                    <label class="control-label" for="total_credit">{{ __('totalCredit') }} <span class="text-danger">*</span></label>
                                     <div id="ctrl-total_credit-holder" class=" "> 
-                                        <input id="ctrl-total_credit" data-field="total_credit" readonly value="<?php echo get_value('total_credit', "0.00") ?>" type="number" placeholder="{{ __('enterTotalAmount') }}" step="0.1"  required="" name="total_credit"  class="form-control " />
+                                        <input id="ctrl-total_credit" data-field="total_credit"  value="<?php echo get_value('total_credit', "0.00") ?>" type="number" placeholder="{{ __('enterTotalCredit') }}" step="0.1"  readonly required="" name="total_credit"  class="form-control " />
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                 <table class="table table-striped table-sm" data-maxrow="10" data-minrow="1">
                                     <thead>
                                         <tr>
-                                            <th class="bg-light"><label for="ledger_id">{{ __('ledgerName') }}</label></th>
+                                            <th class="bg-light"><label for="ledger_id">{{ __('bankCashAccount') }}</label></th>
                                             <th class="bg-light"><label for="debit_id">{{ __('debitAmount') }}</label></th>
                                             <th class="bg-light"><label for="comment">{{ __('comment') }}</label></th>
                                             <th></th>
@@ -163,7 +163,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                     <select required=""  id="ctrl-ledger_id-row<?php echo $row; ?>" data-field="ledger_id" name="transaction_ledgers[<?php echo $row ?>][ledger_id]"  placeholder="{{ __('selectALedger') }}"    class="form-select" >
                                     <option value="">{{ __('selectALedger') }}</option>
                                     <?php 
-                                        $options = $comp_model->transaction_ledgers_ledger_id_option_list() ?? [];
+                                        $options = $comp_model->ledger_id_option_list_2() ?? [];
                                         foreach($options as $option){
                                         $value = $option->value;
                                         $label = $option->label ?? $value;
@@ -180,7 +180,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                             </td>
                             <td>
                                 <div id="ctrl-debit_id-row<?php echo $row; ?>-holder" class=" ">
-                                <input id="ctrl-debit_id-row<?php echo $row; ?>" data-field="debit_id"  value="<?php echo get_value('debit_id', "0.00") ?>" type="number" placeholder="{{ __('enterDebitAmount') }}" step="0.1"  required="" name="transaction_ledgers[<?php echo $row ?>][debit_id]"  class="form-control debit_value " />
+                                <input id="ctrl-debit_id-row<?php echo $row; ?>" data-field="debit_id"  value="<?php echo get_value('debit_id', "0.00") ?>" type="number" placeholder="{{ __('enterDebitAmount') }}" step="0.1"  required="" name="transaction_ledgers[<?php echo $row ?>][debit_id]"  class="form-control debit_value" />
                             </div>
                         </td>
                         <td>

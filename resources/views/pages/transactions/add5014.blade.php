@@ -50,12 +50,7 @@ e.g $arrDataFromDb = $comp_model->fetchData(); //function name
                                 <div class="form-group col-sm-3">
                                     <label class="control-label" for="trans_no">{{ __('receiptNo') }} </label>
                                     <div id="ctrl-trans_no-holder" class=" "> 
-                                        <input id="ctrl-trans_no" data-field="trans_no" data-mask-value="col-sm-6" data-mask-clearifnotmatch="true" data-mask-reverse="true" value="<?php 
-                                        if(isset($_GET['method_numbering']) && $_GET['method_numbering']=="Automatic"){
-                                        $doc_id = $_GET['document_type'] ; echo getNextReceiptNo($doc_id);}else{
-                                            echo "";
-                                        }
-                                         ?>" type="text" placeholder="{{ __('enterReceiptNo') }}"  name="trans_no"  class="form-control " />
+                                        <input id="ctrl-trans_no" data-field="trans_no" data-mask-value="col-sm-6" data-mask-clearifnotmatch="true" data-mask-reverse="true" value="<?php echo get_value('trans_no', "1") ?>" type="text" placeholder="{{ __('enterReceiptNo') }}"  name="trans_no"  class="form-control " />
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-3">
@@ -256,14 +251,9 @@ $(document).ready(function(){
 	// custom javascript | jquery codes
 });
 
-
-$(document).on("change", ".credit_value", function(){
-    var sum = 0;
-    $(".credit_value").each(function(){
-        sum += +$(this).val();
-    });
-   $("#ctrl-total_debit").val(sum);
-  //alert(sum);
+$(document).ready(function(){
+	// custom javascript | jquery codes
 });
+
 </script>
 @endsection
