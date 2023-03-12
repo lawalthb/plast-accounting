@@ -6,6 +6,7 @@ use App\Http\Requests\Transaction_LedgersEditRequest;
 use App\Http\Requests\Transaction_Ledgersadd4receiptRequest;
 use App\Http\Requests\Transaction_Ledgersadd4paymentRequest;
 use App\Http\Requests\Transaction_Ledgersadd4contraRequest;
+use App\Http\Requests\Transaction_Ledgersadd4creditRequest;
 use App\Models\Transaction_Ledgers;
 use Illuminate\Http\Request;
 use \PDF;
@@ -202,6 +203,27 @@ class Transaction_LedgersController extends Controller
      * @return \Illuminate\Http\Response
      */
 	function add4contra_store(Transaction_Ledgersadd4contraRequest $request){
+		$postdata = $request->input("row");
+		$modeldata = array_values($postdata);
+		Transaction_Ledgers::insert($modeldata);
+		return $this->redirect("transaction_ledgers", __('recordAddedSuccessfully'));
+	}
+	
+
+	/**
+     * Display form page
+     * @return \Illuminate\View\View
+     */
+	function add4credit(){
+		return view("pages.transaction_ledgers.add4credit");
+	}
+	
+
+	/**
+     * Insert multiple record into the database table
+     * @return \Illuminate\Http\Response
+     */
+	function add4credit_store(Transaction_Ledgersadd4creditRequest $request){
 		$postdata = $request->input("row");
 		$modeldata = array_values($postdata);
 		Transaction_Ledgers::insert($modeldata);

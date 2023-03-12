@@ -738,6 +738,24 @@ function getCompanyContraId()
 	
 }
 
+function getCompanyCreditId()
+{
+	if(isset(auth()->user()->company_id)){
+		$company_id = auth()->user()->company_id;
+		
+								$CompanyCreditId = DB::table('ledgers')
+								->where('company_id', '=', $company_id)
+								->where('code', '=', '2018')
+								 ->where('ledger_name', '=', 'Credit Note')
+								 ->value('id');
+		return $CompanyCreditId
+		 ;
+	}
+	
+}
+
+
+
 function getNextReceiptNo($doc_id)
 {
 
@@ -750,6 +768,23 @@ function getNextReceiptNo($doc_id)
 								->orderByDesc('id')
 								->value('trans_no');
 		return $NextReceiptNo+1;
+		 
+	}
+	
+}
+
+function getNextCreditNo($doc_id)
+{
+
+	if(isset(auth()->user()->company_id)){
+		$company_id = auth()->user()->company_id;
+		
+								$NextCreditNo = DB::table('transactions')
+								->where('company_id', '=', $company_id)
+								->where('document_type_id', '=', $doc_id)
+								->orderByDesc('id')
+								->value('trans_no');
+		return $NextCreditNo+1;
 		 
 	}
 	

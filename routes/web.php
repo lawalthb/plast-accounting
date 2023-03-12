@@ -348,6 +348,9 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 		
 	Route::get('transaction_ledgers/add4contra', 'Transaction_LedgersController@add4contra')->name('transaction_ledgers.add4contra');
 	Route::post('transaction_ledgers/add4contra', 'Transaction_LedgersController@add4contra_store')->name('transaction_ledgers.add4contra_store');
+		
+	Route::get('transaction_ledgers/add4credit', 'Transaction_LedgersController@add4credit')->name('transaction_ledgers.add4credit');
+	Route::post('transaction_ledgers/add4credit', 'Transaction_LedgersController@add4credit_store')->name('transaction_ledgers.add4credit_store');
 	
 
 /* routes for Transaction_Products Controller */	
@@ -389,6 +392,9 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 		
 	Route::get('transactions/add5005', 'TransactionsController@add5005')->name('transactions.add5005');
 	Route::post('transactions/add5005', 'TransactionsController@add5005_store')->name('transactions.add5005_store');
+		
+	Route::get('transactions/add5006', 'TransactionsController@add5006')->name('transactions.add5006');
+	Route::post('transactions/add5006', 'TransactionsController@add5006_store')->name('transactions.add5006_store');
 	
 
 /* routes for Units Controller */	
@@ -575,6 +581,12 @@ Route::get('componentsdata/ledger_id_option_list_2',  function(Request $request)
 	}
 )->middleware(['auth']);
 	
+Route::get('componentsdata/ledger_id_option_list_3',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->ledger_id_option_list_3($request);
+	}
+)->middleware(['auth']);
+	
 Route::get('componentsdata/document_type_id_option_list',  function(Request $request){
 		$compModel = new App\Models\ComponentsData();
 		return $compModel->document_type_id_option_list($request);
@@ -584,6 +596,12 @@ Route::get('componentsdata/document_type_id_option_list',  function(Request $req
 Route::get('componentsdata/party_ledger_id_option_list',  function(Request $request){
 		$compModel = new App\Models\ComponentsData();
 		return $compModel->party_ledger_id_option_list($request);
+	}
+)->middleware(['auth']);
+	
+Route::get('componentsdata/transactions_party_ledger_id_option_list',  function(Request $request){
+		$compModel = new App\Models\ComponentsData();
+		return $compModel->transactions_party_ledger_id_option_list($request);
 	}
 )->middleware(['auth']);
 	
