@@ -260,6 +260,18 @@
 			'path' => 'transaction_ledgers/add4credit',
 			'label' => __('add4credit'), 
 			'icon' => '<i class="material-icons">extension</i>'
+		],
+		
+		[
+			'path' => 'transactions/add5007',
+			'label' => __('add5007'), 
+			'icon' => '<i class="material-icons">extension</i>'
+		],
+		
+		[
+			'path' => 'transaction_ledgers/add4debit',
+			'label' => __('add4debit'), 
+			'icon' => '<i class="material-icons">extension</i>'
 		]
 	] ;
 	}

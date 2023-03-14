@@ -351,6 +351,9 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 		
 	Route::get('transaction_ledgers/add4credit', 'Transaction_LedgersController@add4credit')->name('transaction_ledgers.add4credit');
 	Route::post('transaction_ledgers/add4credit', 'Transaction_LedgersController@add4credit_store')->name('transaction_ledgers.add4credit_store');
+		
+	Route::get('transaction_ledgers/add4debit', 'Transaction_LedgersController@add4debit')->name('transaction_ledgers.add4debit');
+	Route::post('transaction_ledgers/add4debit', 'Transaction_LedgersController@add4debit_store')->name('transaction_ledgers.add4debit_store');
 	
 
 /* routes for Transaction_Products Controller */	
@@ -395,6 +398,9 @@ Route::middleware(['auth', 'verified', 'rbac'])->group(function () {
 		
 	Route::get('transactions/add5006', 'TransactionsController@add5006')->name('transactions.add5006');
 	Route::post('transactions/add5006', 'TransactionsController@add5006_store')->name('transactions.add5006_store');
+		
+	Route::get('transactions/add5007', 'TransactionsController@add5007')->name('transactions.add5007');
+	Route::post('transactions/add5007', 'TransactionsController@add5007_store')->name('transactions.add5007_store');
 	
 
 /* routes for Units Controller */	
